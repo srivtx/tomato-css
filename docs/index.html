@@ -603,7 +603,7 @@
       background: rgba(0, 0, 0, 0.4);
       border: 1px solid var(--border-subtle);
       border-radius: 12px;
-      padding: 1rem 2rem;
+      padding: 1rem 9rem 1rem 2rem;
       font-family: 'SF Mono', monospace;
       font-size: 1rem;
       margin-bottom: 2rem;
@@ -821,7 +821,7 @@
       border-color: var(--tomato);
     }
 
-    .copy-hint {
+    .cta-code .copy-hint {
       position: absolute;
       right: 1rem;
       top: 50%;
@@ -830,6 +830,7 @@
       color: var(--text-muted);
       opacity: 0;
       transition: opacity 0.2s;
+      pointer-events: none;
     }
 
     .cta-code:hover .copy-hint {
