@@ -331,6 +331,14 @@ $ tomato --version</pre>
                 <pre>$ npm install @srivtx/tomato-css
 $ npx tomato app.tom</pre>
 
+                <p>Or add to package.json:</p>
+                <pre>{
+  "scripts": {
+    "build": "tomato src/app.tom -o dist/styles.css",
+    "watch": "tomato --watch src/app.tom -o dist/styles.css"
+  }
+}</pre>
+
                 <h3>No Install (npx)</h3>
                 <pre>$ npx @srivtx/tomato-css app.tom</pre>
             </section>
