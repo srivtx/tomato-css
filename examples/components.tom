@@ -1,0 +1,32 @@
+# Base components for Tomato CSS
+# This file can be imported into other .tom files
+
+component btn:
+  pad 2 4
+  round lg
+  bold
+  pointer
+  smooth
+  no border
+
+component card:
+  bg white
+  round xl
+  shadow md
+  pad 6
+  smooth
+  
+  hover:
+    shadow lg
+
+component input-base:
+  w-full
+  pad 3 4
+  round lg
+  border 1px solid slate-200
+  bg white
+  smooth
+  
+  focus:
+    border-color blue-500
+    no outline

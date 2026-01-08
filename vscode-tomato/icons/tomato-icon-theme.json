@@ -1,0 +1,16 @@
+{
+    "iconDefinitions": {
+        "tomato": {
+            "iconPath": "./tomato-icon.svg"
+        }
+    },
+    "fileExtensions": {
+        "tom": "tomato"
+    },
+    "fileNames": {},
+    "folderNames": {},
+    "folderNamesExpanded": {},
+    "languageIds": {
+        "tomato": "tomato"
+    }
+}

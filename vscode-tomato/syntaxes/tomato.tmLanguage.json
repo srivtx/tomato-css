@@ -1,0 +1,131 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "Tomato CSS",
+    "scopeName": "source.tomato",
+    "patterns": [
+        {
+            "include": "#comments"
+        },
+        {
+            "include": "#components"
+        },
+        {
+            "include": "#selectors"
+        },
+        {
+            "include": "#properties"
+        }
+    ],
+    "repository": {
+        "comments": {
+            "patterns": [
+                {
+                    "name": "comment.line.double-slash.tomato",
+                    "match": "//.*$"
+                }
+            ]
+        },
+        "components": {
+            "patterns": [
+                {
+                    "name": "meta.component.tomato",
+                    "match": "^\\s*(component)\\s+([a-zA-Z][a-zA-Z0-9_-]*)\\s*:",
+                    "captures": {
+                        "1": {
+                            "name": "keyword.control.component.tomato"
+                        },
+                        "2": {
+                            "name": "entity.name.function.component.tomato"
+                        }
+                    }
+                },
+                {
+                    "name": "keyword.control.use.tomato",
+                    "match": "\\b(use)\\b"
+                }
+            ]
+        },
+        "selectors": {
+            "patterns": [
+                {
+                    "name": "meta.selector.tomato",
+                    "match": "^([a-zA-Z][a-zA-Z0-9_-]*|\\.[a-zA-Z][a-zA-Z0-9_-]*|#[a-zA-Z][a-zA-Z0-9_-]*)\\s*:",
+                    "captures": {
+                        "1": {
+                            "name": "entity.name.tag.selector.tomato"
+                        }
+                    }
+                },
+                {
+                    "name": "meta.pseudo.tomato",
+                    "match": "^\\s*(hover|focus|active|visited|disabled|first-child|last-child|nth-child|before|after)\\s*:",
+                    "captures": {
+                        "1": {
+                            "name": "keyword.control.pseudo.tomato"
+                        }
+                    }
+                },
+                {
+                    "name": "meta.media.tomato",
+                    "match": "^\\s*(@mobile|@tablet|@desktop|@dark|@light)\\s*:",
+                    "captures": {
+                        "1": {
+                            "name": "keyword.control.media.tomato"
+                        }
+                    }
+                }
+            ]
+        },
+        "properties": {
+            "patterns": [
+                {
+                    "name": "meta.property.tomato",
+                    "match": "^\\s*(bg|color|pad|margin|round|border|shadow|font|size|weight|width|height|min-width|max-width|min-height|max-height|gap|top|right|bottom|left|z|opacity|overflow|display|position|row|col|column|center|stack|grid|flex|wrap|nowrap|grow|shrink|basis|order|align|justify|self|items|content|text|line|letter|word|white|break|truncate|pointer|cursor|select|outline|ring|transition|transform|rotate|scale|translate|skew|origin|animate|smooth|no|bold|italic|underline|uppercase|lowercase|capitalize|normal|hidden|visible|scroll|auto|fixed|absolute|relative|sticky|static|block|inline|inline-block|none|gradient|to|from|via)\\b",
+                    "captures": {
+                        "1": {
+                            "name": "support.type.property-name.tomato"
+                        }
+                    }
+                },
+                {
+                    "name": "constant.numeric.color.tomato",
+                    "match": "\\b(slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(50|100|200|300|400|500|600|700|800|900|950)\\b"
+                },
+                {
+                    "name": "constant.numeric.tomato",
+                    "match": "\\b\\d+(\\.\\d+)?(px|rem|em|%|vh|vw|deg|s|ms)?\\b"
+                },
+                {
+                    "name": "constant.language.size.tomato",
+                    "match": "\\b(xs|sm|md|lg|xl|2xl|3xl|4xl|5xl|full|screen|auto|none)\\b"
+                },
+                {
+                    "name": "constant.language.color.tomato",
+                    "match": "\\b(white|black|transparent|current|inherit)\\b"
+                },
+                {
+                    "name": "string.quoted.double.tomato",
+                    "begin": "\"",
+                    "end": "\"",
+                    "patterns": [
+                        {
+                            "name": "constant.character.escape.tomato",
+                            "match": "\\\\."
+                        }
+                    ]
+                },
+                {
+                    "name": "string.quoted.single.tomato",
+                    "begin": "'",
+                    "end": "'",
+                    "patterns": [
+                        {
+                            "name": "constant.character.escape.tomato",
+                            "match": "\\\\."
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

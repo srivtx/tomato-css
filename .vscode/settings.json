@@ -1,0 +1,59 @@
+{
+    "files.associations": {
+        "*.tom": "tomato"
+    },
+    "editor.tokenColorCustomizations": {
+        "textMateRules": [
+            {
+                "scope": "keyword.control.component.tomato",
+                "settings": {
+                    "foreground": "#f472b6",
+                    "fontStyle": "bold"
+                }
+            },
+            {
+                "scope": "keyword.control.use.tomato",
+                "settings": {
+                    "foreground": "#f472b6"
+                }
+            },
+            {
+                "scope": "entity.name.function.component.tomato",
+                "settings": {
+                    "foreground": "#fbbf24"
+                }
+            },
+            {
+                "scope": "entity.name.tag.selector.tomato",
+                "settings": {
+                    "foreground": "#60a5fa"
+                }
+            },
+            {
+                "scope": "support.type.property-name.tomato",
+                "settings": {
+                    "foreground": "#c084fc"
+                }
+            },
+            {
+                "scope": "constant.numeric.color.tomato",
+                "settings": {
+                    "foreground": "#4ade80"
+                }
+            },
+            {
+                "scope": "constant.language.size.tomato",
+                "settings": {
+                    "foreground": "#fbbf24"
+                }
+            },
+            {
+                "scope": "comment.line.double-slash.tomato",
+                "settings": {
+                    "foreground": "#6b7280",
+                    "fontStyle": "italic"
+                }
+            }
+        ]
+    }
+}

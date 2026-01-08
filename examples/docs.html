@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tomato CSS - Documentation</title>
+    <meta name="description" content="Complete documentation for Tomato CSS - the human-friendly CSS preprocessor.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0c0a09;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.6);
+            --text-muted: rgba(255, 255, 255, 0.4);
+            --tomato: #f43f5e;
+            --tomato-light: #fb7185;
+            --green: #4ade80;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border-subtle);
+            position: sticky;
+            top: 0;
+            background: var(--bg-dark);
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.25rem;
+            font-weight: 800;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        /* Layout */
+        .container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: sticky;
+            top: 60px;
+            height: calc(100vh - 60px);
+            overflow-y: auto;
+            padding: 2rem 1rem;
+            border-right: 1px solid var(--border-subtle);
+        }
+
+        .sidebar h3 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .sidebar h3:first-child {
+            margin-top: 0;
+        }
+
+        .sidebar a {
+            display: block;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.4rem 0.75rem;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .sidebar a:hover {
+            color: var(--text-primary);
+            background: var(--bg-card);
+        }
+
+        .sidebar a.active {
+            color: var(--tomato-light);
+            background: rgba(244, 63, 94, 0.1);
+        }
+
+        /* Main Content */
+        main {
+            padding: 3rem;
+            max-width: 900px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        h1 span {
+            background: linear-gradient(135deg, var(--tomato) 0%, #f97316 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .intro {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+        }
+
+        section {
+            margin-bottom: 4rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        h2:first-child {
+            border-top: none;
+            padding-top: 0;
+        }
+
+        h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        code {
+            background: rgba(244, 63, 94, 0.15);
+            color: var(--tomato-light);
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+        }
+
+        pre {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 1.25rem;
+            overflow-x: auto;
+            margin: 1rem 0 1.5rem;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.7;
+        }
+
+        pre .keyword {
+            color: #f472b6;
+        }
+
+        pre .property {
+            color: #fbbf24;
+        }
+
+        pre .value {
+            color: #4ade80;
+        }
+
+        pre .comment {
+            color: var(--text-muted);
+        }
+
+        pre .selector {
+            color: #60a5fa;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0 1.5rem;
+        }
+
+        th,
+        td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        th {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+        }
+
+        td code {
+            background: rgba(244, 63, 94, 0.1);
+        }
+
+        td:nth-child(2) {
+            color: var(--green);
+            font-family: 'SF Mono', monospace;
+            font-size: 0.85rem;
+        }
+
+        /* Tips */
+        .tip {
+            background: rgba(74, 222, 128, 0.1);
+            border: 1px solid rgba(74, 222, 128, 0.3);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+        }
+
+        .tip::before {
+            content: '💡 ';
+        }
+
+        .warning {
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+        }
+
+        .warning::before {
+            content: '⚠️ ';
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            main {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="index.html" class="logo">🍅 Tomato Docs</a>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="#getting-started">Getting Started</a>
+            <a href="#syntax">Syntax</a>
+            <a href="#properties">Properties</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <h3>Getting Started</h3>
+            <a href="#installation">Installation</a>
+            <a href="#first-file">Your First .tom File</a>
+            <a href="#cli">CLI Usage</a>
+
+            <h3>Syntax</h3>
+            <a href="#selectors">Selectors</a>
+            <a href="#properties-list">Properties</a>
+            <a href="#components">Components</a>
+            <a href="#pseudo-states">Pseudo States</a>
+            <a href="#responsive">Responsive Design</a>
+            <a href="#tokens">Custom Tokens</a>
+
+            <h3>Reference</h3>
+            <a href="#colors">Colors</a>
+            <a href="#spacing">Spacing</a>
+            <a href="#all-properties">All Properties</a>
+        </aside>
+
+        <main>
+            <h1>🍅 <span>Tomato</span> Documentation</h1>
+            <p class="intro">The human-friendly CSS preprocessor. Write styles like you think.</p>
+
+            <!-- Getting Started -->
+            <section id="installation">
+                <h2>Installation</h2>
+                <p>Install Tomato CSS globally or use npx:</p>
+                <pre>$ npm install -g tomato-css
+$ tomato --version</pre>
+                <p>Or run directly with npx:</p>
+                <pre>$ npx tomato-css init</pre>
+            </section>
+
+            <section id="first-file">
+                <h2>Your First .tom File</h2>
+                <p>Create a file called <code>styles.tom</code>:</p>
+                <pre><span class="selector">button</span>:
+  <span class="property">bg</span> <span class="value">blue-500</span>
+  <span class="property">color</span> <span class="value">white</span>
+  <span class="property">pad</span> <span class="value">2 4</span>
+  <span class="property">round</span> <span class="value">lg</span>
+  <span class="property">pointer</span>
+  <span class="property">smooth</span></pre>
+                <p>Compile it:</p>
+                <pre>$ tomato styles.tom -o styles.css</pre>
+            </section>
+
+            <section id="cli">
+                <h2>CLI Usage</h2>
+                <pre>$ tomato &lt;input.tom&gt; [-o output.css]
+$ tomato --watch &lt;input.tom&gt; [-o output.css]</pre>
+                <table>
+                    <tr>
+                        <td><code>tomato app.tom</code></td>
+                        <td>Compile to app.css</td>
+                    </tr>
+                    <tr>
+                        <td><code>tomato app.tom -o styles.css</code></td>
+                        <td>Custom output file</td>
+                    </tr>
+                    <tr>
+                        <td><code>tomato --watch app.tom</code></td>
+                        <td>Watch mode</td>
+                    </tr>
+                </table>
+            </section>
+
+            <!-- Selectors -->
+            <section id="selectors">
+                <h2>Selectors</h2>
+                <p>Tomato supports multiple selector types:</p>
+
+                <h3>HTML Elements</h3>
+                <p>Target HTML elements directly:</p>
+                <pre><span class="selector">button</span>:
+  <span class="property">bg</span> <span class="value">blue-500</span>
+
+<span class="selector">nav</span>:
+  <span class="property">row</span> <span class="value">spread</span>
+
+<span class="selector">input</span>:
+  <span class="property">pad</span> <span class="value">2 4</span></pre>
+
+                <h3>Classes</h3>
+                <p>Use <code>.classname:</code> for class selectors:</p>
+                <pre><span class="selector">.btn-primary</span>:
+  <span class="property">bg</span> <span class="value">blue-500</span>
+  <span class="property">color</span> <span class="value">white</span>
+
+<span class="selector">.card</span>:
+  <span class="property">bg</span> <span class="value">white</span>
+  <span class="property">round</span> <span class="value">xl</span>
+  <span class="property">shadow</span> <span class="value">lg</span>
+
+<span class="selector">.hero-title</span>:
+  <span class="property">size</span> <span class="value">4xl</span>
+  <span class="property">bold</span></pre>
+
+                <h3>IDs</h3>
+                <p>Use <code>#idname:</code> for ID selectors:</p>
+                <pre><span class="selector">#header</span>:
+  <span class="property">bg</span> <span class="value">slate-900</span>
+  <span class="property">pad</span> <span class="value">4 6</span>
+
+<span class="selector">#main-content</span>:
+  <span class="property">pad</span> <span class="value">8</span></pre>
+
+                <h3>Auto-Class Conversion</h3>
+                <p>Names that aren't HTML elements become classes automatically:</p>
+                <pre><span class="comment">// These are equivalent:</span>
+<span class="selector">card</span>:           <span class="comment">→ .card { }</span>
+<span class="selector">.card</span>:          <span class="comment">→ .card { }</span>
+
+<span class="comment">// But these stay as elements:</span>
+<span class="selector">button</span>:         <span class="comment">→ button { }</span>
+<span class="selector">nav</span>:            <span class="comment">→ nav { }</span></pre>
+                <div class="tip">HTML elements like button, nav, div, header, footer, etc. stay as element selectors.
+                    Everything else becomes a class.</div>
+            </section>
+
+            <!-- Components -->
+            <section id="components">
+                <h2>Components</h2>
+                <p>Define reusable style groups with <code>component name:</code> and use them with
+                    <code>use name</code>.</p>
+
+                <h3>Basic Components</h3>
+                <p>Define once, use anywhere:</p>
+                <pre><span class="keyword">component</span> <span class="property">btn</span>:
+  <span class="property">pad</span> <span class="value">2 4</span>
+  <span class="property">round</span> <span class="value">lg</span>
+  <span class="property">bold</span>
+  <span class="property">pointer</span>
+  <span class="property">smooth</span>
+  <span class="property">no</span> <span class="value">border</span>
+
+<span class="selector">button</span>:
+  <span class="keyword">use</span> <span class="value">btn</span>
+  <span class="property">bg</span> <span class="value">blue-500</span>
+  <span class="property">color</span> <span class="value">white</span>
+
+<span class="selector">.btn-secondary</span>:
+  <span class="keyword">use</span> <span class="value">btn</span>
+  <span class="property">bg</span> <span class="value">violet-500</span>
+  <span class="property">color</span> <span class="value">white</span>
+
+<span class="selector">.btn-outline</span>:
+  <span class="keyword">use</span> <span class="value">btn</span>
+  <span class="property">bg</span> <span class="value">transparent</span>
+  <span class="property">color</span> <span class="value">blue-500</span>
+  <span class="property">border</span> <span class="value">2px solid blue-500</span></pre>
+
+                <h3>Nested Components</h3>
+                <p>Components can use other components:</p>
+                <pre><span class="keyword">component</span> <span class="property">base-input</span>:
+  <span class="property">pad</span> <span class="value">3 4</span>
+  <span class="property">round</span> <span class="value">md</span>
+  <span class="property">border</span> <span class="value">1px solid slate-300</span>
+  <span class="property">smooth</span>
+
+<span class="keyword">component</span> <span class="property">focus-ring</span>:
+  <span class="keyword">use</span> <span class="value">base-input</span>
+  <span class="comment">// Adds focus behavior to base-input</span>
+  
+  <span class="keyword">focus</span>:
+    <span class="property">ring</span> <span class="value">2px solid blue-400</span>
+    <span class="property">border-color</span> <span class="value">blue-500</span>
+
+<span class="selector">input</span>:
+  <span class="keyword">use</span> <span class="value">focus-ring</span>
+  <span class="property">w-full</span></pre>
+                <div class="tip">When you <code>use</code> a component, all its properties are expanded inline. This
+                    means you can override them by adding your own after!</div>
+
+                <h3>Card Components</h3>
+                <pre><span class="keyword">component</span> <span class="property">card</span>:
+  <span class="property">bg</span> <span class="value">white</span>
+  <span class="property">round</span> <span class="value">xl</span>
+  <span class="property">shadow</span> <span class="value">md</span>
+  <span class="property">pad</span> <span class="value">6</span>
+  <span class="property">smooth</span>
+  
+  <span class="keyword">hover</span>:
+    <span class="property">shadow</span> <span class="value">lg</span>
+    <span class="property">transform</span> <span class="value">translateY(-2px)</span>
+
+<span class="selector">.product-card</span>:
+  <span class="keyword">use</span> <span class="value">card</span>
+  <span class="property">column</span>
+  <span class="property">gap</span> <span class="value">4</span>
+
+<span class="selector">.profile-card</span>:
+  <span class="keyword">use</span> <span class="value">card</span>
+  <span class="property">center</span> <span class="value">all</span>
+  <span class="property">pad</span> <span class="value">8</span></pre>
+
+                <h3>Form Input Components</h3>
+                <pre><span class="keyword">component</span> <span class="property">input-base</span>:
+  <span class="property">w-full</span>
+  <span class="property">pad</span> <span class="value">3 4</span>
+  <span class="property">round</span> <span class="value">lg</span>
+  <span class="property">border</span> <span class="value">1px solid slate-200</span>
+  <span class="property">bg</span> <span class="value">white</span>
+  <span class="property">smooth</span>
+  
+  <span class="keyword">focus</span>:
+    <span class="property">border-color</span> <span class="value">blue-500</span>
+    <span class="property">ring</span> <span class="value">2px solid blue-100</span>
+    <span class="property">no</span> <span class="value">outline</span>
+
+<span class="selector">input</span>:
+  <span class="keyword">use</span> <span class="value">input-base</span>
+
+<span class="selector">textarea</span>:
+  <span class="keyword">use</span> <span class="value">input-base</span>
+  <span class="property">min-height</span> <span class="value">120px</span>
+  <span class="property">resize</span> <span class="value">vertical</span>
+
+<span class="selector">select</span>:
+  <span class="keyword">use</span> <span class="value">input-base</span>
+  <span class="property">pointer</span></pre>
+
+                <h3>Layout Components</h3>
+                <pre><span class="keyword">component</span> <span class="property">container</span>:
+  <span class="property">max-width</span> <span class="value">1200px</span>
+  <span class="property">margin</span> <span class="value">0 auto</span>
+  <span class="property">pad</span> <span class="value">4 6</span>
+
+<span class="keyword">component</span> <span class="property">stack</span>:
+  <span class="property">column</span>
+  <span class="property">gap</span> <span class="value">4</span>
+
+<span class="keyword">component</span> <span class="property">row-layout</span>:
+  <span class="property">row</span>
+  <span class="property">gap</span> <span class="value">4</span>
+  <span class="property">align-items</span> <span class="value">center</span>
+
+<span class="selector">.page</span>:
+  <span class="keyword">use</span> <span class="value">container</span>
+  <span class="keyword">use</span> <span class="value">stack</span>
+  <span class="property">gap</span> <span class="value">8</span>
+
+<span class="selector">.toolbar</span>:
+  <span class="keyword">use</span> <span class="value">row-layout</span>
+  <span class="property">row</span> <span class="value">spread</span>
+  <span class="property">pad</span> <span class="value">4</span>
+  <span class="property">bg</span> <span class="value">slate-50</span></pre>
+                <div class="warning">You can use multiple components with multiple <code>use</code> statements!
+                    Properties are applied in order, so later ones override earlier ones.</div>
+            </section>
+
+            <!-- Pseudo States -->
+            <section id="pseudo-states">
+                <h2>Pseudo States</h2>
+                <p>Add hover, focus, active states as nested blocks:</p>
+                <pre><span class="selector">button</span>:
+  <span class="property">bg</span> <span class="value">blue-500</span>
+  <span class="property">color</span> <span class="value">white</span>
+  <span class="property">smooth</span>
+  
+  <span class="keyword">hover</span>:
+    <span class="property">bg</span> <span class="value">blue-600</span>
+    <span class="property">shadow</span> <span class="value">lg</span>
+  
+  <span class="keyword">focus</span>:
+    <span class="property">ring</span> <span class="value">2px solid blue-400</span>
+    <span class="property">no</span> <span class="value">outline</span>
+  
+  <span class="keyword">active</span>:
+    <span class="property">bg</span> <span class="value">blue-700</span>
+  
+  <span class="keyword">disabled</span>:
+    <span class="property">opacity</span> <span class="value">0.5</span>
+    <span class="property">cursor</span> <span class="value">not-allowed</span></pre>
+            </section>
+
+            <!-- Responsive -->
+            <section id="responsive">
+                <h2>Responsive Design</h2>
+                <p>Use media query shortcuts:</p>
+                <pre><span class="selector">hero</span>:
+  <span class="property">pad</span> <span class="value">16</span>
+  <span class="property">grid</span> <span class="value">3</span>
+  <span class="property">gap</span> <span class="value">6</span>
+  
+  <span class="keyword">@mobile</span>:
+    <span class="property">pad</span> <span class="value">4</span>
+    <span class="property">grid</span> <span class="value">1</span>
+  
+  <span class="keyword">@tablet</span>:
+    <span class="property">grid</span> <span class="value">2</span></pre>
+
+                <table>
+                    <tr>
+                        <th>Query</th>
+                        <th>Breakpoint</th>
+                    </tr>
+                    <tr>
+                        <td><code>@mobile:</code></td>
+                        <td>max-width: 640px</td>
+                    </tr>
+                    <tr>
+                        <td><code>@tablet:</code></td>
+                        <td>max-width: 768px</td>
+                    </tr>
+                    <tr>
+                        <td><code>@laptop:</code></td>
+                        <td>max-width: 1024px</td>
+                    </tr>
+                    <tr>
+                        <td><code>@desktop:</code></td>
+                        <td>max-width: 1280px</td>
+                    </tr>
+                </table>
+            </section>
+
+            <!-- Tokens -->
+            <section id="tokens">
+                <h2>Custom Tokens</h2>
+                <p>Define your own color aliases:</p>
+                <pre><span class="keyword">colors</span>:
+  <span class="property">primary</span> <span class="value">blue-500</span>
+  <span class="property">secondary</span> <span class="value">violet-500</span>
+  <span class="property">dark</span> <span class="value">slate-900</span>
+  <span class="property">light</span> <span class="value">slate-50</span>
+  <span class="property">muted</span> <span class="value">slate-400</span>
+  <span class="property">danger</span> <span class="value">red-500</span>
+  <span class="property">success</span> <span class="value">green-500</span>
+
+<span class="selector">button</span>:
+  <span class="property">bg</span> <span class="value">primary</span>
+  <span class="property">color</span> <span class="value">light</span>
+
+<span class="selector">.alert-danger</span>:
+  <span class="property">bg</span> <span class="value">danger</span>
+  <span class="property">color</span> <span class="value">white</span></pre>
+            </section>
+
+            <!-- Colors -->
+            <section id="colors">
+                <h2>Color Reference</h2>
+                <p>All Tailwind color scales are built-in:</p>
+                <pre><span class="comment">// 22 color scales:</span>
+slate, gray, zinc, neutral, stone
+red, orange, amber, yellow, lime
+green, emerald, teal, cyan, sky
+blue, indigo, violet, purple
+fuchsia, pink, rose
+
+<span class="comment">// Shades: 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950</span>
+
+<span class="comment">// Usage:</span>
+<span class="property">bg</span> <span class="value">rose-500</span>
+<span class="property">color</span> <span class="value">slate-900</span>
+<span class="property">border</span> <span class="value">1px solid blue-300</span>
+
+<span class="comment">// Special colors:</span>
+<span class="property">bg</span> <span class="value">white</span>
+<span class="property">bg</span> <span class="value">black</span>
+<span class="property">bg</span> <span class="value">transparent</span></pre>
+            </section>
+
+            <!-- All Properties -->
+            <section id="all-properties">
+                <h2>All Properties</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tomato</th>
+                            <th>CSS Output</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>bg blue-500</code></td>
+                            <td>background: #3b82f6</td>
+                        </tr>
+                        <tr>
+                            <td><code>color white</code></td>
+                            <td>color: #ffffff</td>
+                        </tr>
+                        <tr>
+                            <td><code>pad 2 4</code></td>
+                            <td>padding: 0.5rem 1rem</td>
+                        </tr>
+                        <tr>
+                            <td><code>margin 4</code></td>
+                            <td>margin: 1rem</td>
+                        </tr>
+                        <tr>
+                            <td><code>round lg</code></td>
+                            <td>border-radius: 0.5rem</td>
+                        </tr>
+                        <tr>
+                            <td><code>round full</code></td>
+                            <td>border-radius: 9999px</td>
+                        </tr>
+                        <tr>
+                            <td><code>shadow md</code></td>
+                            <td>box-shadow: ...</td>
+                        </tr>
+                        <tr>
+                            <td><code>bold</code></td>
+                            <td>font-weight: bold</td>
+                        </tr>
+                        <tr>
+                            <td><code>semibold</code></td>
+                            <td>font-weight: 600</td>
+                        </tr>
+                        <tr>
+                            <td><code>italic</code></td>
+                            <td>font-style: italic</td>
+                        </tr>
+                        <tr>
+                            <td><code>uppercase</code></td>
+                            <td>text-transform: uppercase</td>
+                        </tr>
+                        <tr>
+                            <td><code>underline</code></td>
+                            <td>text-decoration: underline</td>
+                        </tr>
+                        <tr>
+                            <td><code>pointer</code></td>
+                            <td>cursor: pointer</td>
+                        </tr>
+                        <tr>
+                            <td><code>smooth</code></td>
+                            <td>transition: all 0.2s ease</td>
+                        </tr>
+                        <tr>
+                            <td><code>no border</code></td>
+                            <td>border: none</td>
+                        </tr>
+                        <tr>
+                            <td><code>no outline</code></td>
+                            <td>outline: none</td>
+                        </tr>
+                        <tr>
+                            <td><code>row</code></td>
+                            <td>display: flex; flex-direction: row</td>
+                        </tr>
+                        <tr>
+                            <td><code>row spread</code></td>
+                            <td>...justify-content: space-between</td>
+                        </tr>
+                        <tr>
+                            <td><code>row center</code></td>
+                            <td>...justify-content: center</td>
+                        </tr>
+                        <tr>
+                            <td><code>column</code></td>
+                            <td>display: flex; flex-direction: column</td>
+                        </tr>
+                        <tr>
+                            <td><code>center all</code></td>
+                            <td>...justify-content: center; align-items: center</td>
+                        </tr>
+                        <tr>
+                            <td><code>grid 3</code></td>
+                            <td>display: grid; grid-template-columns: repeat(3, 1fr)</td>
+                        </tr>
+                        <tr>
+                            <td><code>gap 4</code></td>
+                            <td>gap: 1rem</td>
+                        </tr>
+                        <tr>
+                            <td><code>w-full</code></td>
+                            <td>width: 100%</td>
+                        </tr>
+                        <tr>
+                            <td><code>h-screen</code></td>
+                            <td>height: 100vh</td>
+                        </tr>
+                        <tr>
+                            <td><code>relative</code></td>
+                            <td>position: relative</td>
+                        </tr>
+                        <tr>
+                            <td><code>absolute</code></td>
+                            <td>position: absolute</td>
+                        </tr>
+                        <tr>
+                            <td><code>fixed</code></td>
+                            <td>position: fixed</td>
+                        </tr>
+                        <tr>
+                            <td><code>hidden</code></td>
+                            <td>display: none</td>
+                        </tr>
+                        <tr>
+                            <td><code>overflow hidden</code></td>
+                            <td>overflow: hidden</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+</body>
+
+</html>

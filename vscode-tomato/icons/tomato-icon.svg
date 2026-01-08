@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Shadow -->
+  <ellipse cx="16" cy="26" rx="8" ry="2" fill="#1a1a1a" opacity="0.3"/>
+  
+  <!-- Tomato body - orangish red gradient -->
+  <defs>
+    <radialGradient id="tomatoGrad" cx="40%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#ff6b4a"/>
+      <stop offset="40%" stop-color="#f5533d"/>
+      <stop offset="100%" stop-color="#c73e2d"/>
+    </radialGradient>
+    <radialGradient id="highlight" cx="30%" cy="25%" r="40%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  
+  <!-- Main body -->
+  <ellipse cx="16" cy="17" rx="11" ry="9" fill="url(#tomatoGrad)"/>
+  
+  <!-- Top indent -->
+  <path d="M11 11 Q16 13 21 11 Q20 9 16 9 Q12 9 11 11" fill="#c73e2d"/>
+  
+  <!-- Highlight -->
+  <ellipse cx="12" cy="14" rx="4" ry="3" fill="url(#highlight)"/>
+  
+  <!-- Stem -->
+  <path d="M15 9 L15 6 Q16 5 17 6 L17 9" fill="#4a7c23"/>
+  
+  <!-- Leaves -->
+  <path d="M12 8 Q8 5 10 9 Q11 10 13 9" fill="#5a9c2a"/>
+  <path d="M20 8 Q24 5 22 9 Q21 10 19 9" fill="#5a9c2a"/>
+  <path d="M16 7 Q16 3 18 6 Q17 8 16 7" fill="#4a7c23"/>
+</svg>

@@ -1,0 +1,66 @@
+{
+    "name": "tomato-css",
+    "displayName": "Tomato CSS",
+    "description": "🍅 Syntax highlighting, file icons, and error detection for Tomato CSS (.tom files)",
+    "version": "1.0.0",
+    "publisher": "srivtx",
+    "engines": {
+        "vscode": "^1.74.0"
+    },
+    "categories": [
+        "Programming Languages",
+        "Themes"
+    ],
+    "activationEvents": [
+        "onLanguage:tomato"
+    ],
+    "main": "./extension.js",
+    "contributes": {
+        "languages": [
+            {
+                "id": "tomato",
+                "aliases": [
+                    "Tomato CSS",
+                    "tomato"
+                ],
+                "extensions": [
+                    ".tom"
+                ],
+                "configuration": "./language-configuration.json",
+                "icon": {
+                    "light": "./icons/tomato-icon.svg",
+                    "dark": "./icons/tomato-icon.svg"
+                }
+            }
+        ],
+        "grammars": [
+            {
+                "language": "tomato",
+                "scopeName": "source.tomato",
+                "path": "./syntaxes/tomato.tmLanguage.json"
+            }
+        ],
+        "iconThemes": [
+            {
+                "id": "tomato-icons",
+                "label": "Tomato Icons",
+                "path": "./icons/tomato-icon-theme.json"
+            }
+        ]
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/srivtx/tomato-css.git"
+    },
+    "license": "MIT",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "type": "commonjs",
+    "bugs": {
+        "url": "https://github.com/srivtx/tomato-css/issues"
+    },
+    "homepage": "https://github.com/srivtx/tomato-css#readme"
+}

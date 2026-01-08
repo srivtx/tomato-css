@@ -1,0 +1,29 @@
+# Main styles file - demonstrates @import
+@import "components.tom"
+
+# Tokens
+colors:
+  primary blue-500
+  secondary violet-500
+
+# Styles
+button:
+  use btn
+  bg primary
+  color white
+  
+  hover:
+    bg blue-600
+
+.btn-secondary:
+  use btn
+  bg secondary
+  color white
+
+.product-card:
+  use card
+  column
+  gap 4
+
+input:
+  use input-base

@@ -1,0 +1,104 @@
+# Tokens - your custom colors
+
+
+colors:
+  primary blue-500
+  secondary violet-500
+  dark slate-900
+  light slate-50
+  muted slate-400
+
+
+#useeverywhat happend burh
+
+component btn:
+  pad 2 4
+  round lg
+  bold
+  pointer
+  smooth
+  no border
+
+component card-base:
+  bg white
+  pad 6
+  round xl
+  shadow md
+
+# Styles
+button:
+  use btn
+  bg primary
+  color white
+  
+  hover:
+    bg blue-600
+    shadow lg
+
+.btn-secondary:
+  use btn
+  bg secondary
+  color white
+  
+  hover:
+    bg violet-600
+
+.btn-outline: 
+  use btn
+  bg transparent
+  color primary
+  border 2px solid blue-500
+
+  hover:
+    bg blue-50
+
+nav:
+  bg dark
+  color light
+  pad 4 6
+  row spread
+  align center
+
+card:
+  use card-base
+  column
+  gap 4
+
+.card-featured:
+  use card-base
+  bg gradient blue-500 to violet-500
+  color white
+  shadow xl
+
+hero:
+  bg dark
+  color white
+  pad 16
+  center
+  
+  @mobile:
+    pad 8
+
+gallery:
+  grid 3
+  gradient 6
+  
+  @mobile:
+    grid 1
+
+footer:
+  bg slate-800
+  color slate-400
+  pad 8
+  center
+
+input:
+  pad 2 4
+  round lg
+  border 1px solid slate-300
+  w-full 
+  smooth
+  
+  focus:
+    border 2px solid blue-500
+    no outline

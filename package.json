@@ -1,0 +1,45 @@
+{
+  "name": "@srivtx/tomato-css",
+  "version": "1.0.3",
+  "description": "🍅 Tomato - The Human-Friendly CSS Preprocessor. Write CSS like you think.",
+  "main": "src/index.js",
+  "bin": {
+    "tomato": "src/index.js"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "demo": "node src/index.js examples/demo.tom -o examples/output.css",
+    "test": "node src/index.js examples/demo.tom -o /tmp/test.css && echo 'Tests passed!'"
+  },
+  "keywords": [
+    "css",
+    "preprocessor",
+    "styling",
+    "tomato",
+    "dsl",
+    "human-friendly",
+    "tailwind-colors",
+    "components",
+    "sass-alternative",
+    "less-alternative",
+    "stylus-alternative"
+  ],
+  "author": "srivtx",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/srivtx/tomato-css.git"
+  },
+  "homepage": "https://github.com/srivtx/tomato-css#readme",
+  "bugs": {
+    "url": "https://github.com/srivtx/tomato-css/issues"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "files": [
+    "src/",
+    "README.md",
+    "LICENSE"
+  ]
+}
