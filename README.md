@@ -175,11 +175,30 @@ tomato --watch app.tom
 
 ## VS Code Extension
 
-Install the Tomato CSS extension for:
-- Syntax highlighting
-- Error detection
-- Autocomplete
-- Typo suggestions
+Get the **Tomato CSS VS Code Extension** for the best development experience!
+
+### Installation
+
+**📥 [Download from GitHub Releases](https://github.com/srivtx/tomato-css/releases/latest)**
+
+1. Download `tomato-css-1.0.0.vsix` from the latest release
+2. Open VS Code
+3. Go to Extensions (`Ctrl+Shift+X` / `Cmd+Shift+X`)
+4. Click `...` menu → **"Install from VSIX..."**
+5. Select the downloaded file
+
+Or install via command line:
+```bash
+code --install-extension /path/to/tomato-css-1.0.0.vsix
+```
+
+### Features
+- ✨ Syntax highlighting for `.tom` files
+- 🎨 Tomato file icons
+- 🔍 Error detection & diagnostics
+- 💡 Smart autocomplete
+- 🔧 Typo suggestions
+
 
 ## Property Reference
 
