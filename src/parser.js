@@ -16,6 +16,7 @@ function parse(source) {
     let currentSelector = null;     // 'button', 'card', etc.
     let currentComponent = null;    // component being defined
     let currentNested = null;       // 'hover:', '@mobile:', etc.
+    let componentNested = null;     // nested block within a component
 
     for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
@@ -61,10 +62,11 @@ function parse(source) {
             section = 'components';
             const match = trimmed.match(/^(?:component|define)\s+([\w-]+):$/);
             currentComponent = match[1];
-            ast.components[currentComponent] = [];
+            ast.components[currentComponent] = { props: [], nested: {} };
             currentSelector = null;
             currentTokenType = null;
             currentNested = null;
+            componentNested = null;
             continue;
         }
 
@@ -81,9 +83,13 @@ function parse(source) {
 
         // Nested blocks: hover:, focus:, active:, @mobile:, @tablet: (indented)
         if (indent > 0 && /^(hover|active|focus|disabled|@mobile|@tablet|@laptop|@desktop):$/.test(trimmed)) {
+            const nestedKey = trimmed.replace(':', '');
             if (currentSelector) {
-                currentNested = trimmed.replace(':', '');
+                currentNested = nestedKey;
                 ast.styles[currentSelector].nested[currentNested] = [];
+            } else if (currentComponent) {
+                componentNested = nestedKey;
+                ast.components[currentComponent].nested[componentNested] = [];
             }
             continue;
         }
@@ -99,7 +105,11 @@ function parse(source) {
 
         // Component property (indented under component definition)
         if (section === 'components' && currentComponent && indent > 0) {
-            ast.components[currentComponent].push(trimmed);
+            if (componentNested) {
+                ast.components[currentComponent].nested[componentNested].push(trimmed);
+            } else {
+                ast.components[currentComponent].props.push(trimmed);
+            }
             continue;
         }
 

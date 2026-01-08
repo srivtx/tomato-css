@@ -35,19 +35,28 @@ function compile(ast) {
     for (const [selector, block] of Object.entries(ast.styles)) {
         const cssSelector = formatSelector(selector);
 
-        // Expand "use" statements and get all props
-        const expandedProps = expandProps(block.props, components);
+        // Expand "use" statements and get all props + nested blocks
+        const expanded = expandProps(block.props, components);
 
         // Main styles
-        const mainProps = expandedProps.map(p => compileProperty(p, tokens)).filter(Boolean);
+        const mainProps = expanded.props.map(p => compileProperty(p, tokens)).filter(Boolean);
         if (mainProps.length > 0) {
             css += `${cssSelector} {\n${mainProps.map(p => `  ${p}`).join('\n')}\n}\n\n`;
         }
 
-        // Nested blocks (hover, media queries)
+        // Merge nested blocks from components with existing nested blocks
+        const allNested = { ...expanded.nested };
         for (const [nestedKey, nestedProps] of Object.entries(block.nested)) {
+            if (!allNested[nestedKey]) {
+                allNested[nestedKey] = [];
+            }
+            allNested[nestedKey].push(...nestedProps);
+        }
+
+        // Process all nested blocks (hover, media queries)
+        for (const [nestedKey, nestedProps] of Object.entries(allNested)) {
             const expandedNested = expandProps(nestedProps, components);
-            const compiledProps = expandedNested.map(p => compileProperty(p, tokens)).filter(Boolean);
+            const compiledProps = expandedNested.props.map(p => compileProperty(p, tokens)).filter(Boolean);
             if (compiledProps.length === 0) continue;
 
             if (nestedKey.startsWith('@')) {
@@ -67,20 +76,59 @@ function compile(ast) {
     return css.trim() + '\n';
 }
 
-// Expand "use componentName" into actual props
+// Expand "use componentName" into actual props and nested blocks
+// Returns { props: [], nested: {} }
 function expandProps(props, components) {
-    const result = [];
+    const result = { props: [], nested: {} };
+
     for (const prop of props) {
         if (prop.startsWith('use ')) {
             const componentName = prop.slice(4).trim();
             if (components[componentName]) {
-                // Recursively expand (components can use other components)
-                result.push(...expandProps(components[componentName], components));
+                const component = components[componentName];
+
+                // Handle both old format (array) and new format (object)
+                if (Array.isArray(component)) {
+                    // Old format: just an array of props
+                    result.props.push(...expandProps(component, components).props);
+                } else {
+                    // New format: { props: [], nested: {} }
+                    // Recursively expand props (components can use other components)
+                    const expanded = expandProps(component.props, components);
+                    result.props.push(...expanded.props);
+
+                    // Merge nested blocks from component
+                    for (const [nestedKey, nestedProps] of Object.entries(component.nested || {})) {
+                        if (!result.nested[nestedKey]) {
+                            result.nested[nestedKey] = [];
+                        }
+                        // Recursively expand nested props too
+                        const expandedNested = expandProps(nestedProps, components);
+                        result.nested[nestedKey].push(...expandedNested.props);
+
+                        // Merge deeply nested blocks if any
+                        for (const [deepKey, deepProps] of Object.entries(expandedNested.nested)) {
+                            if (!result.nested[deepKey]) {
+                                result.nested[deepKey] = [];
+                            }
+                            result.nested[deepKey].push(...deepProps);
+                        }
+                    }
+
+                    // Also merge nested blocks from recursively expanded props
+                    for (const [nestedKey, nestedProps] of Object.entries(expanded.nested)) {
+                        if (!result.nested[nestedKey]) {
+                            result.nested[nestedKey] = [];
+                        }
+                        result.nested[nestedKey].push(...nestedProps);
+                    }
+                }
             }
         } else {
-            result.push(prop);
+            result.props.push(prop);
         }
     }
+
     return result;
 }
 
