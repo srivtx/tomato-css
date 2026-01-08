@@ -6,63 +6,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tomato CSS - Documentation</title>
     <meta name="description" content="Complete documentation for Tomato CSS - the human-friendly CSS preprocessor.">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link href="https://unpkg.com/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
     <style>
+        :root {
+            --bg: #09090b;
+            --surface: #121215;
+            --surface-hover: #1c1c20;
+            --border: rgba(255, 255, 255, 0.08);
+            --primary: #f43f5e;
+            --primary-glow: rgba(244, 63, 94, 0.4);
+            --text-main: #ededed;
+            --text-muted: #888888;
+            --font-main: 'Instrument Sans', sans-serif;
+            --font-code: 'JetBrains Mono', monospace;
+            --code-bg: #050505;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        :root {
-            --bg-dark: #09090b;
-            --bg-surface: #18181b;
-            --bg-card: rgba(255, 255, 255, 0.02);
-            --border: rgba(255, 255, 255, 0.06);
-            --border-hover: rgba(255, 255, 255, 0.1);
-            --text-primary: #fafafa;
-            --text-secondary: #a1a1aa;
-            --text-muted: #52525b;
-            --tomato: #f43f5e;
-            --tomato-hover: #e11d48;
-            --tomato-glow: rgba(244, 63, 94, 0.15);
-            --code-bg: #121214;
-        }
-
         body {
-            font-family: 'Inter', -apple-system, sans-serif;
-            background: var(--bg-dark);
-            color: var(--text-primary);
-            line-height: 1.7;
+            font-family: var(--font-main), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Subtle background gradient */
-        body::before {
-            content: '';
+        /* Ambient Background Effects */
+        .glow-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100vh;
-            background: radial-gradient(circle at 50% 0%, rgba(244, 63, 94, 0.08), transparent 40%);
+            /* Multi-layer glowing gradients */
+            background:
+                /* Primary Top Glow */
+                radial-gradient(circle at 50% 0%, rgba(244, 63, 94, 0.15) 0%, transparent 60%),
+                /* Secondary Blue Side Glow */
+                radial-gradient(circle at 85% 30%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+                /* Subtle Grid Pattern */
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+
+            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
             pointer-events: none;
-            z-index: -1;
+            z-index: 0;
         }
 
-        /* Header */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.75rem 2rem;
-            border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 0;
-            background: rgba(9, 9, 11, 0.8);
-            backdrop-filter: blur(12px);
-            z-index: 50;
+        /* Ensure content is above bg */
+        .layout,
+        .hero-section {
+            position: relative;
+            z-index: 10;
         }
+
+        /* Hero Section */
+        .hero-section {
+            padding: 4rem 0 6rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 4rem;
+        }
+
+        /* Nav Header (Mobile only, if needed, or remove) */
+        /* For now, we'll just style the main layout cleanly */
 
         .logo {
             display: flex;
@@ -89,7 +108,7 @@
         }
 
         /* Layout */
-        .container {
+        .layout {
             display: grid;
             grid-template-columns: 260px 1fr;
             max-width: 1400px;
@@ -97,17 +116,18 @@
         }
 
         /* Sidebar */
-        .sidebar {
+        aside {
             position: sticky;
-            top: 57px;
-            height: calc(100vh - 57px);
+            top: 0;
+            height: 100vh;
             overflow-y: auto;
             padding: 2rem 1.5rem;
             border-right: 1px solid var(--border);
             background: rgba(9, 9, 11, 0.4);
+            backdrop-filter: blur(10px);
         }
 
-        .sidebar h3 {
+        aside h3 {
             font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 0.1em;
@@ -117,27 +137,28 @@
             font-weight: 700;
         }
 
-        .sidebar h3:first-child {
+        aside h3:first-child {
             margin-top: 0;
         }
 
-        .sidebar a {
+        .nav-link {
             display: block;
             color: var(--text-secondary);
             text-decoration: none;
-            padding: 0.5rem 0.75rem;
-            font-size: 0.9rem;
+            padding: 0.6rem 0.85rem;
+            font-size: 0.92rem;
             border-radius: 6px;
-            transition: all 0.15s;
-            margin-bottom: 2px;
+            transition: all 0.2s;
+            margin-bottom: 4px;
+            border-left: 2px solid transparent;
         }
 
-        .sidebar a:hover {
+        .nav-link:hover {
             color: var(--text-primary);
             background: var(--bg-card);
         }
 
-        .sidebar a.active {
+        .nav-link.active {
             color: var(--tomato);
             background: var(--tomato-glow);
             font-weight: 500;
@@ -159,8 +180,10 @@
 
         h1 span {
             background: linear-gradient(135deg, #f43f5e 0%, #fb923c 100%);
+            background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            color: transparent;
         }
 
         .intro {
@@ -204,21 +227,20 @@
         }
 
         /* Premium Code Blocks */
-        pre {
-            background: var(--code-bg);
-            border: 1px solid var(--border);
+        pre[class*="language-"] {
+            background: rgba(10, 10, 12, 0.5) !important;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 8px;
             padding: 1.25rem;
             overflow-x: auto;
             margin: 1.5rem 0;
-            font-family: 'SF Mono', 'Menlo', 'Monaco', 'Courier New', monospace;
+            font-family: var(--font-code);
             font-size: 0.85rem;
             line-height: 1.7;
             position: relative;
-        }
-
-        pre:hover {
-            border-color: var(--border-hover);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         }
 
         /* Syntax Highlighting */
@@ -300,86 +322,135 @@
         }
 
         /* Copy Button */
+        /* Copy Button */
         .copy-btn {
             position: absolute;
             top: 0.75rem;
             right: 0.75rem;
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            border-radius: 4px;
-            color: var(--text-secondary);
-            padding: 0.25rem 0.5rem;
-            font-size: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            /* Subtle bg */
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-muted);
+            padding: 6px;
             cursor: pointer;
-            opacity: 0;
-            transition: all 0.2s;
-        }
-
-        pre:hover .copy-btn {
             opacity: 1;
+            /* Always visible */
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .copy-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            border-color: var(--text-muted);
         }
 
-        /* Tips & Warnings */
+        /* Table Polish */
+        tr {
+            transition: background 0.2s;
+        }
+
+        tr:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .nav-link {
+            font-size: 0.95rem;
+            letter-spacing: -0.01em;
+        }
+
+        ::selection {
+            background: rgba(244, 63, 94, 0.3);
+            color: white;
+        }
+
+        /* Active State Polish */
+        .nav-link {
+            border-left: 2px solid transparent;
+            border-radius: 0 6px 6px 0;
+            margin-bottom: 4px;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.03);
+            color: white;
+        }
+
+        .nav-link.active {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.08);
+            border-left-color: transparent;
+            font-weight: 500;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Callouts Polish */
         .tip,
         .warning {
-            padding: 1.25rem 1.5rem;
+            padding: 1.5rem;
             border-radius: 8px;
-            margin: 1.5rem 0;
+            margin: 2rem 0;
             display: flex;
             gap: 1rem;
             font-size: 0.95rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
         }
 
         .tip {
-            background: rgba(74, 222, 128, 0.05);
-            border: 1px solid rgba(74, 222, 128, 0.2);
+            background: linear-gradient(to right, rgba(74, 222, 128, 0.05), transparent);
+            border-left: 4px solid #4ade80;
             color: #dcfce7;
         }
 
         .warning {
-            background: rgba(251, 146, 60, 0.05);
-            border: 1px solid rgba(251, 146, 60, 0.2);
+            background: linear-gradient(to right, rgba(251, 146, 60, 0.05), transparent);
+            border-left: 4px solid #fb923c;
             color: #ffedd5;
         }
 
-        .tip::before {
-            content: '💡';
+        /* Typography Polish */
+        h1,
+        h2,
+        h3 {
+            letter-spacing: -0.02em;
         }
 
-        .warning::before {
-            content: '⚠️';
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
         }
 
         /* Scrollbar */
         ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
+            width: 10px;
+            height: 10px;
         }
 
         ::-webkit-scrollbar-track {
-            background: var(--bg-dark);
+            background: transparent;
         }
 
         ::-webkit-scrollbar-thumb {
-            background: var(--border);
-            border-radius: 4px;
+            background: #333;
+            border-radius: 5px;
+            border: 2px solid #09090b;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: var(--text-muted);
+            background: #444;
         }
 
         @media (max-width: 900px) {
-            .container {
+            .layout {
                 grid-template-columns: 1fr;
             }
 
-            .sidebar {
+            aside {
                 display: none;
             }
 
@@ -395,83 +466,92 @@
 </head>
 
 <body>
-    <header>
-        <a href="index.html" class="logo">🍅 Tomato CSS</a>
-        <nav class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="#getting-started">Getting Started</a>
-            <a href="#syntax">Syntax</a>
-            <a href="#properties">Properties</a>
-        </nav>
-    </header>
+    <div class="glow-bg"></div>
 
-    <div class="container">
-        <aside class="sidebar">
-            <h3>Getting Started</h3>
-            <a href="#installation">Installation</a>
-            <a href="#first-file">Your First .tom File</a>
-            <a href="#cli">CLI Usage</a>
+    <div class="layout">
+        <aside>
+            <a href="index.html" class="logo">🍅 Tomato CSS</a>
 
-            <h3>Syntax</h3>
-            <a href="#selectors">Selectors</a>
-            <a href="#components">Components</a>
-            <a href="#pseudo-states">Pseudo States</a>
-            <a href="#responsive">Responsive Design</a>
-            <a href="#tokens">Custom Tokens</a>
+            <nav class="nav-group">
+                <h3>Getting Started</h3>
+                <a href="#installation" class="nav-link">Installation</a>
+                <a href="#first-file" class="nav-link">Your First .tom File</a>
+                <a href="#cli" class="nav-link">CLI Usage</a>
 
-            <h3>Reference</h3>
-            <a href="#colors">Colors</a>
-            <a href="#all-properties">All Properties</a>
+                <h3>Syntax</h3>
+                <a href="#selectors" class="nav-link">Selectors</a>
+                <a href="#components" class="nav-link">Components</a>
+                <a href="#pseudo-states" class="nav-link">Pseudo States</a>
+                <a href="#responsive" class="nav-link">Responsive Design</a>
+                <a href="#tokens" class="nav-link">Custom Tokens</a>
+
+                <h3>Reference</h3>
+                <a href="#colors" class="nav-link">Colors</a>
+                <a href="#all-properties" class="nav-link">All Properties</a>
+            </nav>
         </aside>
 
         <main>
-            <h1>🍅 <span>Tomato</span> Documentation</h1>
-            <p class="intro">The human-friendly CSS preprocessor. Write styles like you think.</p>
+            <header class="hero-section" data-aos="fade-down">
+                <h1>🍅 <span>Tomato</span> CSS</h1>
+                <p class="subtitle">The human-friendly CSS preprocessor. Write styles like you think.</p>
+            </header>
 
-
-            <section id="installation">
-
-
+            <section id="installation" data-aos="fade-up">
                 <h2>Installation</h2>
 
                 <h3>Global Install (Recommended)</h3>
-                <pre>$ npm install -g @srivtx/tomato-css
-$ tomato --version</pre>
+                <div class="copy-wrapper">
+                    <pre><code class="language-bash">$ npm install -g @srivtx/tomato-css
+$ tomato app.tom -o styles.css</code></pre>
+                </div>
 
                 <h3>Project Install</h3>
-                <pre>$ npm install @srivtx/tomato-css
-$ npx tomato app.tom</pre>
+                <div class="copy-wrapper">
+                    <pre><code class="language-bash">$ npm install @srivtx/tomato-css
+$ npx tomato app.tom</code></pre>
+                </div>
 
                 <p>Or add to package.json:</p>
-                <pre>{
+                <div class="copy-wrapper">
+                    <pre><code class="language-json">{
   "scripts": {
     "build": "tomato src/app.tom -o dist/styles.css",
     "watch": "tomato --watch src/app.tom -o dist/styles.css"
   }
-}</pre>
+}</code></pre>
+                </div>
 
                 <h3>No Install (npx)</h3>
-                <pre>$ npx @srivtx/tomato-css app.tom</pre>
+                <div class="copy-wrapper">
+                    <pre><code class="language-bash">$ npx @srivtx/tomato-css app.tom</code></pre>
+                </div>
             </section>
 
-            <section id="first-file">
+            <section id="first-file" data-aos="fade-up">
                 <h2>Your First .tom File</h2>
                 <p>Create a file called <code>styles.tom</code>:</p>
-                <pre><span class="selector">button</span>:
-  <span class="property">bg</span> <span class="value">blue-500</span>
-  <span class="property">color</span> <span class="value">white</span>
-  <span class="property">pad</span> <span class="value">2 4</span>
-  <span class="property">round</span> <span class="value">lg</span>
-  <span class="property">pointer</span>
-  <span class="property">smooth</span></pre>
+                <div class="copy-wrapper">
+                    <pre><code class="language-yaml">button:
+  bg blue-500
+  color white
+  pad 2 4
+  round lg
+  pointer
+  smooth</code></pre>
+                </div>
                 <p>Compile it:</p>
-                <pre>$ tomato styles.tom -o styles.css</pre>
+                <div class="copy-wrapper">
+                    <pre><code class="language-bash">$ tomato styles.tom -o styles.css</code></pre>
+                </div>
             </section>
 
-            <section id="cli">
+            <section id="cli" data-aos="fade-up">
                 <h2>CLI Usage</h2>
-                <pre>$ tomato &lt;input.tom&gt; [-o output.css]
-$ tomato --watch &lt;input.tom&gt; [-o output.css]</pre>
+                <div class="copy-wrapper">
+                    <pre><code class="language-bash">$ tomato &lt;input.tom&gt; [-o output.css]
+$ tomato --watch &lt;input.tom&gt; [-o output.css]</code></pre>
+                </div>
                 <table>
                     <tr>
                         <td><code>tomato app.tom</code></td>
@@ -488,135 +568,139 @@ $ tomato --watch &lt;input.tom&gt; [-o output.css]</pre>
                 </table>
             </section>
 
-            <!-- Selectors -->
-            <section id="selectors">
+            <section id="selectors" data-aos="fade-up">
                 <h2>Selectors</h2>
-                <p>Tomato supports multiple selector types:</p>
-
                 <h3>HTML Elements</h3>
-                <p>Target HTML elements directly:</p>
-                <pre><span class="selector">button</span>:
-  <span class="property">bg</span> <span class="value">blue-500</span>
+                <div class="copy-wrapper">
+                    <pre><code class="language-yaml">button:
+  bg blue-500
 
-<span class="selector">nav</span>:
-  <span class="property">row</span> <span class="value">spread</span>
+nav:
+  row spread
 
-<span class="selector">input</span>:
-  <span class="property">pad</span> <span class="value">2 4</span></pre>
+input:
+  pad 2 4</code></pre>
+                </div>
 
                 <h3>Classes</h3>
-                <p>Use <code>.classname:</code> for class selectors:</p>
-                <pre><span class="selector">.btn-primary</span>:
-  <span class="property">bg</span> <span class="value">blue-500</span>
-  <span class="property">color</span> <span class="value">white</span>
+                <div class="copy-wrapper">
+                    <pre><code class="language-yaml">.btn-primary:
+  bg blue-500
+  color white
 
-<span class="selector">.card</span>:
-  <span class="property">bg</span> <span class="value">white</span>
-  <span class="property">round</span> <span class="value">xl</span>
-  <span class="property">shadow</span> <span class="value">lg</span>
+.card:
+  bg white
+  round xl
+  shadow lg
 
-<span class="selector">.hero-title</span>:
-  <span class="property">size</span> <span class="value">4xl</span>
-  <span class="property">bold</span></pre>
+.hero-title:
+  size 4xl
+  bold</code></pre>
+                </div>
 
                 <h3>IDs</h3>
-                <p>Use <code>#idname:</code> for ID selectors:</p>
-                <pre><span class="selector">#header</span>:
-  <span class="property">bg</span> <span class="value">slate-900</span>
-  <span class="property">pad</span> <span class="value">4 6</span>
+                <div class="copy-wrapper">
+                    <pre><code class="language-yaml">#header:
+  bg slate-900
+  pad 4 6
 
-<span class="selector">#main-content</span>:
-  <span class="property">pad</span> <span class="value">8</span></pre>
+#main-content:
+  pad 8</code></pre>
+                </div>
 
                 <h3>Auto-Class Conversion</h3>
                 <p>Names that aren't HTML elements become classes automatically:</p>
-                <pre><span class="comment">// These are equivalent:</span>
-<span class="selector">card</span>:           <span class="comment">→ .card { }</span>
-<span class="selector">.card</span>:          <span class="comment">→ .card { }</span>
+                <div class="copy-wrapper">
+                    <pre><code class="language-yaml">// These are equivalent:
+card:           // → .card { }
+.card:          // → .card { }
 
-<span class="comment">// But these stay as elements:</span>
-<span class="selector">button</span>:         <span class="comment">→ button { }</span>
-<span class="selector">nav</span>:            <span class="comment">→ nav { }</span></pre>
+// But these stay as elements:
+button:         // → button { }
+nav:            // → nav { }</code></pre>
+                </div>
                 <div class="tip">HTML elements like button, nav, div, header, footer, etc. stay as element selectors.
                     Everything else becomes a class.</div>
             </section>
 
-            <!-- Components -->
-            <section id="components">
+            <section id="components" data-aos="fade-up">
                 <h2>Components</h2>
                 <p>Define reusable style groups with <code>component name:</code> and use them with
                     <code>use name</code>.
                 </p>
 
                 <h3>Basic Components</h3>
-                <p>Define once, use anywhere:</p>
-                <pre><span class="keyword">component</span> <span class="property">btn</span>:
-  <span class="property">pad</span> <span class="value">2 4</span>
-  <span class="property">round</span> <span class="value">lg</span>
-  <span class="property">bold</span>
-  <span class="property">pointer</span>
-  <span class="property">smooth</span>
-  <span class="property">no</span> <span class="value">border</span>
+                <div class="copy-wrapper">
+                    <pre><code class="language-yaml">component btn:
+  pad 2 4
+  round lg
+  bold
+  pointer
+  smooth
+  no border
 
-<span class="selector">button</span>:
-  <span class="keyword">use</span> <span class="value">btn</span>
-  <span class="property">bg</span> <span class="value">blue-500</span>
-  <span class="property">color</span> <span class="value">white</span>
+button:
+  use btn
+  bg blue-500
+  color white
 
-<span class="selector">.btn-secondary</span>:
-  <span class="keyword">use</span> <span class="value">btn</span>
-  <span class="property">bg</span> <span class="value">violet-500</span>
-  <span class="property">color</span> <span class="value">white</span>
+.btn-secondary:
+  use btn
+  bg violet-500
+  color white
 
-<span class="selector">.btn-outline</span>:
-  <span class="keyword">use</span> <span class="value">btn</span>
-  <span class="property">bg</span> <span class="value">transparent</span>
-  <span class="property">color</span> <span class="value">blue-500</span>
-  <span class="property">border</span> <span class="value">2px solid blue-500</span></pre>
+.btn-outline:
+  use btn
+  bg transparent
+  color blue-500
+  border 2px solid blue-500</code></pre>
+                </div>
 
                 <h3>Nested Components</h3>
-                <p>Components can use other components:</p>
-                <pre><span class="keyword">component</span> <span class="property">base-input</span>:
-  <span class="property">pad</span> <span class="value">3 4</span>
-  <span class="property">round</span> <span class="value">md</span>
-  <span class="property">border</span> <span class="value">1px solid slate-300</span>
-  <span class="property">smooth</span>
+                <div class="copy-wrapper">
+                    <pre><code class="language-yaml">component base-input:
+  pad 3 4
+  round md
+  border 1px solid slate-300
+  smooth
 
-<span class="keyword">component</span> <span class="property">focus-ring</span>:
-  <span class="keyword">use</span> <span class="value">base-input</span>
-  <span class="comment">// Adds focus behavior to base-input</span>
+component focus-ring:
+  use base-input
   
-  <span class="keyword">focus</span>:
-    <span class="property">ring</span> <span class="value">2px solid blue-400</span>
-    <span class="property">border-color</span> <span class="value">blue-500</span>
+  focus:
+    ring 2px solid blue-400
+    border-color blue-500
 
-<span class="selector">input</span>:
-  <span class="keyword">use</span> <span class="value">focus-ring</span>
-  <span class="property">w-full</span></pre>
+input:
+  use focus-ring
+  w-full</code></pre>
+                </div>
                 <div class="tip">When you <code>use</code> a component, all its properties are expanded inline. This
                     means you can override them by adding your own after!</div>
 
                 <h3>Card Components</h3>
-                <pre><span class="keyword">component</span> <span class="property">card</span>:
-  <span class="property">bg</span> <span class="value">white</span>
-  <span class="property">round</span> <span class="value">xl</span>
-  <span class="property">shadow</span> <span class="value">md</span>
-  <span class="property">pad</span> <span class="value">6</span>
-  <span class="property">smooth</span>
+                <div class="copy-wrapper">
+                    <pre><code class="language-yaml">component card:
+  bg white
+  round xl
+  shadow md
+  pad 6
+  smooth
   
-  <span class="keyword">hover</span>:
-    <span class="property">shadow</span> <span class="value">lg</span>
-    <span class="property">transform</span> <span class="value">translateY(-2px)</span>
+  hover:
+    shadow lg
+    transform translateY(-2px)
 
-<span class="selector">.product-card</span>:
-  <span class="keyword">use</span> <span class="value">card</span>
-  <span class="property">column</span>
-  <span class="property">gap</span> <span class="value">4</span>
+.product-card:
+  use card
+  column
+  gap 4
 
-<span class="selector">.profile-card</span>:
-  <span class="keyword">use</span> <span class="value">card</span>
-  <span class="property">center</span> <span class="value">all</span>
-  <span class="property">pad</span> <span class="value">8</span></pre>
+.profile-card:
+  use card
+  center all
+  pad 8</code></pre>
+                </div>
 
                 <h3>Form Input Components</h3>
                 <pre><span class="keyword">component</span> <span class="property">input-base</span>:
@@ -673,46 +757,46 @@ $ tomato --watch &lt;input.tom&gt; [-o output.css]</pre>
                     Properties are applied in order, so later ones override earlier ones.</div>
             </section>
 
-            <!-- Pseudo States -->
-            <section id="pseudo-states">
+            <section id="pseudo-states" data-aos="fade-up">
                 <h2>Pseudo States</h2>
-                <p>Add hover, focus, active states as nested blocks:</p>
-                <pre><span class="selector">button</span>:
-  <span class="property">bg</span> <span class="value">blue-500</span>
-  <span class="property">color</span> <span class="value">white</span>
-  <span class="property">smooth</span>
+                <div class="copy-wrapper">
+                    <pre><code class="language-yaml">button:
+  bg blue-500
+  color white
+  smooth
   
-  <span class="keyword">hover</span>:
-    <span class="property">bg</span> <span class="value">blue-600</span>
-    <span class="property">shadow</span> <span class="value">lg</span>
+  hover:
+    bg blue-600
+    shadow lg
   
-  <span class="keyword">focus</span>:
-    <span class="property">ring</span> <span class="value">2px solid blue-400</span>
-    <span class="property">no</span> <span class="value">outline</span>
+  focus:
+    ring 2px solid blue-400
+    no outline
   
-  <span class="keyword">active</span>:
-    <span class="property">bg</span> <span class="value">blue-700</span>
+  active:
+    bg blue-700
   
-  <span class="keyword">disabled</span>:
-    <span class="property">opacity</span> <span class="value">0.5</span>
-    <span class="property">cursor</span> <span class="value">not-allowed</span></pre>
+  disabled:
+    opacity 0.5
+    cursor not-allowed</code></pre>
+                </div>
             </section>
 
-            <!-- Responsive -->
-            <section id="responsive">
+            <section id="responsive" data-aos="fade-up">
                 <h2>Responsive Design</h2>
-                <p>Use media query shortcuts:</p>
-                <pre><span class="selector">hero</span>:
-  <span class="property">pad</span> <span class="value">16</span>
-  <span class="property">grid</span> <span class="value">3</span>
-  <span class="property">gap</span> <span class="value">6</span>
+                <div class="copy-wrapper">
+                    <pre><code class="language-yaml">hero:
+  pad 16
+  grid 3
+  gap 6
   
-  <span class="keyword">@mobile</span>:
-    <span class="property">pad</span> <span class="value">4</span>
-    <span class="property">grid</span> <span class="value">1</span>
+  @mobile:
+    pad 4
+    grid 1
   
-  <span class="keyword">@tablet</span>:
-    <span class="property">grid</span> <span class="value">2</span></pre>
+  @tablet:
+    grid 2</code></pre>
+                </div>
 
                 <table>
                     <tr>
@@ -738,54 +822,46 @@ $ tomato --watch &lt;input.tom&gt; [-o output.css]</pre>
                 </table>
             </section>
 
-            <!-- Tokens -->
-            <section id="tokens">
+            <section id="tokens" data-aos="fade-up">
                 <h2>Custom Tokens</h2>
-                <p>Define your own color aliases:</p>
-                <pre><span class="keyword">colors</span>:
-  <span class="property">primary</span> <span class="value">blue-500</span>
-  <span class="property">secondary</span> <span class="value">violet-500</span>
-  <span class="property">dark</span> <span class="value">slate-900</span>
-  <span class="property">light</span> <span class="value">slate-50</span>
-  <span class="property">muted</span> <span class="value">slate-400</span>
-  <span class="property">danger</span> <span class="value">red-500</span>
-  <span class="property">success</span> <span class="value">green-500</span>
+                <div class="copy-wrapper">
+                    <pre><code class="language-yaml">colors:
+  primary blue-500
+  secondary violet-500
+  dark slate-900
+  light slate-50
+  muted slate-400
+  danger red-500
+  success green-500
 
-<span class="selector">button</span>:
-  <span class="property">bg</span> <span class="value">primary</span>
-  <span class="property">color</span> <span class="value">light</span>
+button:
+  bg primary
+  color light
 
-<span class="selector">.alert-danger</span>:
-  <span class="property">bg</span> <span class="value">danger</span>
-  <span class="property">color</span> <span class="value">white</span></pre>
+.alert-danger:
+  bg danger
+  color white</code></pre>
+                </div>
             </section>
 
-            <!-- Colors -->
-            <section id="colors">
+            <section id="colors" data-aos="fade-up">
                 <h2>Color Reference</h2>
-                <p>All Tailwind color scales are built-in:</p>
-                <pre><span class="comment">// 22 color scales:</span>
+                <div class="copy-wrapper">
+                    <pre><code class="language-yaml">// 22 color scales built-in (Tailwind):
 slate, gray, zinc, neutral, stone
 red, orange, amber, yellow, lime
 green, emerald, teal, cyan, sky
 blue, indigo, violet, purple
 fuchsia, pink, rose
 
-<span class="comment">// Shades: 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950</span>
-
-<span class="comment">// Usage:</span>
-<span class="property">bg</span> <span class="value">rose-500</span>
-<span class="property">color</span> <span class="value">slate-900</span>
-<span class="property">border</span> <span class="value">1px solid blue-300</span>
-
-<span class="comment">// Special colors:</span>
-<span class="property">bg</span> <span class="value">white</span>
-<span class="property">bg</span> <span class="value">black</span>
-<span class="property">bg</span> <span class="value">transparent</span></pre>
+// Usage:
+bg rose-500
+color slate-900
+border 1px solid blue-300</code></pre>
+                </div>
             </section>
 
-            <!-- All Properties -->
-            <section id="all-properties">
+            <section id="all-properties" data-aos="fade-up">
                 <h2>All Properties</h2>
                 <table>
                     <thead>
@@ -920,27 +996,49 @@ fuchsia, pink, rose
             </section>
         </main>
     </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/prismjs@1.29.0/prism.js"></script>
+    <script src="https://unpkg.com/prismjs@1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://unpkg.com/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+    <script src="https://unpkg.com/prismjs@1.29.0/components/prism-json.min.js"></script>
+
     <script>
-        // Copy Code Functionality
-        document.querySelectorAll('pre').forEach(pre => {
+        // Initialize Animate On Scroll
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100
+        });
+        // Copy Button Logic (Updated)
+        document.querySelectorAll('.copy-wrapper').forEach(wrapper => {
             const btn = document.createElement('button');
             btn.className = 'copy-btn';
-            btn.textContent = 'Copy';
+            // SVG Icon (Clipboard)
+            btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
 
             btn.addEventListener('click', () => {
-                const code = pre.innerText.replace('Copy', '').trim();
+                const code = wrapper.querySelector('code').innerText;
                 navigator.clipboard.writeText(code);
-                btn.textContent = 'Copied!';
-                setTimeout(() => btn.textContent = 'Copy', 2000);
+
+                // SVG Icon (Check)
+                btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+                btn.style.borderColor = 'rgba(74, 222, 128, 0.3)';
+
+                setTimeout(() => {
+                    btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
+                    btn.style.borderColor = '';
+                }, 2000);
             });
 
-            pre.appendChild(btn);
+            wrapper.appendChild(btn);
         });
 
-        // ScrollSpy Navigation
+        // ScrollSpy (Refined)
         const observerOptions = {
             root: null,
-            rootMargin: '-20% 0px -60% 0px',
+            rootMargin: '-100px 0px -70% 0px', // Better active state triggering
             threshold: 0
         };
 
@@ -948,7 +1046,7 @@ fuchsia, pink, rose
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const id = entry.target.getAttribute('id');
-                    document.querySelectorAll('.sidebar a').forEach(link => {
+                    document.querySelectorAll('.nav-link').forEach(link => {
                         link.classList.remove('active');
                         if (link.getAttribute('href') === `#${id}`) {
                             link.classList.add('active');
