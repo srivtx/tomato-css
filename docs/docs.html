@@ -322,11 +322,17 @@
             <!-- Getting Started -->
             <section id="installation">
                 <h2>Installation</h2>
-                <p>Install Tomato CSS globally or use npx:</p>
-                <pre>$ npm install -g tomato-css
+
+                <h3>Global Install (Recommended)</h3>
+                <pre>$ npm install -g @srivtx/tomato-css
 $ tomato --version</pre>
-                <p>Or run directly with npx:</p>
-                <pre>$ npx tomato-css init</pre>
+
+                <h3>Project Install</h3>
+                <pre>$ npm install @srivtx/tomato-css
+$ npx tomato app.tom</pre>
+
+                <h3>No Install (npx)</h3>
+                <pre>$ npx @srivtx/tomato-css app.tom</pre>
             </section>
 
             <section id="first-file">
@@ -420,7 +426,8 @@ $ tomato --watch &lt;input.tom&gt; [-o output.css]</pre>
             <section id="components">
                 <h2>Components</h2>
                 <p>Define reusable style groups with <code>component name:</code> and use them with
-                    <code>use name</code>.</p>
+                    <code>use name</code>.
+                </p>
 
                 <h3>Basic Components</h3>
                 <p>Define once, use anywhere:</p>

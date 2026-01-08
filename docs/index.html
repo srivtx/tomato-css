@@ -1473,7 +1473,7 @@ button:
       <h2>Ready to try Tomato?</h2>
       <p>Get started in seconds</p>
       <div class="cta-code" onclick="copyInstall()">
-        $ <span>npx tomato-css init</span>
+        $ <span>npx @srivtx/tomato-css app.tom</span>
         <span class="copy-hint">Click to copy</span>
       </div>
       <div>
@@ -1657,7 +1657,7 @@ button:
     }
 
     function copyInstall() {
-      navigator.clipboard.writeText('npx tomato-css init');
+      navigator.clipboard.writeText('npx @srivtx/tomato-css app.tom');
       const hint = document.querySelector('.copy-hint');
       hint.textContent = '✓ Copied!';
       hint.style.opacity = '1';
