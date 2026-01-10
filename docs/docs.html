@@ -962,6 +962,9 @@
                 <a href="#first-file" class="nav-link">Your First .tom File</a>
                 <a href="#cli" class="nav-link">CLI Usage</a>
 
+                <h3>Integrations</h3>
+                <a href="#vite-plugin" class="nav-link">Vite Plugin</a>
+
                 <h3>Syntax</h3>
                 <a href="#selectors" class="nav-link">Selectors</a>
                 <a href="#components" class="nav-link">Components</a>
@@ -1050,6 +1053,62 @@ $ tomato --watch &lt;input.tom&gt; [-o output.css]</code></pre>
                         <td>Watch mode</td>
                     </tr>
                 </table>
+            </section>
+
+            <section id="vite-plugin" data-aos="fade-up">
+                <h2>Vite Plugin</h2>
+                <p>Use Tomato CSS in React, Vue, or Svelte with <strong>automatic scoped styles</strong>.</p>
+
+                <h3>Installation</h3>
+                <div class="copy-wrapper" data-lang="bash">
+                    <pre><code class="language-bash">npm install vite-plugin-tomato @srivtx/tomato-css</code></pre>
+                </div>
+
+                <h3>Setup</h3>
+                <div class="copy-wrapper" data-lang="js">
+                    <pre><code class="language-javascript">// vite.config.js
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import tomato from 'vite-plugin-tomato';
+
+export default defineConfig({
+  plugins: [react(), tomato()]
+});</code></pre>
+                </div>
+
+                <h3>Usage</h3>
+                <p>Create a <code>.tom</code> file for your component:</p>
+                <div class="copy-wrapper" data-lang="tom">
+                    <pre><code class="language-yaml"># Button.tom
+.btn:
+  bg blue-500
+  text white
+  pad 2 4
+  round lg
+  
+  hover:
+    bg blue-600</code></pre>
+                </div>
+
+                <p>Import and wrap your component with <code>withTomato()</code>:</p>
+                <div class="copy-wrapper" data-lang="jsx">
+                    <pre><code class="language-jsx">// Button.jsx
+import { withTomato } from './Button.tom';
+
+function Button({ children }) {
+  return &lt;button className="btn"&gt;{children}&lt;/button&gt;;
+}
+
+export default withTomato(Button);</code></pre>
+                </div>
+
+                <h3>How Scoping Works</h3>
+                <p>Styles are automatically scoped to your component. Two components can use the same class name without
+                    conflicts!</p>
+                <div class="tip">
+                    <strong>💡 Tip:</strong> The <code>withTomato()</code> HOC wraps your component with a
+                    <code>data-tom</code> attribute that scopes all styles to that component.
+                </div>
             </section>
 
             <section id="selectors" data-aos="fade-up">
