@@ -83,6 +83,36 @@ tomato styles.tom -o styles.css
 - 📱 **Responsive** - `@mobile:`, `@tablet:`, `@desktop:`
 - ⚡ **Fast** - Lightning-fast compilation
 - 👀 **Watch Mode** - Auto-recompile on save
+- 🔌 **Vite Plugin** - Use in React/Vue with scoped styles
+
+## Vite Plugin
+
+Use Tomato CSS in React, Vue, or Svelte with **automatic scoped styles**:
+
+```bash
+npm install vite-plugin-tomato @srivtx/tomato-css
+```
+
+```js
+// vite.config.js
+import tomato from 'vite-plugin-tomato';
+export default { plugins: [tomato()] }
+```
+
+```jsx
+// Button.jsx
+import { withTomato } from './Button.tom';
+
+function Button({ children }) {
+  return <button className="btn">{children}</button>;
+}
+
+export default withTomato(Button);
+```
+
+Styles are automatically scoped - no class name conflicts!
+
+→ [Full Vite Plugin Docs](./vite-plugin-tomato/README.md)
 
 ## Syntax Reference
 
