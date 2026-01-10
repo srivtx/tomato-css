@@ -1,6 +1,6 @@
 {
   "name": "@srivtx/tomato-css",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "🍅 Tomato - The Human-Friendly CSS Preprocessor. Write CSS like you think.",
   "main": "src/index.js",
   "bin": {
