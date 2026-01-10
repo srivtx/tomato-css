@@ -244,9 +244,10 @@ function compileProperty(prop, tokens) {
     if (prop === 'light') return `font-weight: 300;`;
     if (prop === 'normal') return `font-weight: normal;`;
 
-    // font size: size xl or size 24px
-    if (prop.startsWith('size ')) {
-        const size = prop.slice(5);
+    // font size: size xl or size 24px or font-size xl
+    if (prop.startsWith('size ') || prop.startsWith('font-size ')) {
+        const start = prop.startsWith('size ') ? 5 : 10;
+        const size = prop.slice(start);
         const fontSize = tokens.fontSize?.[size];
         if (fontSize) {
             return `font-size: ${fontSize[0]};\n  line-height: ${fontSize[1]};`;
