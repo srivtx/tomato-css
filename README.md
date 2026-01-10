@@ -1,5 +1,8 @@
 # 🍅 Tomato CSS
 
+[![npm](https://img.shields.io/npm/v/@srivtx/tomato-css)](https://www.npmjs.com/package/@srivtx/tomato-css)
+[![npm](https://img.shields.io/npm/v/vite-plugin-tomato?label=vite-plugin)](https://www.npmjs.com/package/vite-plugin-tomato)
+
 **The Human-Friendly CSS Preprocessor**
 
 Write CSS like you think. Components, Tailwind colors, and human-readable syntax.

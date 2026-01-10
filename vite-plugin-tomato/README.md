@@ -1,5 +1,7 @@
 # vite-plugin-tomato 🍅
 
+[![npm](https://img.shields.io/npm/v/vite-plugin-tomato)](https://www.npmjs.com/package/vite-plugin-tomato)
+
 Vite plugin for [Tomato CSS](https://github.com/srivtx/tomato-css) - Write human-friendly CSS with automatic scoping.
 
 ## Features
