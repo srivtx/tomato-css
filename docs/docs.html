@@ -4,42 +4,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tomato CSS - Documentation</title>
-    <meta name="description" content="Complete documentation for Tomato CSS - the human-friendly CSS preprocessor.">
+    <title>Tomato - The Human-Friendly CSS Preprocessor</title>
+    <meta name="description"
+        content="Write CSS like you think. Components, Tailwind colors, and human-readable syntax. Fresh styles, no ketchup required.">
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
         rel="stylesheet">
+
+    <!-- PrismJS (Syntax Highlighting) -->
     <link href="https://unpkg.com/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+
+    <!-- AOS Animation -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Three.js Post-Processing -->
+    <script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+    <!-- Vanilla Tilt -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
 
     <style>
         :root {
-            --bg: #09090b;
-            --surface: #121215;
-            --surface-hover: #1c1c20;
-            --border: rgba(255, 255, 255, 0.08);
+            --bg: #050505;
+            /* Darker background for 3D visibility */
+            --surface: rgba(18, 18, 21, 0.6);
+            --surface-hover: rgba(28, 28, 32, 0.8);
+            --border: rgba(255, 255, 255, 0.1);
             --primary: #f43f5e;
             --primary-glow: rgba(244, 63, 94, 0.4);
+            --secondary: #fb923c;
             --text-main: #ededed;
-            --text-muted: #888888;
-            --text-primary: #ffffff;
             --text-secondary: #a1a1aa;
-            --tomato: #f43f5e;
-            --tomato-glow: rgba(244, 63, 94, 0.12);
-            --tomato-light: #fb7185;
-            --bg-surface: rgba(255, 255, 255, 0.03);
-            --bg-card: rgba(255, 255, 255, 0.03);
+            --text-muted: #52525b;
             --font-main: 'Instrument Sans', sans-serif;
             --font-code: 'JetBrains Mono', monospace;
-            --code-bg: #050505;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 5px;
+            border: 2px solid var(--bg);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        ::selection {
+            background: rgba(244, 63, 94, 0.3);
+            color: white;
         }
 
         body {
@@ -49,1132 +92,581 @@
             min-height: 100vh;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
+            transition: background-color 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            /* Smooth Chameleon transition */
         }
 
-        /* Ambient Background Effects */
-        .glow-bg {
+        /* 3D Canvas Container */
+        #canvas-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100vh;
-            /* Multi-layer glowing gradients */
-            background:
-                /* Primary Top Glow */
-                radial-gradient(circle at 50% 0%, rgba(244, 63, 94, 0.15) 0%, transparent 60%),
-                /* Secondary Blue Side Glow */
-                radial-gradient(circle at 85% 30%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
-                /* Subtle Grid Pattern */
-                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-
-            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
-            pointer-events: none;
-            z-index: 0;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 1s ease;
         }
 
-        /* Gradient Animation for Accents (hover only) */
-        @keyframes gradientShift {
-            0% {
-                background-position: 0% 50%;
-            }
-
-            50% {
-                background-position: 100% 50%;
-            }
-
-            100% {
-                background-position: 0% 50%;
-            }
+        #canvas-container.loaded {
+            opacity: 1;
         }
 
-        /* Reading Progress Bar */
-        .progress-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #f43f5e, #fb923c);
-            z-index: 9999;
-            transition: width 0.1s ease;
-            box-shadow: 0 0 10px rgba(244, 63, 94, 0.5);
-        }
-
-        /* Ensure content is above bg */
-        .layout,
-        .hero-section {
+        /* Content Wrapper */
+        .content-wrapper {
             position: relative;
             z-index: 10;
         }
 
-        /* Hero Section */
-        .hero-section {
-            padding: 4rem 0 6rem;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 4rem;
-        }
-
-        /* Nav Header (Mobile only, if needed, or remove) */
-        /* For now, we'll just style the main layout cleanly */
-
-        .logo {
+        /* Nav */
+        nav {
+            position: fixed;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            font-size: 1.1rem;
+            gap: 2rem;
+            background: rgba(10, 10, 12, 0.5);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 0.75rem 2rem;
+            border-radius: 100px;
+            z-index: 100;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
             font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--text-main);
             text-decoration: none;
-            color: var(--text-primary);
             letter-spacing: -0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
         }
 
         .nav-links a {
-            color: var(--text-secondary);
             text-decoration: none;
-            margin-left: 2rem;
+            color: var(--text-secondary);
             font-size: 0.9rem;
             font-weight: 500;
-            transition: color 0.15s;
+            transition: color 0.2s;
         }
 
         .nav-links a:hover {
-            color: var(--text-primary);
+            color: var(--text-main);
         }
 
-        /* Layout - Wider for premium feel */
-        .layout {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            max-width: 1600px;
-            margin: 0 auto;
-            min-height: 100vh;
-        }
-
-        /* PREMIUM SIDEBAR */
-        aside {
-            position: sticky;
-            top: 0;
-            height: 100vh;
-            overflow-y: auto;
-            padding: 0;
-            border-right: 1px solid rgba(255, 255, 255, 0.06);
-            background: #0c0c0f;
-            box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.02);
-        }
-
-        /* HIDE SCROLLBAR */
-        aside::-webkit-scrollbar {
-            display: none;
-        }
-
-        aside {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-
-        /* Logo Section */
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            font-size: 1.25rem;
-            font-weight: 700;
+        .cta-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
             text-decoration: none;
-            color: #ffffff;
-            letter-spacing: -0.025em;
-            padding: 2.25rem 2rem;
-            margin: 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            transition: all 0.2s ease;
-            position: relative;
-        }
-
-        .logo::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 2rem;
-            right: 2rem;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(244, 63, 94, 0.3), transparent);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .logo:hover::after {
-            opacity: 1;
-        }
-
-        .logo:hover {
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        /* Navigation Container */
-        .nav-group {
-            padding: 2rem 0 4rem;
-        }
-
-        /* Section Headers */
-        aside h3 {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.14em;
-            color: #6b7280;
-            padding: 0 2rem;
-            margin: 2.5rem 0 0.75rem;
-            font-weight: 600;
-            position: relative;
-        }
-
-        aside h3:first-child {
-            margin-top: 0;
-        }
-
-        /* Nav Links - Modern & Clean */
-        .nav-link {
-            display: flex;
-            align-items: center;
-            color: #9ca3af;
-            text-decoration: none;
-            padding: 0.7rem 2rem;
-            font-size: 0.9375rem;
-            font-weight: 500;
-            letter-spacing: -0.01em;
-            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-            border-left: 2px solid transparent;
-            position: relative;
-        }
-
-        .nav-link:hover {
-            color: #ffffff;
-            background: rgba(255, 255, 255, 0.04);
-            border-left-color: rgba(244, 63, 94, 0.5);
-        }
-
-        .nav-link.active {
-            color: #ffffff;
-            background: linear-gradient(90deg, rgba(244, 63, 94, 0.12) 0%, transparent 100%);
-            border-left-color: #f43f5e;
-            font-weight: 600;
-        }
-
-        .nav-link.active::before {
-            content: '';
-            position: absolute;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 3px;
-            height: 16px;
-            background: linear-gradient(180deg, #f43f5e, #fb923c);
-            border-radius: 2px 0 0 2px;
-            box-shadow: 0 0 10px rgba(244, 63, 94, 0.5);
-        }
-
-        /* Main Content - More Spacious */
-        main {
-            padding: 5rem 8rem;
-            max-width: 950px;
-        }
-
-        h1 {
-            font-size: 3.75rem;
-            font-weight: 800;
-            letter-spacing: -0.04em;
-            margin-bottom: 1.25rem;
-            line-height: 1;
-            color: #ffffff;
-        }
-
-        h1 span {
-            background: linear-gradient(135deg, #f43f5e 0%, #fb923c 100%);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Hero Section - Enhanced */
-        .hero-section {
-            padding: 3rem 0 5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            margin-bottom: 4rem;
-            position: relative;
-        }
-
-        .hero-section::before {
-            content: '';
-            position: absolute;
-            top: -100px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 600px;
-            height: 400px;
-            background: radial-gradient(ellipse, rgba(244, 63, 94, 0.15) 0%, transparent 60%);
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .hero-section::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 200px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, #f43f5e, transparent);
-        }
-
-        section {
-            margin-bottom: 5rem;
-            scroll-margin-top: 100px;
-        }
-
-        /* Focus States for Accessibility */
-        a:focus-visible,
-        button:focus-visible {
-            outline: 2px solid #f43f5e;
-            outline-offset: 3px;
-            border-radius: 4px;
-        }
-
-        h2 {
-            font-size: 2.25rem;
-            font-weight: 700;
-            letter-spacing: -0.03em;
-            margin-bottom: 2rem;
-            padding-top: 3rem;
-            padding-bottom: 0.75rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
-            color: #ffffff;
-            position: relative;
-        }
-
-        h2::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 70px;
-            height: 2.5px;
-            background: linear-gradient(90deg, #f43f5e, #fb923c, #f43f5e);
-            background-size: 200% 100%;
-            border-radius: 2px;
-            transition: width 0.3s ease;
-        }
-
-        h2:hover::after {
-            width: 120px;
-        }
-
-        h2:first-child {
-            border-top: none;
-            padding-top: 0;
-        }
-
-        /* Premium Link Styling */
-        main a:not(.nav-link):not(.logo) {
-            color: #fb7185;
-            text-decoration: none;
-            position: relative;
-            transition: all 0.2s ease;
-        }
-
-        main a:not(.nav-link):not(.logo)::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background: linear-gradient(90deg, #f43f5e, #fb923c);
-            transition: width 0.3s ease;
-        }
-
-        main a:not(.nav-link):not(.logo):hover {
-            color: #f43f5e;
-            text-shadow: 0 0 20px rgba(244, 63, 94, 0.4);
-        }
-
-        main a:not(.nav-link):not(.logo):hover::after {
-            width: 100%;
-        }
-
-        /* Premium List Styling */
-        ul,
-        ol {
-            margin: 1.5rem 0;
-            padding-left: 0;
-            list-style: none;
-        }
-
-        li {
-            position: relative;
-            padding-left: 1.75rem;
-            margin-bottom: 0.75rem;
-            color: #a1a1aa;
-            line-height: 1.7;
-        }
-
-        ul li::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0.6em;
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #f43f5e, #fb923c);
-            box-shadow: 0 0 8px rgba(244, 63, 94, 0.4);
-        }
-
-        ol {
-            counter-reset: list-counter;
-        }
-
-        ol li::before {
-            content: counter(list-counter);
-            counter-increment: list-counter;
-            position: absolute;
-            left: 0;
-            top: 0;
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: #f43f5e;
-            background: rgba(244, 63, 94, 0.1);
-            width: 1.25rem;
-            height: 1.25rem;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        h3 {
-            font-size: 1.35rem;
-            font-weight: 600;
-            margin: 3rem 0 1.5rem;
-            color: #ffffff;
-            position: relative;
-            padding-left: 1.25rem;
-            transition: all 0.3s ease;
-        }
-
-        h3:hover {
-            color: #fb7185;
-        }
-
-        h3::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 3px;
-            height: 65%;
-            background: linear-gradient(180deg, #f43f5e, #fb923c);
-            border-radius: 2px;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 8px rgba(244, 63, 94, 0.3);
-        }
-
-        h3:hover::before {
-            height: 85%;
-            box-shadow: 0 0 15px rgba(244, 63, 94, 0.6);
-        }
-
-        p {
-            color: #a1a1aa;
-            margin-bottom: 1.75rem;
-            line-height: 1.85;
-            font-size: 1.0625rem;
-            max-width: 68ch;
-        }
-
-        /* CODE BLOCKS - Premium Design */
-        .copy-wrapper {
-            position: relative;
-            margin: 2rem 0;
-        }
-
-        pre[class*="language-"] {
-            background: rgba(8, 8, 10, 0.6) !important;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 1.75rem;
-            overflow-x: auto;
-            margin: 0;
-            font-family: var(--font-code);
+            padding: 0.5rem 1.25rem;
+            border-radius: 100px;
             font-size: 0.9rem;
-            line-height: 1.7;
-            position: relative;
-            box-shadow:
-                0 10px 40px rgba(0, 0, 0, 0.3),
-                0 2px 10px rgba(0, 0, 0, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.05);
-            transition: all 0.2s ease;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        pre[class*="language-"]:hover {
-            box-shadow:
-                0 20px 60px rgba(0, 0, 0, 0.4),
-                0 8px 24px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.08);
-            border-color: rgba(244, 63, 94, 0.2);
+        .cta-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        /* Hero */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 100px 1rem 2rem;
+            pointer-events: none;
+            /* Allow events to pass through to 3D background if needed */
+        }
+
+        .hero * {
+            pointer-events: auto;
+        }
+
+        .hero h1 {
+            font-size: 5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.04em;
+            background: linear-gradient(to bottom right, #fff 30%, #a1a1aa 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 4px 30px rgba(255, 255, 255, 0.1);
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 2.5rem auto;
+            line-height: 1.6;
+        }
+
+        .install-box {
+            background: rgba(10, 10, 12, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            font-family: var(--font-code);
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .install-box:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
             transform: translateY(-2px);
         }
 
-        /* Code Block Language Label */
-        .copy-wrapper[data-lang]::after {
-            content: attr(data-lang);
+        .install-box span {
+            color: var(--text-main);
+        }
+
+        .install-box .prefix {
+            color: var(--border);
+            margin-right: 0.5rem;
+        }
+
+        /* Features Section */
+        .features-section {
+            position: relative;
+            padding: 8rem 0;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-header h2 {
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            margin-bottom: 1rem;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+
+        .feature-card {
+            background: rgba(18, 18, 21, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            padding: 2.5rem;
+            border-radius: 24px;
+            transition: all 0.1s;
+            /* For smooth vanilla-tilt */
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
+            /* Poster Layout */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            min-height: 400px;
+            /* Tall cards */
+        }
+
+        /* Ambient Spotlight Effect */
+        .spotlight-card::before {
+            content: "";
             position: absolute;
             top: 0;
-            right: 3.5rem;
-            background: linear-gradient(135deg, rgba(244, 63, 94, 0.2), rgba(251, 146, 60, 0.15));
-            color: #fb7185;
-            font-size: 0.65rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            padding: 0.35rem 0.75rem;
-            border-radius: 0 0 8px 8px;
-            border: 1px solid rgba(244, 63, 94, 0.2);
-            border-top: none;
-        }
-
-        /* Code block header line decoration */
-        .copy-wrapper {
-            position: relative;
-        }
-
-        .copy-wrapper::before {
-            content: '• • •';
-            position: absolute;
-            top: 12px;
-            left: 18px;
-            font-size: 10px;
-            letter-spacing: 4px;
-            color: rgba(255, 255, 255, 0.15);
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: inherit;
             pointer-events: none;
+            background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y),
+                    rgba(255, 255, 255, 0.08),
+                    transparent 40%);
+            z-index: 3;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .spotlight-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Huge Decorative Number */
+        .card-number {
+            position: absolute;
+            top: -20px;
+            right: 10px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 12rem;
+            font-weight: 700;
+            line-height: 1;
+            z-index: 0;
+            pointer-events: none;
+            transition: all 0.5s ease;
+
+            /* Gradient Fill (Etched Glass Look) */
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.0) 80%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+
+            /* Subtle Volumetric Red Glow */
+            text-shadow: 0 10px 40px rgba(244, 63, 94, 0.0);
+        }
+
+        .feature-card:hover .card-number {
+            transform: translateY(-5px) scale(1.02);
+            /* Glow activates on hover */
+            text-shadow: 0 10px 60px rgba(244, 63, 94, 0.3);
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.0) 80%);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        .feature-card h3 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 3.5rem;
+            /* Massive Title */
+            line-height: 0.9;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            transform: translateZ(20px);
+            letter-spacing: -0.02em;
+            background: linear-gradient(to bottom, #fff, #999);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            /* Fix lint */
+            z-index: 2;
+        }
+
+        /* PRISMATIC SHIMMER EFFECT */
+        /* All cards use Primary Red */
+        .feature-grid .feature-card {
+            --shimmer-color: var(--primary);
+        }
+
+        .feature-card::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 150%;
+            height: 100%;
+            background: linear-gradient(115deg,
+                    transparent 40%,
+                    var(--shimmer-color) 45%,
+                    rgba(255, 255, 255, 0.8) 50%,
+                    /* Bright White Core */
+                    var(--shimmer-color) 55%,
+                    transparent 60%);
+            transform: skewX(-20deg);
+            pointer-events: none;
+            transition: left 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+            opacity: 0.2;
+            /* Subtle but colorful */
+            mix-blend-mode: screen;
+            /* Glowing add-effect */
             z-index: 5;
         }
 
-        /* Syntax Highlighting - Enhanced */
-        pre .keyword {
-            color: #f472b6;
-            font-weight: 600;
+        .feature-card:hover::after {
+            left: 150%;
+            opacity: 0.6;
+            /* Brightens as it moves */
+            transition: left 0.8s ease-in-out;
         }
 
-        pre .property {
-            color: #fbbf24;
+        /* Slight Border Glow on Hover matching the shimmer */
+        .feature-card:hover {
+            border-color: var(--shimmer-color);
+            box-shadow: 0 0 20px var(--shimmer-color);
+            /* Colored Glow */
         }
 
-        pre .value {
-            color: #4ade80;
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            transform: translateZ(10px);
+            font-size: 1.1rem;
+            max-width: 90%;
+            z-index: 2;
         }
 
-        pre .comment {
-            color: #6b7280;
-            font-style: italic;
+        /* Playground */
+        .playground {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem 8rem;
+            position: relative;
         }
 
-        pre .selector {
-            color: #60a5fa;
-            font-weight: 600;
+        .playground-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 3rem;
         }
 
-        pre .string {
-            color: #a78bfa;
-        }
-
-        /* Inline Code - Tomato Theme */
-        code {
-            font-family: var(--font-code);
-            font-size: 0.875em;
-            background: rgba(244, 63, 94, 0.12);
-            border: 1px solid rgba(244, 63, 94, 0.25);
-            padding: 0.25em 0.5em;
-            border-radius: 4px;
-            color: #fb7185;
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
-
-        code:hover {
-            background: rgba(244, 63, 94, 0.18);
-            border-color: rgba(244, 63, 94, 0.4);
-            box-shadow: 0 0 12px rgba(244, 63, 94, 0.3);
-        }
-
-        pre code {
-            background: transparent;
-            border: none;
-            padding: 0;
-            color: inherit;
-        }
-
-        /* Premium Tables */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2.5rem 0;
+        .editor-box {
+            /* CYBER-GLASS STYLE */
+            background: rgba(10, 10, 14, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 10px;
+            /* Subtle glass edge */
+            border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-        }
-
-        th {
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
-            font-size: 0.6875rem;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: #a1a1aa;
-            font-weight: 700;
-            padding: 1.125rem 1.5rem;
-            text-align: left;
-            border-bottom: 1px solid rgba(244, 63, 94, 0.2);
-        }
-
-        td {
-            padding: 1.125rem 1.5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-            color: #d4d4d8;
-            font-size: 0.9375rem;
-        }
-
-        tr:last-child td {
-            border-bottom: none;
-        }
-
-        tr:hover td {
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        tr {
-            transition: all 0.2s ease;
-            position: relative;
-        }
-
-        tr:hover {
-            background: rgba(244, 63, 94, 0.03);
-        }
-
-        tr:hover td:first-child {
-            box-shadow: inset 3px 0 0 #f43f5e;
-        }
-
-        td:first-child code {
-            color: #fb7185;
-            background: rgba(244, 63, 94, 0.12);
-            border-color: rgba(244, 63, 94, 0.25);
-        }
-
-        /* Copy Button - Premium */
-        .copy-btn {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 6px;
-            color: #9ca3af;
-            padding: 0.5rem 0.75rem;
-            cursor: pointer;
-            opacity: 0.7;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            font-size: 0.8rem;
-            font-weight: 500;
             display: flex;
+            flex-direction: column;
+            min-height: 500px;
+            box-shadow: 0 0 0 1px rgba(0, 0, 0, 0), 0 20px 40px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        /* Glowing Border Animation on Focus */
+        .editor-box:focus-within {
+            border-color: rgba(244, 63, 94, 0.5);
+            /* Primary Red */
+            box-shadow: 0 0 30px rgba(244, 63, 94, 0.15);
+        }
+
+        .editor-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            /* Softer divider */
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.03), transparent);
+            font-family: var(--font-code);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 0.5rem;
         }
 
-        .copy-btn:hover {
-            opacity: 1;
-            background: rgba(244, 63, 94, 0.15);
-            color: #f43f5e;
-            border-color: rgba(244, 63, 94, 0.3);
-            transform: translateY(-1px);
-        }
-
-        /* Table Polish */
-        tr {
-            transition: background 0.2s;
-        }
-
-        tr:hover {
-            background: rgba(255, 255, 255, 0.03);
-        }
-
-        .nav-link {
+        textarea,
+        pre#css-output {
+            flex: 1;
+            background: transparent !important;
+            /* Ensure transparency */
+            border: none;
+            padding: 1.5rem;
+            color: #e2e8f0;
+            /* Light Slate */
+            font-family: 'JetBrains Mono', monospace;
+            /* Tech Font */
             font-size: 0.95rem;
-            letter-spacing: -0.01em;
+            line-height: 1.7;
+            resize: none;
+            outline: none;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
         }
 
-        ::selection {
-            background: rgba(244, 63, 94, 0.3);
-            color: white;
+        textarea::-webkit-scrollbar,
+        pre#css-output::-webkit-scrollbar {
+            display: none;
         }
 
-        /* Active State Polish */
-        .nav-link {
-            border-left: 2px solid transparent;
-            border-radius: 0 6px 6px 0;
-            margin-bottom: 4px;
+        /* Neon Keywords Overrides (PrismJS specific can be added later, here generic) */
+
+        /* Footer */
+        /* Footer */
+        /* Footer */
+        footer {
+            border-top: 1px solid rgba(244, 63, 94, 0.3);
+            /* Crisp, refined border */
+            box-shadow: 0 -10px 60px rgba(244, 63, 94, 0.15);
+            /* Smooth Upward Glow */
+            padding: 8rem 2rem 4rem;
+            /* Taller padding */
+            text-align: center;
+            position: relative;
+            background: linear-gradient(to bottom, #000000 0%, #1a0303 100%);
+            /* Smoother deep gradient */
+            overflow: hidden;
+            /* For watermark */
         }
 
-        .nav-link:hover {
-            background: rgba(255, 255, 255, 0.03);
-            color: white;
+        /* Giant Watermark */
+        footer::before {
+            content: "TOMATO";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Oswald', sans-serif;
+            font-size: 25vw;
+            /* Massive */
+            font-weight: 800;
+            background: linear-gradient(to bottom, rgba(244, 63, 94, 0.08), transparent);
+            /* Subtle yet visible */
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            /* Red Gradient text */
+            pointer-events: none;
+            z-index: 0;
+            letter-spacing: -0.05em;
         }
 
-        .nav-link.active {
-            color: #ffffff;
-            background: rgba(255, 255, 255, 0.08);
-            border-left-color: transparent;
+        footer p {
+            position: relative;
+            z-index: 2;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Monumental Links */
+        footer a {
+            position: relative;
+            z-index: 2;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin: 0 1rem;
+            padding: 0.5rem 1.5rem;
+            border-radius: 100px;
             font-weight: 500;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(244, 63, 94, 0.1);
+            /* Subtle Red Border */
+            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            display: inline-block;
         }
 
-        /* Premium Callouts */
-        .tip,
-        .warning {
-            padding: 1.75rem 2rem;
-            border-radius: 12px;
-            margin: 2.5rem 0;
-            font-size: 0.95rem;
-            line-height: 1.7;
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow:
-                0 6px 20px rgba(0, 0, 0, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.05);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .tip:hover,
-        .warning:hover {
+        footer a:hover {
+            color: white;
+            background: rgba(244, 63, 94, 0.2);
             transform: translateY(-2px);
-            box-shadow:
-                0 10px 30px rgba(0, 0, 0, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            border-color: rgba(244, 63, 94, 0.5);
+            box-shadow: 0 5px 20px rgba(244, 63, 94, 0.3);
         }
 
-        .tip {
-            background: linear-gradient(135deg, rgba(74, 222, 128, 0.08) 0%, rgba(74, 222, 128, 0.02) 100%);
-            border-left: 4px solid #4ade80;
-            color: #d1fae5;
-            padding-left: 4rem;
-            position: relative;
-        }
-
-        .tip::before {
-            content: '';
-            position: absolute;
-            left: 1.25rem;
-            top: 1.75rem;
-            width: 22px;
-            height: 22px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234ade80' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5'/%3E%3Cpath d='M9 18h6'/%3E%3Cpath d='M10 22h4'/%3E%3C/svg%3E");
-            background-size: contain;
-            background-repeat: no-repeat;
-        }
-
-        .warning {
-            background: linear-gradient(135deg, rgba(251, 146, 60, 0.08) 0%, rgba(251, 146, 60, 0.02) 100%);
-            border-left: 4px solid #fb923c;
-            color: #fed7aa;
-            padding-left: 4rem;
-            position: relative;
-        }
-
-        .warning::before {
-            content: '';
-            position: absolute;
-            left: 1.25rem;
-            top: 1.75rem;
-            width: 22px;
-            height: 22px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fb923c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z'/%3E%3Cpath d='M12 9v4'/%3E%3Cpath d='M12 17h.01'/%3E%3C/svg%3E");
-            background-size: contain;
-            background-repeat: no-repeat;
-        }
-
-        /* Info Callout - Blue theme */
-        .info {
-            padding: 1.75rem 2rem;
-            border-radius: 12px;
-            margin: 2.5rem 0;
-            font-size: 0.95rem;
-            line-height: 1.7;
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow:
-                0 6px 20px rgba(0, 0, 0, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.05);
-            transition: transform 0.2s, box-shadow 0.2s;
-            background: linear-gradient(135deg, rgba(96, 165, 250, 0.08) 0%, rgba(96, 165, 250, 0.02) 100%);
-            border-left: 4px solid #60a5fa;
-            color: #bfdbfe;
-            padding-left: 4rem;
-            position: relative;
-        }
-
-        .info:hover {
-            transform: translateY(-2px);
-            box-shadow:
-                0 10px 30px rgba(0, 0, 0, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.08);
-        }
-
-        .info::before {
-            content: '';
-            position: absolute;
-            left: 1.25rem;
-            top: 1.75rem;
-            width: 22px;
-            height: 22px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2360a5fa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M12 16v-4'/%3E%3Cpath d='M12 8h.01'/%3E%3C/svg%3E");
-            background-size: contain;
-            background-repeat: no-repeat;
-        }
-
-        /* Note Callout - Purple/Violet theme */
-        .note {
-            padding: 1.75rem 2rem;
-            border-radius: 12px;
-            margin: 2.5rem 0;
-            font-size: 0.95rem;
-            line-height: 1.7;
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow:
-                0 6px 20px rgba(0, 0, 0, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.05);
-            transition: transform 0.2s, box-shadow 0.2s;
-            background: linear-gradient(135deg, rgba(167, 139, 250, 0.08) 0%, rgba(167, 139, 250, 0.02) 100%);
-            border-left: 4px solid #a78bfa;
-            color: #ddd6fe;
-            padding-left: 4rem;
-            position: relative;
-        }
-
-        .note:hover {
-            transform: translateY(-2px);
-            box-shadow:
-                0 10px 30px rgba(0, 0, 0, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.08);
-        }
-
-        .note::before {
-            content: '';
-            position: absolute;
-            left: 1.25rem;
-            top: 1.75rem;
-            width: 22px;
-            height: 22px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a78bfa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z'/%3E%3C/svg%3E");
-            background-size: contain;
-            background-repeat: no-repeat;
-        }
-
-        /* Typography Polish */
-        h1,
-        h2,
-        h3 {
-            letter-spacing: -0.02em;
-        }
-
-        /* Smooth Scroll */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Premium Scrollbar */
-        ::-webkit-scrollbar {
-            width: 12px;
-            height: 12px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #f43f5e, #fb923c);
-            border-radius: 10px;
-            border: 2px solid #09090b;
-            transition: background 0.2s;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(180deg, #fb7185, #fbbf24);
-        }
-
-        /* Selection */
-        ::selection {
-            background: rgba(244, 63, 94, 0.3);
-            color: #ffffff;
-        }
-
-        ::-moz-selection {
-            background: rgba(244, 63, 94, 0.3);
-            color: #ffffff;
-        }
-
-        @media (max-width: 900px) {
-            .layout {
-                grid-template-columns: 1fr;
-            }
-
-            aside {
-                display: none;
-            }
-
-            main {
-                padding: 2rem 1.5rem;
-            }
-
-            h1 {
-                font-size: 2.25rem;
-            }
+        /* Cinematic Grain Overlay */
+        .grain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.5'/%3E%3C/svg%3E");
+            mix-blend-mode: overlay;
         }
     </style>
 </head>
 
 <body>
-    <!-- Reading Progress Bar -->
-    <div class="progress-bar" id="progressBar"></div>
+    <div id="canvas-container"></div>
 
-    <div class="glow-bg"></div>
+    <div class="content-wrapper">
+        <nav>
+            <a href="#" class="logo">🍅 Tomato</a>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="docs.html">Documentation</a>
+                <a href="https://github.com/srivtx/tomato-css">GitHub</a>
+            </div>
+            <a href="docs.html#installation" class="cta-btn">Get Started</a>
+        </nav>
 
-    <div class="layout">
-        <aside>
-            <a href="index.html" class="logo">🍅 Tomato CSS</a>
+        <section class="hero" data-aos="fade-up" data-bg-color="#050505">
+            <h1>Write CSS like<br>you <span>think</span>.</h1>
+            <p>A human-friendly preprocessor that actually makes sense. Compile semantic, reusable components into
+                optimized CSS.</p>
 
-            <nav class="nav-group">
-                <h3>Getting Started</h3>
-                <a href="#installation" class="nav-link">Installation</a>
-                <a href="#first-file" class="nav-link">Your First .tom File</a>
-                <a href="#cli" class="nav-link">CLI Usage</a>
+            <div class="install-box" onclick="copyInstall()">
+                <span class="prefix">$</span>
+                <span>npx @srivtx/tomato-css app.tom</span>
+            </div>
+        </section>
 
-                <h3>Integrations</h3>
-                <a href="#vite-plugin" class="nav-link">Vite Plugin</a>
+        <!-- Spacer for scrolling effect -->
+        <div style="height: 20vh;"></div>
 
-                <h3>Syntax</h3>
-                <a href="#selectors" class="nav-link">Selectors</a>
-                <a href="#components" class="nav-link">Components</a>
-                <a href="#pseudo-states" class="nav-link">Pseudo States</a>
-                <a href="#responsive" class="nav-link">Responsive Design</a>
-                <a href="#tokens" class="nav-link">Custom Tokens</a>
+        <section id="features" class="features-section" data-bg-color="#0f172a">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Fresh Features</h2>
+                <p style="color: var(--text-secondary)">Built for developers who love clean styling.</p>
+            </div>
 
-                <h3>Reference</h3>
-                <a href="#colors" class="nav-link">Colors</a>
-                <a href="#all-properties" class="nav-link">All Properties</a>
-            </nav>
-        </aside>
-
-        <main>
-            <header class="hero-section" data-aos="fade-down">
-                <h1>🍅 <span>Tomato</span> CSS</h1>
-                <p class="subtitle">The human-friendly CSS preprocessor. Write styles like you think.</p>
-            </header>
-
-            <section id="installation" data-aos="fade-up">
-                <h2>Installation</h2>
-
-                <h3>Global Install (Recommended)</h3>
-                <div class="copy-wrapper" data-lang="bash">
-                    <pre><code class="language-bash">$ npm install -g @srivtx/tomato-css
-$ tomato app.tom -o styles.css</code></pre>
+            <div class="feature-grid">
+                <div class="feature-card spotlight-card" data-tilt data-tilt-glare data-tilt-max-glare="0.5"
+                    data-aos="fade-up" data-aos-delay="100">
+                    <div class="card-number">01</div>
+                    <h3>Smart<br>Components</h3>
+                    <p>Define reusable style groups with <code>component btn:</code> and use them anywhere.</p>
                 </div>
-
-                <h3>Project Install</h3>
-                <div class="copy-wrapper" data-lang="bash">
-                    <pre><code class="language-bash">$ npm install @srivtx/tomato-css
-$ npx tomato app.tom</code></pre>
+                <div class="feature-card spotlight-card" data-tilt data-tilt-glare data-tilt-max-glare="0.5"
+                    data-aos="fade-up" data-aos-delay="200">
+                    <div class="card-number">02</div>
+                    <h3>Native<br>Colors</h3>
+                    <p>Full Tailwind palette built-in. Just use <code>rose-500</code>, <code>bg slate-900</code>
+                        directly.</p>
                 </div>
-
-                <p>Or add to package.json:</p>
-                <div class="copy-wrapper" data-lang="json">
-                    <pre><code class="language-json">{
-  "scripts": {
-    "build": "tomato src/app.tom -o dist/styles.css",
-    "watch": "tomato --watch src/app.tom -o dist/styles.css"
-  }
-}</code></pre>
+                <div class="feature-card spotlight-card" data-tilt data-tilt-glare data-tilt-max-glare="0.5"
+                    data-aos="fade-up" data-aos-delay="300">
+                    <div class="card-number">03</div>
+                    <h3>Human<br>Syntax</h3>
+                    <p>No colons. No semicolons. Just pure readable logic like <code>pad 4</code>,
+                        <code>round lg</code>.
+                    </p>
                 </div>
+            </div>
+        </section>
 
-                <h3>No Install (npx)</h3>
-                <div class="copy-wrapper" data-lang="bash">
-                    <pre><code class="language-bash">$ npx @srivtx/tomato-css app.tom</code></pre>
-                </div>
-            </section>
+        <section class="playground" data-bg-color="#1e1b4b">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Try it Live</h2>
+            </div>
 
-            <section id="first-file" data-aos="fade-up">
-                <h2>Your First .tom File</h2>
-                <p>Create a file called <code>styles.tom</code>:</p>
-                <div class="copy-wrapper" data-lang="tomato">
-                    <pre><code class="language-yaml">button:
-  bg blue-500
-  color white
-  pad 2 4
-  round lg
-  pointer
-  smooth</code></pre>
-                </div>
-                <p>Compile it:</p>
-                <div class="copy-wrapper" data-lang="bash">
-                    <pre><code class="language-bash">$ tomato styles.tom -o styles.css</code></pre>
-                </div>
-            </section>
-
-            <section id="cli" data-aos="fade-up">
-                <h2>CLI Usage</h2>
-                <div class="copy-wrapper" data-lang="bash">
-                    <pre><code class="language-bash">$ tomato &lt;input.tom&gt; [-o output.css]
-$ tomato --watch &lt;input.tom&gt; [-o output.css]</code></pre>
-                </div>
-                <table>
-                    <tr>
-                        <td><code>tomato app.tom</code></td>
-                        <td>Compile to app.css</td>
-                    </tr>
-                    <tr>
-                        <td><code>tomato app.tom -o styles.css</code></td>
-                        <td>Custom output file</td>
-                    </tr>
-                    <tr>
-                        <td><code>tomato --watch app.tom</code></td>
-                        <td>Watch mode</td>
-                    </tr>
-                </table>
-            </section>
-
-            <section id="vite-plugin" data-aos="fade-up">
-                <h2>Vite Plugin</h2>
-                <p>Use Tomato CSS in React, Vue, or Svelte with <strong>automatic scoped styles</strong>.</p>
-
-                <h3>Installation</h3>
-                <div class="copy-wrapper" data-lang="bash">
-                    <pre><code class="language-bash">npm install vite-plugin-tomato @srivtx/tomato-css</code></pre>
-                </div>
-
-                <h3>Setup</h3>
-                <div class="copy-wrapper" data-lang="js">
-                    <pre><code class="language-javascript">// vite.config.js
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import tomato from 'vite-plugin-tomato';
-
-export default defineConfig({
-  plugins: [react(), tomato()]
-});</code></pre>
-                </div>
-
-                <h3>Usage</h3>
-                <p>Create a <code>.tom</code> file for your component:</p>
-                <div class="copy-wrapper" data-lang="tom">
-                    <pre><code class="language-yaml"># Button.tom
-.btn:
-  bg blue-500
-  text white
-  pad 2 4
-  round lg
-  
-  hover:
-    bg blue-600</code></pre>
-                </div>
-
-                <p>Import and wrap your component with <code>withTomato()</code>:</p>
-                <div class="copy-wrapper" data-lang="jsx">
-                    <pre><code class="language-jsx">// Button.jsx
-import { withTomato } from './Button.tom';
-
-function Button({ children }) {
-  return &lt;button className="btn"&gt;{children}&lt;/button&gt;;
-}
-
-export default withTomato(Button);</code></pre>
-                </div>
-
-                <h3>How Scoping Works</h3>
-                <p>Styles are automatically scoped to your component. Two components can use the same class name without
-                    conflicts!</p>
-                <div class="tip">
-                    <strong>💡 Tip:</strong> The <code>withTomato()</code> HOC wraps your component with a
-                    <code>data-tom</code> attribute that scopes all styles to that component.
-                </div>
-            </section>
-
-            <section id="selectors" data-aos="fade-up">
-                <h2>Selectors</h2>
-                <h3>HTML Elements</h3>
-                <div class="copy-wrapper">
-                    <pre><code class="language-yaml">button:
-  bg blue-500
-
-nav:
-  row spread
-
-input:
-  pad 2 4</code></pre>
-                </div>
-
-                <h3>Classes</h3>
-                <div class="copy-wrapper">
-                    <pre><code class="language-yaml">.btn-primary:
-  bg blue-500
-  color white
-
-.card:
-  bg white
-  round xl
-  shadow lg
-
-.hero-title:
-  size 4xl
-  bold</code></pre>
-                </div>
-
-                <h3>IDs</h3>
-                <div class="copy-wrapper">
-                    <pre><code class="language-yaml">#header:
-  bg slate-900
-  pad 4 6
-
-#main-content:
-  pad 8</code></pre>
-                </div>
-
-                <h3>Auto-Class Conversion</h3>
-                <p>Names that aren't HTML elements become classes automatically:</p>
-                <div class="copy-wrapper">
-                    <pre><code class="language-yaml">// These are equivalent:
-card:           // → .card { }
-.card:          // → .card { }
-
-// But these stay as elements:
-button:         // → button { }
-nav:            // → nav { }</code></pre>
-                </div>
-                <div class="tip">HTML elements like button, nav, div, header, footer, etc. stay as element selectors.
-                    Everything else becomes a class.</div>
-            </section>
-
-            <section id="components" data-aos="fade-up">
-                <h2>Components</h2>
-                <p>Define reusable style groups with <code>component name:</code> and use them with
-                    <code>use name</code>.
-                </p>
-
-                <h3>Basic Components</h3>
-                <div class="copy-wrapper">
-                    <pre><code class="language-yaml">component btn:
+            <div class="playground-grid">
+                <!-- INPUT -->
+                <div class="editor-box" data-aos="fade-right">
+                    <div class="editor-header">
+                        <span>app.tom</span>
+                        <span>Tomato CSS</span>
+                    </div>
+                    <textarea id="tomato-input" spellcheck="false">component btn:
   pad 2 4
   round lg
   bold
@@ -1182,439 +674,240 @@ nav:            // → nav { }</code></pre>
   smooth
   no border
 
-button:
+.primary-btn:
   use btn
-  bg blue-500
+  bg rose-500
   color white
+  shadow lg
 
-.btn-secondary:
-  use btn
-  bg violet-500
-  color white
-
-.btn-outline:
-  use btn
-  bg transparent
-  color blue-500
-  border 2px solid blue-500</code></pre>
+.primary-btn:hover:
+  bg rose-600
+  shadow xl
+</textarea>
                 </div>
 
-                <h3>Nested Components</h3>
-                <div class="copy-wrapper">
-                    <pre><code class="language-yaml">component base-input:
-  pad 3 4
-  round md
-  border 1px solid slate-300
-  smooth
-
-component focus-ring:
-  use base-input
-  
-  focus:
-    ring 2px solid blue-400
-    border-color blue-500
-
-input:
-  use focus-ring
-  w-full</code></pre>
+                <!-- OUTPUT -->
+                <div class="editor-box" data-aos="fade-left">
+                    <div class="editor-header">
+                        <span>output.css</span>
+                        <span id="copy-css-btn" style="cursor: pointer; color: var(--primary); font-weight: 500;"
+                            onclick="copyCSS()">Copy CSS</span>
+                    </div>
+                    <pre id="css-output"></pre>
                 </div>
-                <div class="tip">When you <code>use</code> a component, all its properties are expanded inline. This
-                    means you can override them by adding your own after!</div>
+            </div>
+        </section>
 
-                <h3>Card Components</h3>
-                <div class="copy-wrapper">
-                    <pre><code class="language-yaml">component card:
-  bg white
-  round xl
-  shadow md
-  pad 6
-  smooth
-  
-  hover:
-    shadow lg
-    transform translateY(-2px)
-
-.product-card:
-  use card
-  column
-  gap 4
-
-.profile-card:
-  use card
-  center all
-  pad 8</code></pre>
-                </div>
-
-                <h3>Form Input Components</h3>
-                <div class="copy-wrapper">
-                    <pre><code class="language-yaml">component input-base:
-  w-full
-  pad 3 4
-  round lg
-  border 1px solid slate-200
-  bg white
-  smooth
-  
-  focus:
-    border-color blue-500
-    ring 2px solid blue-100
-    no outline
-
-input:
-  use input-base
-
-textarea:
-  use input-base
-  min-height 120px
-  resize vertical
-
-select:
-  use input-base
-  pointer</code></pre>
-                </div>
-
-                <h3>Layout Components</h3>
-                <div class="copy-wrapper">
-                    <pre><code class="language-yaml">component container:
-  max-width 1200px
-  margin 0 auto
-  pad 4 6
-
-component stack:
-  column
-  gap 4
-
-component row-layout:
-  row
-  gap 4
-  align-items center
-
-.page:
-  use container
-  use stack
-  gap 8
-
-.toolbar:
-  use row-layout
-  row spread
-  pad 4
-  bg slate-50</code></pre>
-                </div>
-                <div class="warning">You can use multiple components with multiple <code>use</code> statements!
-                    Properties are applied in order, so later ones override earlier ones.</div>
-            </section>
-
-            <section id="pseudo-states" data-aos="fade-up">
-                <h2>Pseudo States</h2>
-                <div class="copy-wrapper">
-                    <pre><code class="language-yaml">button:
-  bg blue-500
-  color white
-  smooth
-  
-  hover:
-    bg blue-600
-    shadow lg
-  
-  focus:
-    ring 2px solid blue-400
-    no outline
-  
-  active:
-    bg blue-700
-  
-  disabled:
-    opacity 0.5
-    cursor not-allowed</code></pre>
-                </div>
-            </section>
-
-            <section id="responsive" data-aos="fade-up">
-                <h2>Responsive Design</h2>
-                <div class="copy-wrapper">
-                    <pre><code class="language-yaml">hero:
-  pad 16
-  grid 3
-  gap 6
-  
-  @mobile:
-    pad 4
-    grid 1
-  
-  @tablet:
-    grid 2</code></pre>
-                </div>
-
-                <table>
-                    <tr>
-                        <th>Query</th>
-                        <th>Breakpoint</th>
-                    </tr>
-                    <tr>
-                        <td><code>@mobile:</code></td>
-                        <td>max-width: 640px</td>
-                    </tr>
-                    <tr>
-                        <td><code>@tablet:</code></td>
-                        <td>max-width: 768px</td>
-                    </tr>
-                    <tr>
-                        <td><code>@laptop:</code></td>
-                        <td>max-width: 1024px</td>
-                    </tr>
-                    <tr>
-                        <td><code>@desktop:</code></td>
-                        <td>max-width: 1280px</td>
-                    </tr>
-                </table>
-            </section>
-
-            <section id="tokens" data-aos="fade-up">
-                <h2>Custom Tokens</h2>
-                <div class="copy-wrapper">
-                    <pre><code class="language-yaml">colors:
-  primary blue-500
-  secondary violet-500
-  dark slate-900
-  light slate-50
-  muted slate-400
-  danger red-500
-  success green-500
-
-button:
-  bg primary
-  color light
-
-.alert-danger:
-  bg danger
-  color white</code></pre>
-                </div>
-            </section>
-
-            <section id="colors" data-aos="fade-up">
-                <h2>Color Reference</h2>
-                <div class="copy-wrapper">
-                    <pre><code class="language-yaml">// 22 color scales built-in (Tailwind):
-slate, gray, zinc, neutral, stone
-red, orange, amber, yellow, lime
-green, emerald, teal, cyan, sky
-blue, indigo, violet, purple
-fuchsia, pink, rose
-
-// Usage:
-bg rose-500
-color slate-900
-border 1px solid blue-300</code></pre>
-                </div>
-            </section>
-
-            <section id="all-properties" data-aos="fade-up">
-                <h2>All Properties</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Tomato</th>
-                            <th>CSS Output</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code>bg blue-500</code></td>
-                            <td>background: #3b82f6</td>
-                        </tr>
-                        <tr>
-                            <td><code>color white</code></td>
-                            <td>color: #ffffff</td>
-                        </tr>
-                        <tr>
-                            <td><code>pad 2 4</code></td>
-                            <td>padding: 0.5rem 1rem</td>
-                        </tr>
-                        <tr>
-                            <td><code>margin 4</code></td>
-                            <td>margin: 1rem</td>
-                        </tr>
-                        <tr>
-                            <td><code>round lg</code></td>
-                            <td>border-radius: 0.5rem</td>
-                        </tr>
-                        <tr>
-                            <td><code>round full</code></td>
-                            <td>border-radius: 9999px</td>
-                        </tr>
-                        <tr>
-                            <td><code>shadow md</code></td>
-                            <td>box-shadow: ...</td>
-                        </tr>
-                        <tr>
-                            <td><code>bold</code></td>
-                            <td>font-weight: bold</td>
-                        </tr>
-                        <tr>
-                            <td><code>semibold</code></td>
-                            <td>font-weight: 600</td>
-                        </tr>
-                        <tr>
-                            <td><code>italic</code></td>
-                            <td>font-style: italic</td>
-                        </tr>
-                        <tr>
-                            <td><code>uppercase</code></td>
-                            <td>text-transform: uppercase</td>
-                        </tr>
-                        <tr>
-                            <td><code>underline</code></td>
-                            <td>text-decoration: underline</td>
-                        </tr>
-                        <tr>
-                            <td><code>pointer</code></td>
-                            <td>cursor: pointer</td>
-                        </tr>
-                        <tr>
-                            <td><code>smooth</code></td>
-                            <td>transition: all 0.2s ease</td>
-                        </tr>
-                        <tr>
-                            <td><code>no border</code></td>
-                            <td>border: none</td>
-                        </tr>
-                        <tr>
-                            <td><code>no outline</code></td>
-                            <td>outline: none</td>
-                        </tr>
-                        <tr>
-                            <td><code>row</code></td>
-                            <td>display: flex; flex-direction: row</td>
-                        </tr>
-                        <tr>
-                            <td><code>row spread</code></td>
-                            <td>...justify-content: space-between</td>
-                        </tr>
-                        <tr>
-                            <td><code>row center</code></td>
-                            <td>...justify-content: center</td>
-                        </tr>
-                        <tr>
-                            <td><code>column</code></td>
-                            <td>display: flex; flex-direction: column</td>
-                        </tr>
-                        <tr>
-                            <td><code>center all</code></td>
-                            <td>...justify-content: center; align-items: center</td>
-                        </tr>
-                        <tr>
-                            <td><code>grid 3</code></td>
-                            <td>display: grid; grid-template-columns: repeat(3, 1fr)</td>
-                        </tr>
-                        <tr>
-                            <td><code>gap 4</code></td>
-                            <td>gap: 1rem</td>
-                        </tr>
-                        <tr>
-                            <td><code>w-full</code></td>
-                            <td>width: 100%</td>
-                        </tr>
-                        <tr>
-                            <td><code>h-screen</code></td>
-                            <td>height: 100vh</td>
-                        </tr>
-                        <tr>
-                            <td><code>relative</code></td>
-                            <td>position: relative</td>
-                        </tr>
-                        <tr>
-                            <td><code>absolute</code></td>
-                            <td>position: absolute</td>
-                        </tr>
-                        <tr>
-                            <td><code>fixed</code></td>
-                            <td>position: fixed</td>
-                        </tr>
-                        <tr>
-                            <td><code>hidden</code></td>
-                            <td>display: none</td>
-                        </tr>
-                        <tr>
-                            <td><code>overflow hidden</code></td>
-                            <td>overflow: hidden</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
-        </main>
+        <footer>
+            <p>Made with 🍅 by srivtx</p>
+            <br>
+            <a href="https://github.com/srivtx/tomato-css">GitHub</a>
+            <a href="docs.html">Docs</a>
+        </footer>
     </div>
 
     <!-- Scripts -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://unpkg.com/prismjs@1.29.0/prism.js"></script>
-    <script src="https://unpkg.com/prismjs@1.29.0/components/prism-bash.min.js"></script>
-    <script src="https://unpkg.com/prismjs@1.29.0/components/prism-yaml.min.js"></script>
-    <script src="https://unpkg.com/prismjs@1.29.0/components/prism-json.min.js"></script>
+
+    <script src="js/three-scene.js"></script>
 
     <script>
-        // Initialize Animate On Scroll
-        AOS.init({
-            duration: 800,
-            once: true,
-            offset: 100
-        });
-        // Copy Button Logic (Updated)
-        document.querySelectorAll('.copy-wrapper').forEach(wrapper => {
-            const btn = document.createElement('button');
-            btn.className = 'copy-btn';
-            // SVG Icon (Clipboard)
-            btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
+        AOS.init({ duration: 800, once: true });
 
-            btn.addEventListener('click', () => {
-                const code = wrapper.querySelector('code').innerText;
-                navigator.clipboard.writeText(code);
-
-                // SVG Icon (Check)
-                btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
-                btn.style.borderColor = 'rgba(74, 222, 128, 0.3)';
-
-                setTimeout(() => {
-                    btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
-                    btn.style.borderColor = '';
-                }, 2000);
-            });
-
-            wrapper.appendChild(btn);
+        // Vanilla Tilt Init
+        VanillaTilt.init(document.querySelectorAll(".feature-card"), {
+            max: 15,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.2
         });
 
-        // ScrollSpy (Refined)
+        // Chameleon Background Logic
+        const sections = document.querySelectorAll('[data-bg-color]');
         const observerOptions = {
             root: null,
-            rootMargin: '-100px 0px -70% 0px', // Better active state triggering
-            threshold: 0
+            threshold: 0.4, // Trigger when 40% of section is visible
+            rootMargin: "0px"
         };
 
-        const observer = new IntersectionObserver(entries => {
+        const bgObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    const id = entry.target.getAttribute('id');
-                    document.querySelectorAll('.nav-link').forEach(link => {
-                        link.classList.remove('active');
-                        if (link.getAttribute('href') === `#${id}`) {
-                            link.classList.add('active');
-                        }
-                    });
+                    const color = entry.target.getAttribute('data-bg-color');
+                    document.body.style.backgroundColor = color;
                 }
             });
         }, observerOptions);
 
-        document.querySelectorAll('section[id]').forEach(section => {
-            observer.observe(section);
+        sections.forEach(section => {
+            bgObserver.observe(section);
         });
 
-        // Reading Progress Bar
-        const progressBar = document.getElementById('progressBar');
-        window.addEventListener('scroll', () => {
-            const scrollTop = window.scrollY;
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const progress = (scrollTop / docHeight) * 100;
-            progressBar.style.width = progress + '%';
+
+
+
+
+        // Spotlight Effect Logic
+        document.addEventListener('mousemove', e => {
+            const cards = document.querySelectorAll('.spotlight-card');
+            for (const card of cards) {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            }
         });
+
+        // Tomato Compiler Logic (Same as before)
+        const COLORS = { 'slate-50': '#f8fafc', 'slate-100': '#f1f5f9', 'slate-200': '#e2e8f0', 'slate-300': '#cbd5e1', 'slate-400': '#94a3b8', 'slate-500': '#64748b', 'slate-600': '#475569', 'slate-700': '#334155', 'slate-800': '#1e293b', 'slate-900': '#0f172a', 'slate-950': '#020617', 'red-50': '#fef2f2', 'red-500': '#ef4444', 'red-600': '#dc2626', 'orange-50': '#fff7ed', 'orange-500': '#f97316', 'orange-600': '#ea580c', 'blue-50': '#eff6ff', 'blue-500': '#3b82f6', 'blue-600': '#2563eb', 'green-50': '#f0fdf4', 'green-500': '#22c55e', 'green-600': '#16a34a', 'purple-50': '#faf5ff', 'purple-500': '#a855f7', 'purple-600': '#9333ea', 'violet-50': '#f5f3ff', 'violet-500': '#8b5cf6', 'violet-600': '#7c3aed', 'pink-50': '#fdf2f8', 'pink-500': '#ec4899', 'pink-600': '#db2777', 'rose-50': '#fff1f2', 'rose-500': '#f43f5e', 'rose-600': '#e11d48', 'white': '#ffffff', 'black': '#000000', 'transparent': 'transparent' };
+        const SPACING = { '0': '0', '1': '0.25rem', '2': '0.5rem', '3': '0.75rem', '4': '1rem', '5': '1.25rem', '6': '1.5rem', '8': '2rem', '10': '2.5rem', '12': '3rem', '16': '4rem' };
+        const RADIUS = { 'sm': '0.125rem', 'md': '0.375rem', 'lg': '0.5rem', 'xl': '0.75rem', '2xl': '1rem', 'full': '9999px' };
+        const SHADOWS = { 'sm': '0 1px 2px rgba(0,0,0,0.05)', 'md': '0 4px 6px rgba(0,0,0,0.1)', 'lg': '0 10px 15px rgba(0,0,0,0.1)', 'xl': '0 20px 25px rgba(0,0,0,0.1)' };
+
+        function compile(source) {
+            const lines = source.split('\n');
+            const components = {};
+            const styles = {};
+            let currentComponent = null;
+            let currentSelector = null;
+            let currentNested = null;
+
+            for (const line of lines) {
+                const trimmed = line.trim();
+                if (!trimmed || trimmed.startsWith('#') || trimmed.startsWith('//')) continue;
+                const indent = line.search(/\S/);
+
+                if (indent === 0 && /^component\s+[\w-]+:$/.test(trimmed)) {
+                    const name = trimmed.match(/^component\s+([\w-]+):$/)[1];
+                    currentComponent = name;
+                    components[name] = [];
+                    currentSelector = null;
+                    continue;
+                }
+
+                if (indent === 0 && /^[.#]?[\w-]+:$/.test(trimmed)) {
+                    currentSelector = trimmed.replace(':', '');
+                    styles[currentSelector] = { props: [], nested: {} };
+                    currentComponent = null;
+                    currentNested = null;
+                    continue;
+                }
+
+                if (indent > 0 && /^(hover|focus|active|disabled):$/.test(trimmed)) {
+                    if (currentSelector) {
+                        currentNested = trimmed.replace(':', '');
+                        styles[currentSelector].nested[currentNested] = [];
+                    }
+                    continue;
+                }
+
+                if (currentComponent && indent > 0) {
+                    components[currentComponent].push(trimmed);
+                } else if (currentSelector && indent > 0) {
+                    if (currentNested) {
+                        styles[currentSelector].nested[currentNested].push(trimmed);
+                    } else {
+                        styles[currentSelector].props.push(trimmed);
+                    }
+                }
+            }
+
+            let css = '';
+            for (const [selector, block] of Object.entries(styles)) {
+                const cssSelector = selector.startsWith('.') || selector.startsWith('#') ? selector :
+                    ['button', 'input', 'a', 'div', 'nav', 'header', 'footer'].includes(selector) ? selector : `.${selector}`;
+
+                const expandProps = (props) => {
+                    const result = [];
+                    for (const prop of props) {
+                        if (prop.startsWith('use ')) {
+                            const name = prop.slice(4).trim();
+                            if (components[name]) result.push(...expandProps(components[name]));
+                        } else {
+                            result.push(prop);
+                        }
+                    }
+                    return result;
+                };
+
+                const compileProp = (p) => {
+                    p = p.replace(/([a-z]+-\d+|white|black)/g, m => COLORS[m] || m);
+                    if (p.startsWith('bg ')) return `background: ${p.slice(3)};`;
+                    if (p.startsWith('color ')) return `color: ${p.slice(6)};`;
+                    if (p.startsWith('pad ')) {
+                        const vals = p.slice(4).split(' ').map(v => SPACING[v] || v);
+                        return `padding: ${vals.join(' ')};`;
+                    }
+                    if (p === 'round' || p.startsWith('round ')) {
+                        const size = p === 'round' ? 'lg' : p.slice(6);
+                        return `border-radius: ${RADIUS[size] || size};`;
+                    }
+                    if (p === 'shadow' || p.startsWith('shadow ')) {
+                        const size = p === 'shadow' ? 'md' : p.slice(7);
+                        return `box-shadow: ${SHADOWS[size] || size};`;
+                    }
+                    if (p === 'bold') return 'font-weight: bold;';
+                    if (p === 'pointer') return 'cursor: pointer;';
+                    if (p === 'smooth') return 'transition: all 0.2s ease;';
+                    if (p === 'no border') return 'border: none;';
+                    if (p === 'row') return 'display: flex; flex-direction: row;';
+                    if (p === 'row spread') return 'display: flex; justify-content: space-between;';
+                    if (p === 'center all') return 'display: flex; justify-content: center; align-items: center;';
+                    if (p.includes(' ')) {
+                        const [prop, ...vals] = p.split(' ');
+                        return `${prop}: ${vals.join(' ')};`;
+                    }
+                    return null;
+                };
+
+                const mainProps = expandProps(block.props).map(compileProp).filter(Boolean);
+                if (mainProps.length) {
+                    css += `${cssSelector} {\n  ${mainProps.join('\n  ')}\n}\n\n`;
+                }
+
+                for (const [pseudo, nestedProps] of Object.entries(block.nested)) {
+                    const compiled = expandProps(nestedProps).map(compileProp).filter(Boolean);
+                    if (compiled.length) {
+                        css += `${cssSelector}:${pseudo} {\n  ${compiled.join('\n  ')}\n}\n\n`;
+                    }
+                }
+            }
+            return css.trim();
+        }
+
+        const input = document.getElementById('tomato-input');
+        const output = document.getElementById('css-output');
+        function updateOutput() {
+            try {
+                output.textContent = compile(input.value);
+            } catch (e) {
+                output.textContent = '/* Error: ' + e.message + ' */';
+            }
+        }
+        input.addEventListener('input', updateOutput);
+        updateOutput();
+
+        function copyCSS() {
+            navigator.clipboard.writeText(output.textContent);
+            const btn = document.getElementById('copy-css-btn');
+            const original = btn.textContent;
+            btn.textContent = '✓ Copied!';
+            setTimeout(() => btn.textContent = original, 2000);
+        }
+
+        function copyInstall() {
+            navigator.clipboard.writeText('npx @srivtx/tomato-css app.tom');
+            const box = document.querySelector('.install-box');
+            box.style.borderColor = '#4ade80';
+            const originalBg = box.style.background;
+            box.style.background = 'rgba(74, 222, 128, 0.1)';
+            setTimeout(() => {
+                box.style.borderColor = '';
+                box.style.background = originalBg;
+            }, 1000);
+        }
     </script>
 </body>
 
