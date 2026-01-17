@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tomato - The Human-Friendly CSS Preprocessor</title>
+    <meta name="description"
+        content="Write CSS like you think. Components, Tailwind colors, and human-readable syntax. Fresh styles, no ketchup required.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+        rel="stylesheet">
+
+    <!-- PrismJS (Syntax Highlighting) -->
+    <link href="https://unpkg.com/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Three.js Post-Processing -->
+    <script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+    <script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+    <!-- Vanilla Tilt -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+
+    <style>
+        :root {
+            --bg: #050505;
+            /* Darker background for 3D visibility */
+            --surface: rgba(18, 18, 21, 0.6);
+            --surface-hover: rgba(28, 28, 32, 0.8);
+            --border: rgba(255, 255, 255, 0.1);
+            --primary: #f43f5e;
+            --primary-glow: rgba(244, 63, 94, 0.4);
+            --secondary: #fb923c;
+            --text-main: #ededed;
+            --text-secondary: #a1a1aa;
+            --text-muted: #52525b;
+            --font-main: 'Instrument Sans', sans-serif;
+            --font-code: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 5px;
+            border: 2px solid var(--bg);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        ::selection {
+            background: rgba(244, 63, 94, 0.3);
+            color: white;
+        }
+
+        body {
+            font-family: var(--font-main), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            transition: background-color 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            /* Smooth Chameleon transition */
+        }
+
+        /* 3D Canvas Container */
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        #canvas-container.loaded {
+            opacity: 1;
+        }
+
+        /* Content Wrapper */
+        .content-wrapper {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Nav */
+        nav {
+            position: fixed;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            background: rgba(10, 10, 12, 0.5);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 0.75rem 2rem;
+            border-radius: 100px;
+            z-index: 100;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--text-main);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-main);
+        }
+
+        .cta-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1.25rem;
+            border-radius: 100px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        /* Hero */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 100px 1rem 2rem;
+            pointer-events: none;
+            /* Allow events to pass through to 3D background if needed */
+        }
+
+        .hero * {
+            pointer-events: auto;
+        }
+
+        .hero h1 {
+            font-size: 5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.04em;
+            background: linear-gradient(to bottom right, #fff 30%, #a1a1aa 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 4px 30px rgba(255, 255, 255, 0.1);
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 2.5rem auto;
+            line-height: 1.6;
+        }
+
+        .install-box {
+            background: rgba(10, 10, 12, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            font-family: var(--font-code);
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .install-box:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .install-box span {
+            color: var(--text-main);
+        }
+
+        .install-box .prefix {
+            color: var(--border);
+            margin-right: 0.5rem;
+        }
+
+        /* Features Section */
+        .features-section {
+            position: relative;
+            padding: 8rem 0;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-header h2 {
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            margin-bottom: 1rem;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+
+        .feature-card {
+            background: rgba(18, 18, 21, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            padding: 2.5rem;
+            border-radius: 24px;
+            transition: all 0.1s;
+            /* For smooth vanilla-tilt */
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
+            /* Poster Layout */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            min-height: 400px;
+            /* Tall cards */
+        }
+
+        /* Ambient Spotlight Effect */
+        .spotlight-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: inherit;
+            pointer-events: none;
+            background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y),
+                    rgba(255, 255, 255, 0.08),
+                    transparent 40%);
+            z-index: 3;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .spotlight-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Huge Decorative Number */
+        .card-number {
+            position: absolute;
+            top: -20px;
+            right: 10px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 12rem;
+            font-weight: 700;
+            line-height: 1;
+            z-index: 0;
+            pointer-events: none;
+            transition: all 0.5s ease;
+
+            /* Gradient Fill (Etched Glass Look) */
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.0) 80%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+
+            /* Subtle Volumetric Red Glow */
+            text-shadow: 0 10px 40px rgba(244, 63, 94, 0.0);
+        }
+
+        .feature-card:hover .card-number {
+            transform: translateY(-5px) scale(1.02);
+            /* Glow activates on hover */
+            text-shadow: 0 10px 60px rgba(244, 63, 94, 0.3);
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.0) 80%);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        .feature-card h3 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 3.5rem;
+            /* Massive Title */
+            line-height: 0.9;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            transform: translateZ(20px);
+            letter-spacing: -0.02em;
+            background: linear-gradient(to bottom, #fff, #999);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            /* Fix lint */
+            z-index: 2;
+        }
+
+        /* PRISMATIC SHIMMER EFFECT */
+        /* All cards use Primary Red */
+        .feature-grid .feature-card {
+            --shimmer-color: var(--primary);
+        }
+
+        .feature-card::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 150%;
+            height: 100%;
+            background: linear-gradient(115deg,
+                    transparent 40%,
+                    var(--shimmer-color) 45%,
+                    rgba(255, 255, 255, 0.8) 50%,
+                    /* Bright White Core */
+                    var(--shimmer-color) 55%,
+                    transparent 60%);
+            transform: skewX(-20deg);
+            pointer-events: none;
+            transition: left 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+            opacity: 0.2;
+            /* Subtle but colorful */
+            mix-blend-mode: screen;
+            /* Glowing add-effect */
+            z-index: 5;
+        }
+
+        .feature-card:hover::after {
+            left: 150%;
+            opacity: 0.6;
+            /* Brightens as it moves */
+            transition: left 0.8s ease-in-out;
+        }
+
+        /* Slight Border Glow on Hover matching the shimmer */
+        .feature-card:hover {
+            border-color: var(--shimmer-color);
+            box-shadow: 0 0 20px var(--shimmer-color);
+            /* Colored Glow */
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            transform: translateZ(10px);
+            font-size: 1.1rem;
+            max-width: 90%;
+            z-index: 2;
+        }
+
+        /* Playground */
+        .playground {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem 8rem;
+            position: relative;
+        }
+
+        .playground-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .editor-box {
+            /* CYBER-GLASS STYLE */
+            background: rgba(10, 10, 14, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            /* Subtle glass edge */
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 500px;
+            box-shadow: 0 0 0 1px rgba(0, 0, 0, 0), 0 20px 40px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        /* Glowing Border Animation on Focus */
+        .editor-box:focus-within {
+            border-color: rgba(244, 63, 94, 0.5);
+            /* Primary Red */
+            box-shadow: 0 0 30px rgba(244, 63, 94, 0.15);
+        }
+
+        .editor-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            /* Softer divider */
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.03), transparent);
+            font-family: var(--font-code);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        textarea,
+        pre#css-output {
+            flex: 1;
+            background: transparent !important;
+            /* Ensure transparency */
+            border: none;
+            padding: 1.5rem;
+            color: #e2e8f0;
+            /* Light Slate */
+            font-family: 'JetBrains Mono', monospace;
+            /* Tech Font */
+            font-size: 0.95rem;
+            line-height: 1.7;
+            resize: none;
+            outline: none;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        textarea::-webkit-scrollbar,
+        pre#css-output::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Neon Keywords Overrides (PrismJS specific can be added later, here generic) */
+
+        /* Footer */
+        /* Footer */
+        /* Footer */
+        footer {
+            border-top: 1px solid rgba(244, 63, 94, 0.3);
+            /* Crisp, refined border */
+            box-shadow: 0 -10px 60px rgba(244, 63, 94, 0.15);
+            /* Smooth Upward Glow */
+            padding: 8rem 2rem 4rem;
+            /* Taller padding */
+            text-align: center;
+            position: relative;
+            background: linear-gradient(to bottom, #000000 0%, #1a0303 100%);
+            /* Smoother deep gradient */
+            overflow: hidden;
+            /* For watermark */
+        }
+
+        /* Giant Watermark */
+        footer::before {
+            content: "TOMATO";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Oswald', sans-serif;
+            font-size: 25vw;
+            /* Massive */
+            font-weight: 800;
+            background: linear-gradient(to bottom, rgba(244, 63, 94, 0.08), transparent);
+            /* Subtle yet visible */
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            /* Red Gradient text */
+            pointer-events: none;
+            z-index: 0;
+            letter-spacing: -0.05em;
+        }
+
+        footer p {
+            position: relative;
+            z-index: 2;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Monumental Links */
+        footer a {
+            position: relative;
+            z-index: 2;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin: 0 1rem;
+            padding: 0.5rem 1.5rem;
+            border-radius: 100px;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(244, 63, 94, 0.1);
+            /* Subtle Red Border */
+            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            display: inline-block;
+        }
+
+        footer a:hover {
+            color: white;
+            background: rgba(244, 63, 94, 0.2);
+            transform: translateY(-2px);
+            border-color: rgba(244, 63, 94, 0.5);
+            box-shadow: 0 5px 20px rgba(244, 63, 94, 0.3);
+        }
+
+        /* Cinematic Grain Overlay */
+        .grain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.5'/%3E%3C/svg%3E");
+            mix-blend-mode: overlay;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="canvas-container"></div>
+
+    <div class="content-wrapper">
+        <nav>
+            <a href="#" class="logo">🍅 Tomato</a>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="docs.html">Documentation</a>
+                <a href="https://github.com/srivtx/tomato-css">GitHub</a>
+            </div>
+            <a href="docs.html#installation" class="cta-btn">Get Started</a>
+        </nav>
+
+        <section class="hero" data-aos="fade-up" data-bg-color="#050505">
+            <h1>Write CSS like<br>you <span>think</span>.</h1>
+            <p>A human-friendly preprocessor that actually makes sense. Compile semantic, reusable components into
+                optimized CSS.</p>
+
+            <div class="install-box" onclick="copyInstall()">
+                <span class="prefix">$</span>
+                <span>npx @srivtx/tomato-css app.tom</span>
+            </div>
+        </section>
+
+        <!-- Spacer for scrolling effect -->
+        <div style="height: 20vh;"></div>
+
+        <section id="features" class="features-section" data-bg-color="#0f172a">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Fresh Features</h2>
+                <p style="color: var(--text-secondary)">Built for developers who love clean styling.</p>
+            </div>
+
+            <div class="feature-grid">
+                <div class="feature-card spotlight-card" data-tilt data-tilt-glare data-tilt-max-glare="0.5"
+                    data-aos="fade-up" data-aos-delay="100">
+                    <div class="card-number">01</div>
+                    <h3>Smart<br>Components</h3>
+                    <p>Define reusable style groups with <code>component btn:</code> and use them anywhere.</p>
+                </div>
+                <div class="feature-card spotlight-card" data-tilt data-tilt-glare data-tilt-max-glare="0.5"
+                    data-aos="fade-up" data-aos-delay="200">
+                    <div class="card-number">02</div>
+                    <h3>Native<br>Colors</h3>
+                    <p>Full Tailwind palette built-in. Just use <code>rose-500</code>, <code>bg slate-900</code>
+                        directly.</p>
+                </div>
+                <div class="feature-card spotlight-card" data-tilt data-tilt-glare data-tilt-max-glare="0.5"
+                    data-aos="fade-up" data-aos-delay="300">
+                    <div class="card-number">03</div>
+                    <h3>Human<br>Syntax</h3>
+                    <p>No colons. No semicolons. Just pure readable logic like <code>pad 4</code>,
+                        <code>round lg</code>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="playground" data-bg-color="#1e1b4b">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Try it Live</h2>
+            </div>
+
+            <div class="playground-grid">
+                <!-- INPUT -->
+                <div class="editor-box" data-aos="fade-right">
+                    <div class="editor-header">
+                        <span>app.tom</span>
+                        <span>Tomato CSS</span>
+                    </div>
+                    <textarea id="tomato-input" spellcheck="false">component btn:
+  pad 2 4
+  round lg
+  bold
+  pointer
+  smooth
+  no border
+
+.primary-btn:
+  use btn
+  bg rose-500
+  color white
+  shadow lg
+
+.primary-btn:hover:
+  bg rose-600
+  shadow xl
+</textarea>
+                </div>
+
+                <!-- OUTPUT -->
+                <div class="editor-box" data-aos="fade-left">
+                    <div class="editor-header">
+                        <span>output.css</span>
+                        <span id="copy-css-btn" style="cursor: pointer; color: var(--primary); font-weight: 500;"
+                            onclick="copyCSS()">Copy CSS</span>
+                    </div>
+                    <pre id="css-output"></pre>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>Made with 🍅 by srivtx</p>
+            <br>
+            <a href="https://github.com/srivtx/tomato-css">GitHub</a>
+            <a href="docs.html">Docs</a>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/prismjs@1.29.0/prism.js"></script>
+
+    <script src="js/three-scene.js"></script>
+
+    <script>
+        AOS.init({ duration: 800, once: true });
+
+        // Vanilla Tilt Init
+        VanillaTilt.init(document.querySelectorAll(".feature-card"), {
+            max: 15,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.2
+        });
+
+        // Chameleon Background Logic
+        const sections = document.querySelectorAll('[data-bg-color]');
+        const observerOptions = {
+            root: null,
+            threshold: 0.4, // Trigger when 40% of section is visible
+            rootMargin: "0px"
+        };
+
+        const bgObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const color = entry.target.getAttribute('data-bg-color');
+                    document.body.style.backgroundColor = color;
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            bgObserver.observe(section);
+        });
+
+
+
+
+
+        // Spotlight Effect Logic
+        document.addEventListener('mousemove', e => {
+            const cards = document.querySelectorAll('.spotlight-card');
+            for (const card of cards) {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            }
+        });
+
+        // Tomato Compiler Logic (Same as before)
+        const COLORS = { 'slate-50': '#f8fafc', 'slate-100': '#f1f5f9', 'slate-200': '#e2e8f0', 'slate-300': '#cbd5e1', 'slate-400': '#94a3b8', 'slate-500': '#64748b', 'slate-600': '#475569', 'slate-700': '#334155', 'slate-800': '#1e293b', 'slate-900': '#0f172a', 'slate-950': '#020617', 'red-50': '#fef2f2', 'red-500': '#ef4444', 'red-600': '#dc2626', 'orange-50': '#fff7ed', 'orange-500': '#f97316', 'orange-600': '#ea580c', 'blue-50': '#eff6ff', 'blue-500': '#3b82f6', 'blue-600': '#2563eb', 'green-50': '#f0fdf4', 'green-500': '#22c55e', 'green-600': '#16a34a', 'purple-50': '#faf5ff', 'purple-500': '#a855f7', 'purple-600': '#9333ea', 'violet-50': '#f5f3ff', 'violet-500': '#8b5cf6', 'violet-600': '#7c3aed', 'pink-50': '#fdf2f8', 'pink-500': '#ec4899', 'pink-600': '#db2777', 'rose-50': '#fff1f2', 'rose-500': '#f43f5e', 'rose-600': '#e11d48', 'white': '#ffffff', 'black': '#000000', 'transparent': 'transparent' };
+        const SPACING = { '0': '0', '1': '0.25rem', '2': '0.5rem', '3': '0.75rem', '4': '1rem', '5': '1.25rem', '6': '1.5rem', '8': '2rem', '10': '2.5rem', '12': '3rem', '16': '4rem' };
+        const RADIUS = { 'sm': '0.125rem', 'md': '0.375rem', 'lg': '0.5rem', 'xl': '0.75rem', '2xl': '1rem', 'full': '9999px' };
+        const SHADOWS = { 'sm': '0 1px 2px rgba(0,0,0,0.05)', 'md': '0 4px 6px rgba(0,0,0,0.1)', 'lg': '0 10px 15px rgba(0,0,0,0.1)', 'xl': '0 20px 25px rgba(0,0,0,0.1)' };
+
+        function compile(source) {
+            const lines = source.split('\n');
+            const components = {};
+            const styles = {};
+            let currentComponent = null;
+            let currentSelector = null;
+            let currentNested = null;
+
+            for (const line of lines) {
+                const trimmed = line.trim();
+                if (!trimmed || trimmed.startsWith('#') || trimmed.startsWith('//')) continue;
+                const indent = line.search(/\S/);
+
+                if (indent === 0 && /^component\s+[\w-]+:$/.test(trimmed)) {
+                    const name = trimmed.match(/^component\s+([\w-]+):$/)[1];
+                    currentComponent = name;
+                    components[name] = [];
+                    currentSelector = null;
+                    continue;
+                }
+
+                if (indent === 0 && /^[.#]?[\w-]+:$/.test(trimmed)) {
+                    currentSelector = trimmed.replace(':', '');
+                    styles[currentSelector] = { props: [], nested: {} };
+                    currentComponent = null;
+                    currentNested = null;
+                    continue;
+                }
+
+                if (indent > 0 && /^(hover|focus|active|disabled):$/.test(trimmed)) {
+                    if (currentSelector) {
+                        currentNested = trimmed.replace(':', '');
+                        styles[currentSelector].nested[currentNested] = [];
+                    }
+                    continue;
+                }
+
+                if (currentComponent && indent > 0) {
+                    components[currentComponent].push(trimmed);
+                } else if (currentSelector && indent > 0) {
+                    if (currentNested) {
+                        styles[currentSelector].nested[currentNested].push(trimmed);
+                    } else {
+                        styles[currentSelector].props.push(trimmed);
+                    }
+                }
+            }
+
+            let css = '';
+            for (const [selector, block] of Object.entries(styles)) {
+                const cssSelector = selector.startsWith('.') || selector.startsWith('#') ? selector :
+                    ['button', 'input', 'a', 'div', 'nav', 'header', 'footer'].includes(selector) ? selector : `.${selector}`;
+
+                const expandProps = (props) => {
+                    const result = [];
+                    for (const prop of props) {
+                        if (prop.startsWith('use ')) {
+                            const name = prop.slice(4).trim();
+                            if (components[name]) result.push(...expandProps(components[name]));
+                        } else {
+                            result.push(prop);
+                        }
+                    }
+                    return result;
+                };
+
+                const compileProp = (p) => {
+                    p = p.replace(/([a-z]+-\d+|white|black)/g, m => COLORS[m] || m);
+                    if (p.startsWith('bg ')) return `background: ${p.slice(3)};`;
+                    if (p.startsWith('color ')) return `color: ${p.slice(6)};`;
+                    if (p.startsWith('pad ')) {
+                        const vals = p.slice(4).split(' ').map(v => SPACING[v] || v);
+                        return `padding: ${vals.join(' ')};`;
+                    }
+                    if (p === 'round' || p.startsWith('round ')) {
+                        const size = p === 'round' ? 'lg' : p.slice(6);
+                        return `border-radius: ${RADIUS[size] || size};`;
+                    }
+                    if (p === 'shadow' || p.startsWith('shadow ')) {
+                        const size = p === 'shadow' ? 'md' : p.slice(7);
+                        return `box-shadow: ${SHADOWS[size] || size};`;
+                    }
+                    if (p === 'bold') return 'font-weight: bold;';
+                    if (p === 'pointer') return 'cursor: pointer;';
+                    if (p === 'smooth') return 'transition: all 0.2s ease;';
+                    if (p === 'no border') return 'border: none;';
+                    if (p === 'row') return 'display: flex; flex-direction: row;';
+                    if (p === 'row spread') return 'display: flex; justify-content: space-between;';
+                    if (p === 'center all') return 'display: flex; justify-content: center; align-items: center;';
+                    if (p.includes(' ')) {
+                        const [prop, ...vals] = p.split(' ');
+                        return `${prop}: ${vals.join(' ')};`;
+                    }
+                    return null;
+                };
+
+                const mainProps = expandProps(block.props).map(compileProp).filter(Boolean);
+                if (mainProps.length) {
+                    css += `${cssSelector} {\n  ${mainProps.join('\n  ')}\n}\n\n`;
+                }
+
+                for (const [pseudo, nestedProps] of Object.entries(block.nested)) {
+                    const compiled = expandProps(nestedProps).map(compileProp).filter(Boolean);
+                    if (compiled.length) {
+                        css += `${cssSelector}:${pseudo} {\n  ${compiled.join('\n  ')}\n}\n\n`;
+                    }
+                }
+            }
+            return css.trim();
+        }
+
+        const input = document.getElementById('tomato-input');
+        const output = document.getElementById('css-output');
+        function updateOutput() {
+            try {
+                output.textContent = compile(input.value);
+            } catch (e) {
+                output.textContent = '/* Error: ' + e.message + ' */';
+            }
+        }
+        input.addEventListener('input', updateOutput);
+        updateOutput();
+
+        function copyCSS() {
+            navigator.clipboard.writeText(output.textContent);
+            const btn = document.getElementById('copy-css-btn');
+            const original = btn.textContent;
+            btn.textContent = '✓ Copied!';
+            setTimeout(() => btn.textContent = original, 2000);
+        }
+
+        function copyInstall() {
+            navigator.clipboard.writeText('npx @srivtx/tomato-css app.tom');
+            const box = document.querySelector('.install-box');
+            box.style.borderColor = '#4ade80';
+            const originalBg = box.style.background;
+            box.style.background = 'rgba(74, 222, 128, 0.1)';
+            setTimeout(() => {
+                box.style.borderColor = '';
+                box.style.background = originalBg;
+            }, 1000);
+        }
+    </script>
+</body>
+
+</html>
