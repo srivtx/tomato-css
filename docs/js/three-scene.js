@@ -1,13 +1,10 @@
 
-// Winterfell-inspired 3D Background
-// Implements 6-stage morphing timeline: City -> Sphere -> Pillar -> Ring -> Orbs -> Portal
-
 const SCENE_CONFIG = {
-  count: 1500, // Number of blocks/particles
-  color: 0xf43f5e, // Tomato Red
-  colorAccent: 0xfca5a5, // Pink accent
-  stemColor: 0x22c55e, // Green
-  fogColor: 0x1a0505, // Dark Red/Black
+  count: 1500,
+  color: 0xf43f5e,
+  colorAccent: 0xfca5a5,
+  stemColor: 0x22c55e,
+  fogColor: 0x1a0505,
   scrollSpeed: 0.001
 };
 
