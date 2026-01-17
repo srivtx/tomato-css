@@ -81,18 +81,12 @@ function init() {
 
   // Generate Geometry
   const geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
-  const material = new THREE.MeshPhysicalMaterial({
-    color: 0xffffff,
-    roughness: 0.15, // Polished but slightly imperfect
-    metalness: 0.1,  // Glass isn't metallic
-    transmission: 1.0, // Glass Refraction
-    thickness: 1.5, // Refraction Volume
-    ior: 1.5, // Index of Refraction (Glass)
-    clearcoat: 1.0, // Shiny top layer
-    clearcoatRoughness: 0.1,
-    transparent: true, // Required for transmission
-    opacity: 1.0, // Transmission handles the see-through
-    side: THREE.DoubleSide
+  const material = new THREE.MeshStandardMaterial({
+    color: 0xffffff, // White to allow instance colors to pop
+    roughness: 0.4,
+    metalness: 0.6,
+    transparent: true,
+    opacity: 0.8
   });
 
   instancedMesh = new THREE.InstancedMesh(geometry, material, SCENE_CONFIG.count);
