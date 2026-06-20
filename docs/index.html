@@ -606,6 +606,26 @@
             justify-content: center;
         }
 
+        .reset-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+            font-family: var(--font-code);
+            font-size: 0.7rem;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .reset-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
         .github-stars {
             display: inline-flex;
             align-items: center;
@@ -1438,15 +1458,18 @@
 
         <section class="playground" data-bg-color="#1e1b4b">
             <div class="section-header" data-aos="fade-up">
-                <h2>Try it Live</h2>
+                <h2>Try it live</h2>
+                <p style="color: var(--text-secondary)">Edit the .tom on the left. See standard CSS on the right.</p>
             </div>
 
             <div class="playground-grid">
-                <!-- INPUT -->
-                <div class="editor-box" data-aos="fade-right">
-                    <div class="editor-header">
-                        <span>app.tom</span>
-                        <span>Tomato CSS</span>
+                <div class="syntax-card" data-aos="fade-right">
+                    <div class="syntax-card-header">
+                        <span class="file">app.tom</span>
+                        <div style="display:flex;gap:0.75rem;align-items:center">
+                            <button class="reset-btn" id="resetBtn" type="button">Reset</button>
+                            <span class="lang">TOMATO</span>
+                        </div>
                     </div>
                     <textarea id="tomato-input" spellcheck="false">component btn:
   pad 2 4
@@ -1468,12 +1491,10 @@
 </textarea>
                 </div>
 
-                <!-- OUTPUT -->
-                <div class="editor-box" data-aos="fade-left">
-                    <div class="editor-header">
-                        <span>output.css</span>
-                        <span id="copy-css-btn" style="cursor: pointer; color: var(--primary); font-weight: 500;"
-                            onclick="copyCSS()">Copy CSS</span>
+                <div class="syntax-card" data-aos="fade-left">
+                    <div class="syntax-card-header">
+                        <span class="file">output.css</span>
+                        <span class="lang" id="copy-css-btn" style="cursor:pointer" onclick="copyCSS()">COPY</span>
                     </div>
                     <pre id="css-output"></pre>
                 </div>
@@ -1722,6 +1743,18 @@
                 }, 1500);
             }
         }
+
+        (function() {
+            const reset = document.getElementById('resetBtn');
+            const input = document.getElementById('tomato-input');
+            if (reset && input) {
+                const defaultValue = input.value;
+                reset.addEventListener('click', () => {
+                    input.value = defaultValue;
+                    input.dispatchEvent(new Event('input'));
+                });
+            }
+        })();
 
         (function() {
             const trigger = document.getElementById('menuTrigger');
