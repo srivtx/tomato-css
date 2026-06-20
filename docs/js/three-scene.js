@@ -26,6 +26,17 @@ const targets = {
 
 function init() {
   const container = document.getElementById('canvas-container');
+  if (!container) {
+    console.warn('[tomato-css] canvas-container not found, skipping 3D scene');
+    return;
+  }
+
+  container.classList.add('loaded');
+
+  if (typeof THREE === 'undefined') {
+    console.warn('[tomato-css] THREE not loaded, skipping 3D scene');
+    return;
+  }
 
   // Scene Setup
   scene = new THREE.Scene();

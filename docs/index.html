@@ -134,6 +134,10 @@
         body {
             font-family: var(--font-main), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--bg);
+            background-image: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(244, 63, 94, 0.15) 0%, transparent 55%),
+                              radial-gradient(ellipse 60% 50% at 85% 40%, rgba(251, 146, 60, 0.10) 0%, transparent 50%),
+                              radial-gradient(ellipse 70% 60% at 15% 80%, rgba(168, 85, 247, 0.08) 0%, transparent 50%);
+            background-attachment: fixed;
             color: var(--text-main);
             min-height: 100vh;
             overflow-x: hidden;
@@ -780,16 +784,6 @@
 
             #canvas-container { display: none; }
 
-            #canvas-container::after {
-                content: "";
-                position: absolute;
-                inset: 0;
-                background: radial-gradient(ellipse at 50% 0%, rgba(244, 63, 94, 0.18) 0%, transparent 60%),
-                            radial-gradient(ellipse at 80% 50%, rgba(251, 146, 60, 0.12) 0%, transparent 50%),
-                            radial-gradient(ellipse at 20% 80%, rgba(168, 85, 247, 0.1) 0%, transparent 50%);
-                pointer-events: none;
-            }
-
             .grain { display: none; }
 
             .hero {
@@ -916,35 +910,13 @@
 
     <div class="content-wrapper">
         <nav role="navigation" aria-label="Main">
-            <a href="#" class="logo" aria-label="Tomato CSS home">
-                <svg width="28" height="28" viewBox="0 0 64 64" aria-hidden="true">
-                    <defs>
-                        <radialGradient id="logoBody" cx="35%" cy="32%" r="68%">
-                            <stop offset="0%" stop-color="#fb7185"/>
-                            <stop offset="50%" stop-color="#f43f5e"/>
-                            <stop offset="100%" stop-color="#9f1239"/>
-                        </radialGradient>
-                        <linearGradient id="logoLeaf" x1="50%" y1="0%" x2="50%" y2="100%">
-                            <stop offset="0%" stop-color="#4ade80"/>
-                            <stop offset="100%" stop-color="#15803d"/>
-                        </linearGradient>
-                    </defs>
-                    <circle cx="32" cy="38" r="22" fill="url(#logoBody)"/>
-                    <ellipse cx="24" cy="30" rx="7" ry="4" fill="#fff" fill-opacity="0.38"/>
-                    <rect x="30.5" y="2" width="3" height="9" rx="1.5" fill="#15803d"/>
-                    <path d="M32 17 C 22 14, 12 15, 10 20 C 14 23, 24 22, 32 19 Z" fill="url(#logoLeaf)"/>
-                    <path d="M32 17 C 42 14, 52 15, 54 20 C 50 23, 40 22, 32 19 Z" fill="url(#logoLeaf)"/>
-                    <path d="M32 18 C 28 22, 18 23, 16 21 C 19 19, 27 18, 32 18 Z" fill="#166534"/>
-                    <path d="M32 18 C 36 22, 46 23, 48 21 C 45 19, 37 18, 32 18 Z" fill="#166534"/>
-                </svg>
-                <span>Tomato</span>
-            </a>
+            <a href="#" class="logo">🍅 Tomato</a>
             <div class="nav-links" id="navLinks">
                 <a href="#features">Features</a>
                 <a href="docs.html">Documentation</a>
                 <a href="https://github.com/srivtx/tomato-css">GitHub</a>
-                <a href="docs.html#installation" class="cta-btn mobile-cta">Get Started</a>
             </div>
+            <a href="docs.html#installation" class="cta-btn">Get Started</a>
             <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
                 <span></span>
                 <span></span>
@@ -1275,29 +1247,6 @@
                     }
                 });
             }
-        })();
-
-        (function() {
-            const isMobile = window.matchMedia('(max-width: 768px)').matches;
-            const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            if (isMobile || isReduced) return;
-
-            const s = document.createElement('script');
-            s.src = 'js/three-scene.js';
-            s.defer = true;
-            document.body.appendChild(s);
-
-            ['EffectComposer', 'RenderPass', 'ShaderPass', 'CopyShader', 'LuminosityHighPassShader', 'UnrealBloomPass'].forEach(name => {
-                const s = document.createElement('script');
-                s.src = `https://unpkg.com/three@0.128.0/examples/js/${name.includes('Shader') ? 'shaders/' : 'postprocessing/'}${name}.js`;
-                s.defer = true;
-                document.body.appendChild(s);
-            });
-
-            const t = document.createElement('script');
-            t.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
-            t.defer = true;
-            document.body.appendChild(t);
         })();
     </script>
 </body>
