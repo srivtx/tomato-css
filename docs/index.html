@@ -13,6 +13,10 @@
     <link rel="manifest" href="manifest.json">
     <link rel="canonical" href="https://tomato.tom/">
 
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
     <meta property="og:type" content="website">
     <meta property="og:title" content="Tomato CSS - The Human-Friendly CSS Preprocessor">
     <meta property="og:description" content="Write CSS like you think. Components, Tailwind colors, and human-readable syntax.">
@@ -133,17 +137,15 @@
 
         body {
             font-family: var(--font-main), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg);
-            background-image: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(244, 63, 94, 0.15) 0%, transparent 55%),
-                              radial-gradient(ellipse 60% 50% at 85% 40%, rgba(251, 146, 60, 0.10) 0%, transparent 50%),
-                              radial-gradient(ellipse 70% 60% at 15% 80%, rgba(168, 85, 247, 0.08) 0%, transparent 50%);
-            background-attachment: fixed;
+            background-color: var(--bg);
+            background-image: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(244, 63, 94, 0.25) 0%, transparent 55%),
+                              radial-gradient(ellipse 60% 50% at 85% 40%, rgba(251, 146, 60, 0.18) 0%, transparent 50%),
+                              radial-gradient(ellipse 70% 60% at 15% 80%, rgba(168, 85, 247, 0.15) 0%, transparent 50%);
             color: var(--text-main);
             min-height: 100vh;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             transition: background-color 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            /* Smooth Chameleon transition */
         }
 
         /* 3D Canvas Container */
@@ -156,6 +158,9 @@
             z-index: -1;
             opacity: 0;
             transition: opacity 1s ease;
+            background-image: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(244, 63, 94, 0.25) 0%, transparent 55%),
+                              radial-gradient(ellipse 60% 50% at 85% 40%, rgba(251, 146, 60, 0.18) 0%, transparent 50%),
+                              radial-gradient(ellipse 70% 60% at 15% 80%, rgba(168, 85, 247, 0.15) 0%, transparent 50%);
         }
 
         #canvas-container.loaded {
@@ -898,7 +903,7 @@
                 transform: none !important;
             }
 
-            #canvas-container { display: none; }
+            .grain { display: none; }
         }
     </style>
 </head>

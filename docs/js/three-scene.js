@@ -55,12 +55,13 @@ function init() {
 
   window.isIntroActive = true;
 
-  // Simple custom tween for startup
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   let introProgress = 0;
   const animateIntro = () => {
     if (introProgress < 1) {
-      introProgress += 0.01; // Slower, more cinematic
-      const ease = 1 - Math.pow(1 - introProgress, 4); // Ease Out Quart
+      introProgress += 0.01;
+      const ease = 1 - Math.pow(1 - introProgress, 4);
 
       camera.position.z = 2 + (targetZ - 2) * ease;
       camera.position.y = 0 + (targetY - 0) * ease;
@@ -68,10 +69,16 @@ function init() {
 
       requestAnimationFrame(animateIntro);
     } else {
-      window.isIntroActive = false; // Release control to main loop
+      window.isIntroActive = false;
     }
   };
-  setTimeout(animateIntro, 200); // Start sooner
+
+  if (prefersReducedMotion) {
+    camera.position.set(targetX, targetY, targetZ);
+    window.isIntroActive = false;
+  } else {
+    setTimeout(animateIntro, 200);
+  }
 
   renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
