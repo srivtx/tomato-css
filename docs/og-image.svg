@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" fill="none">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="40%" r="80%">
+      <stop offset="0%" stop-color="#1a1a1f"/>
+      <stop offset="100%" stop-color="#050505"/>
+    </radialGradient>
+    <radialGradient id="g" cx="40%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#fb7185"/>
+      <stop offset="50%" stop-color="#f43f5e"/>
+      <stop offset="100%" stop-color="#be123c"/>
+    </radialGradient>
+    <linearGradient id="text" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#a1a1aa"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="200" cy="315" r="140" fill="url(#g)" opacity="0.95"/>
+  <ellipse cx="165" cy="270" rx="40" ry="26" fill="#ffffff" fill-opacity="0.3"/>
+  <path d="M180 195 Q200 165 220 195 L220 155 L180 155 Z" fill="#16a34a"/>
+  <path d="M120 195 Q75 175 105 215 Q130 220 155 210 Z" fill="#22c55e"/>
+  <path d="M280 195 Q325 175 295 215 Q270 220 245 210 Z" fill="#22c55e"/>
+  <g font-family="-apple-system, 'Segoe UI', Inter, sans-serif" fill="url(#text)">
+    <text x="400" y="270" font-size="86" font-weight="800" letter-spacing="-2">Tomato CSS</text>
+    <text x="400" y="350" font-size="32" font-weight="500" fill="#a1a1aa">The Human-Friendly CSS Preprocessor</text>
+    <text x="400" y="430" font-size="22" font-weight="500" fill="#71717a">Write CSS like you think. Components, Tailwind colors,</text>
+    <text x="400" y="460" font-size="22" font-weight="500" fill="#71717a">and human-readable syntax.</text>
+  </g>
+  <g font-family="'JetBrains Mono', monospace" fill="#52525b" font-size="20">
+    <text x="400" y="540">npm i @srivtx/tomato-css</text>
+  </g>
+</svg>
