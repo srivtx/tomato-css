@@ -18,99 +18,9 @@
 
 import { createRequire } from 'module';
 import path from 'path';
-import { createHash } from 'crypto';
 
-// Use require for CommonJS modules
 const require = createRequire(import.meta.url);
-
-/**
- * Generate a short, deterministic scope ID from file path
- */
-function generateScopeId(filePath) {
-    const hash = createHash('md5')
-        .update(filePath)
-        .digest('hex')
-        .substring(0, 6);
-    return 't' + hash;
-}
-
-/**
- * Add scope prefix to all CSS selectors
- * Transforms: .btn { } → [data-tom="xyz"] .btn { }
- */
-function scopeCSS(css, scopeId) {
-    const scopeAttr = `[data-tom="${scopeId}"]`;
-
-    // Split into rules (handling @media, @keyframes, etc.)
-    const lines = css.split('\n');
-    const result = [];
-    let inAtRule = false;
-    let atRuleBuffer = [];
-    let braceCount = 0;
-
-    for (const line of lines) {
-        // Track brace depth for @rules
-        for (const char of line) {
-            if (char === '{') braceCount++;
-            if (char === '}') braceCount--;
-        }
-
-        // Detect start of @rules
-        if (line.trim().startsWith('@media') ||
-            line.trim().startsWith('@keyframes') ||
-            line.trim().startsWith('@supports')) {
-            inAtRule = true;
-            atRuleBuffer.push(line);
-            continue;
-        }
-
-        if (inAtRule) {
-            // Inside @media: scope the selectors inside
-            if (line.includes('{') && !line.trim().startsWith('@')) {
-                const scopedLine = line.replace(
-                    /([^{]+)(\{)/,
-                    (match, selector, brace) => {
-                        const scopedSel = selector
-                            .split(',')
-                            .map(s => s.trim() ? `${scopeAttr} ${s.trim()}` : s)
-                            .join(', ');
-                        return scopedSel + brace;
-                    }
-                );
-                atRuleBuffer.push(scopedLine);
-            } else {
-                atRuleBuffer.push(line);
-            }
-
-            // End of @rule block
-            if (braceCount === 0 && atRuleBuffer.length > 0) {
-                result.push(...atRuleBuffer);
-                atRuleBuffer = [];
-                inAtRule = false;
-            }
-            continue;
-        }
-
-        // Regular selector line
-        if (line.includes('{') && !line.trim().startsWith('@')) {
-            const scopedLine = line.replace(
-                /([^{]+)(\{)/,
-                (match, selector, brace) => {
-                    const scopedSel = selector
-                        .split(',')
-                        .map(s => s.trim() ? `${scopeAttr} ${s.trim()}` : s)
-                        .join(', ');
-                    return scopedSel + brace;
-                }
-            );
-            result.push(scopedLine);
-        } else {
-            result.push(line);
-        }
-    }
-
-    return result.join('\n');
-}
+const { generateScopeId, scopeCSS } = require('../src/scope');
 
 /**
  * Vite plugin factory function
@@ -118,27 +28,23 @@ function scopeCSS(css, scopeId) {
 export default function tomatoPlugin(options = {}) {
     // Resolve the tomato-css compiler path
     let tomatoCompiler;
+    const debug = options.debug === true;
 
     return {
         name: 'vite-plugin-tomato',
 
         // Configure the plugin
         configResolved(config) {
-            // Try to find tomato-css compiler
             try {
-                // First try relative path (for local development in test-react-app)
                 const localPath = path.resolve(config.root, '../src/api.js');
-                console.log(`[vite-plugin-tomato] Looking for compiler at: ${localPath}`);
                 tomatoCompiler = require(localPath);
-                console.log('[vite-plugin-tomato] ✓ Found tomato-css compiler');
-            } catch (e) {
-                console.log(`[vite-plugin-tomato] Local not found: ${e.message}`);
+                if (debug) console.log(`[vite-plugin-tomato] Found compiler at ${localPath}`);
+            } catch {
                 try {
-                    // Then try node_modules
                     tomatoCompiler = require('@srivtx/tomato-css');
-                    console.log('[vite-plugin-tomato] ✓ Found tomato-css from node_modules');
+                    if (debug) console.log('[vite-plugin-tomato] Found compiler in node_modules');
                 } catch {
-                    console.warn('[vite-plugin-tomato] ⚠ Could not find tomato-css compiler, using fallback');
+                    if (debug) console.warn('[vite-plugin-tomato] Compiler not found, using fallback');
                 }
             }
         },
@@ -227,11 +133,10 @@ if (import.meta.hot) {
             };
         },
 
-        // Handle HMR
-        handleHotUpdate({ file, server }) {
+        handleHotUpdate({ file }) {
             if (file.endsWith('.tom')) {
-                console.log(`[vite-plugin-tomato] 🍅 ${path.basename(file)} updated`);
-                return; // Let Vite handle the update
+                if (debug) console.log(`[vite-plugin-tomato] ${path.basename(file)} updated`);
+                return;
             }
         }
     };

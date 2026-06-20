@@ -81,8 +81,8 @@ hero:
 
 gallery:
   grid 3
-  gradient 6
-  
+  gap 6
+
   @mobile:
     grid 1
 
