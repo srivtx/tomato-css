@@ -606,6 +606,40 @@
             justify-content: center;
         }
 
+        /* Copy button (used as .lang badge for the CSS output) */
+        .copy-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+            font-family: var(--font-code);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            padding: 0.2rem 0.55rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+        }
+
+        .copy-btn:hover {
+            background: rgba(244, 63, 94, 0.12);
+            color: var(--text-main);
+            border-color: rgba(244, 63, 94, 0.3);
+        }
+
+        .playground-hint {
+            padding: 0.6rem 1.25rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-family: var(--font-code);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.01);
+        }
+
         .reset-btn {
             background: transparent;
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -1494,9 +1528,13 @@
                 <div class="syntax-card" data-aos="fade-left">
                     <div class="syntax-card-header">
                         <span class="file">output.css</span>
-                        <span class="lang" id="copy-css-btn" style="cursor:pointer" onclick="copyCSS()">COPY</span>
+                        <button class="copy-btn" id="copy-css-btn" type="button" onclick="copyCSS()" aria-label="Copy CSS output">
+                            <span class="copy-icon">⧉</span>
+                            <span class="copy-text">Copy</span>
+                        </button>
                     </div>
                     <pre id="css-output"></pre>
+                    <div class="playground-hint">Try editing the .tom on the left</div>
                 </div>
             </div>
         </section>
@@ -1724,9 +1762,16 @@
         function copyCSS() {
             navigator.clipboard.writeText(output.textContent);
             const btn = document.getElementById('copy-css-btn');
-            const original = btn.textContent;
-            btn.textContent = '✓ Copied!';
-            setTimeout(() => btn.textContent = original, 2000);
+            if (btn) {
+                btn.classList.add('copied');
+                const text = btn.querySelector('.copy-text');
+                const original = text.textContent;
+                text.textContent = 'Copied!';
+                setTimeout(() => {
+                    btn.classList.remove('copied');
+                    text.textContent = original;
+                }, 1500);
+            }
         }
 
         function copyInstall() {
