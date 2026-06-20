@@ -189,6 +189,15 @@
             color: var(--text-main);
             text-decoration: none;
             letter-spacing: -0.02em;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo svg {
+            width: 28px;
+            height: 28px;
+            flex-shrink: 0;
         }
 
         .nav-links {
@@ -270,18 +279,41 @@
             line-height: 1.6;
         }
 
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 0.9rem;
+            border-radius: 100px;
+            background: rgba(244, 63, 94, 0.1);
+            border: 1px solid rgba(244, 63, 94, 0.25);
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            font-family: var(--font-code);
+            letter-spacing: 0.02em;
+        }
+
+        .hero-badge .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #4ade80;
+            box-shadow: 0 0 8px #4ade80;
+        }
+
         .install-box {
             background: rgba(10, 10, 12, 0.4);
             backdrop-filter: blur(12px);
             border: 1px solid var(--border);
-            padding: 1rem 1.5rem;
+            padding: 0.6rem 0.6rem 0.6rem 1.5rem;
             border-radius: 12px;
             font-family: var(--font-code);
             font-size: 0.95rem;
             color: var(--text-secondary);
-            cursor: pointer;
             transition: all 0.2s;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 1rem;
         }
@@ -289,7 +321,6 @@
         .install-box:hover {
             border-color: rgba(255, 255, 255, 0.2);
             background: rgba(255, 255, 255, 0.05);
-            transform: translateY(-2px);
         }
 
         .install-box span {
@@ -299,6 +330,33 @@
         .install-box .prefix {
             color: var(--border);
             margin-right: 0.5rem;
+        }
+
+        .install-copy-btn {
+            background: rgba(244, 63, 94, 0.15);
+            border: 1px solid rgba(244, 63, 94, 0.3);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-family: var(--font-main);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .install-copy-btn:hover {
+            background: rgba(244, 63, 94, 0.25);
+            border-color: rgba(244, 63, 94, 0.5);
+        }
+
+        .install-copy-btn.copied {
+            background: rgba(74, 222, 128, 0.2);
+            border-color: rgba(74, 222, 128, 0.5);
+            color: #4ade80;
         }
 
         /* Features Section */
@@ -474,6 +532,44 @@
             z-index: 2;
         }
 
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, rgba(244, 63, 94, 0.15), rgba(251, 146, 60, 0.1));
+            border: 1px solid rgba(244, 63, 94, 0.2);
+            transform: translateZ(20px);
+            z-index: 2;
+        }
+
+        .card-icon svg {
+            width: 24px;
+            height: 24px;
+            color: var(--primary);
+        }
+
+        .feature-card:nth-child(2) .card-icon {
+            background: linear-gradient(135deg, rgba(251, 146, 60, 0.15), rgba(168, 85, 247, 0.1));
+            border-color: rgba(251, 146, 60, 0.2);
+        }
+
+        .feature-card:nth-child(2) .card-icon svg {
+            color: var(--secondary);
+        }
+
+        .feature-card:nth-child(3) .card-icon {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(244, 63, 94, 0.1));
+            border-color: rgba(168, 85, 247, 0.2);
+        }
+
+        .feature-card:nth-child(3) .card-icon svg {
+            color: #a78bfa;
+        }
+
         /* Playground */
         .playground {
             max-width: 1400px;
@@ -625,6 +721,69 @@
             box-shadow: 0 5px 20px rgba(244, 63, 94, 0.3);
         }
 
+        /* Footer */
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem 3rem;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .footer-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: var(--text-main);
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-tag {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-credits {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .footer-credits a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .footer-credits a:hover {
+            color: var(--text-main);
+        }
+
         /* Cinematic Grain Overlay */
         .grain {
             position: fixed;
@@ -645,24 +804,54 @@
     <div id="canvas-container"></div>
 
     <div class="content-wrapper">
-        <nav>
-            <a href="#" class="logo">🍅 Tomato</a>
-            <div class="nav-links">
-                <a href="#features">Features</a>
-                <a href="docs.html">Documentation</a>
-                <a href="https://github.com/srivtx/tomato-css">GitHub</a>
-            </div>
-            <a href="docs.html#installation" class="cta-btn">Get Started</a>
-        </nav>
+    <nav>
+        <a href="#" class="logo" aria-label="Tomato CSS home">
+            <svg width="28" height="28" viewBox="0 0 64 64" aria-hidden="true">
+                <defs>
+                    <radialGradient id="navTomato" cx="35%" cy="32%" r="68%">
+                        <stop offset="0%" stop-color="#fb7185"/>
+                        <stop offset="50%" stop-color="#f43f5e"/>
+                        <stop offset="100%" stop-color="#9f1239"/>
+                    </radialGradient>
+                    <linearGradient id="navLeaf" x1="50%" y1="0%" x2="50%" y2="100%">
+                        <stop offset="0%" stop-color="#4ade80"/>
+                        <stop offset="100%" stop-color="#15803d"/>
+                    </linearGradient>
+                </defs>
+                <circle cx="32" cy="38" r="22" fill="url(#navTomato)"/>
+                <ellipse cx="24" cy="30" rx="7" ry="4" fill="#fff" fill-opacity="0.38"/>
+                <rect x="30.5" y="2" width="3" height="9" rx="1.5" fill="#15803d"/>
+                <path d="M32 17 C 22 14, 12 15, 10 20 C 14 23, 24 22, 32 19 Z" fill="url(#navLeaf)"/>
+                <path d="M32 17 C 42 14, 52 15, 54 20 C 50 23, 40 22, 32 19 Z" fill="url(#navLeaf)"/>
+                <path d="M32 18 C 28 22, 18 23, 16 21 C 19 19, 27 18, 32 18 Z" fill="#166534"/>
+                <path d="M32 18 C 36 22, 46 23, 48 21 C 45 19, 37 18, 32 18 Z" fill="#166534"/>
+            </svg>
+            <span>Tomato</span>
+        </a>
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="docs.html">Documentation</a>
+            <a href="https://github.com/srivtx/tomato-css">GitHub</a>
+        </div>
+        <a href="docs.html#installation" class="cta-btn">Get Started</a>
+    </nav>
 
         <section class="hero" data-aos="fade-up" data-bg-color="#050505">
+            <div class="hero-badge">
+                <span class="dot"></span>
+                v1.2.0 — Open source, MIT licensed
+            </div>
             <h1>Write CSS like<br>you <span>think</span>.</h1>
             <p>A human-friendly preprocessor that actually makes sense. Compile semantic, reusable components into
                 optimized CSS.</p>
 
-            <div class="install-box" onclick="copyInstall()">
+            <div class="install-box">
                 <span class="prefix">$</span>
                 <span>npx @srivtx/tomato-css app.tom</span>
+                <button class="install-copy-btn" onclick="copyInstall()" aria-label="Copy install command">
+                    <span class="copy-icon">📋</span>
+                    <span class="copy-text">Copy</span>
+                </button>
             </div>
         </section>
 
@@ -678,12 +867,29 @@
             <div class="feature-grid">
                 <div class="feature-card spotlight-card" data-tilt data-tilt-glare data-tilt-max-glare="0.5"
                     data-aos="fade-up" data-aos-delay="100">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="7" height="7" rx="1"/>
+                            <rect x="14" y="3" width="7" height="7" rx="1"/>
+                            <rect x="3" y="14" width="7" height="7" rx="1"/>
+                            <path d="M14 17.5h7M14 14h7"/>
+                        </svg>
+                    </div>
                     <div class="card-number">01</div>
                     <h3>Smart<br>Components</h3>
                     <p>Define reusable style groups with <code>component btn:</code> and use them anywhere.</p>
                 </div>
                 <div class="feature-card spotlight-card" data-tilt data-tilt-glare data-tilt-max-glare="0.5"
                     data-aos="fade-up" data-aos-delay="200">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="13.5" cy="6.5" r="2.5"/>
+                            <circle cx="17.5" cy="10.5" r="2.5"/>
+                            <circle cx="8.5" cy="7.5" r="2.5"/>
+                            <circle cx="6.5" cy="12.5" r="2.5"/>
+                            <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>
+                        </svg>
+                    </div>
                     <div class="card-number">02</div>
                     <h3>Native<br>Colors</h3>
                     <p>Full Tailwind palette built-in. Just use <code>rose-500</code>, <code>bg slate-900</code>
@@ -691,6 +897,15 @@
                 </div>
                 <div class="feature-card spotlight-card" data-tilt data-tilt-glare data-tilt-max-glare="0.5"
                     data-aos="fade-up" data-aos-delay="300">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                            <line x1="9" y1="13" x2="15" y2="13"/>
+                            <line x1="9" y1="17" x2="15" y2="17"/>
+                            <line x1="9" y1="9" x2="11" y2="9"/>
+                        </svg>
+                    </div>
                     <div class="card-number">03</div>
                     <h3>Human<br>Syntax</h3>
                     <p>No colons. No semicolons. Just pure readable logic like <code>pad 4</code>,
@@ -745,10 +960,39 @@
         </section>
 
         <footer>
-            <p>Made with 🍅 by srivtx</p>
-            <br>
-            <a href="https://github.com/srivtx/tomato-css">GitHub</a>
-            <a href="docs.html">Docs</a>
+            <div class="footer-inner">
+                <div class="footer-brand">
+                    <svg width="32" height="32" viewBox="0 0 64 64" aria-hidden="true">
+                        <defs>
+                            <radialGradient id="footerTomato" cx="35%" cy="32%" r="68%">
+                                <stop offset="0%" stop-color="#fb7185"/>
+                                <stop offset="50%" stop-color="#f43f5e"/>
+                                <stop offset="100%" stop-color="#9f1239"/>
+                            </radialGradient>
+                            <linearGradient id="footerLeaf" x1="50%" y1="0%" x2="50%" y2="100%">
+                                <stop offset="0%" stop-color="#4ade80"/>
+                                <stop offset="100%" stop-color="#15803d"/>
+                            </linearGradient>
+                        </defs>
+                        <circle cx="32" cy="38" r="22" fill="url(#footerTomato)"/>
+                        <ellipse cx="24" cy="30" rx="7" ry="4" fill="#fff" fill-opacity="0.38"/>
+                        <rect x="30.5" y="2" width="3" height="9" rx="1.5" fill="#15803d"/>
+                        <path d="M32 17 C 22 14, 12 15, 10 20 C 14 23, 24 22, 32 19 Z" fill="url(#footerLeaf)"/>
+                        <path d="M32 17 C 42 14, 52 15, 54 20 C 50 23, 40 22, 32 19 Z" fill="url(#footerLeaf)"/>
+                        <path d="M32 18 C 28 22, 18 23, 16 21 C 19 19, 27 18, 32 18 Z" fill="#166534"/>
+                        <path d="M32 18 C 36 22, 46 23, 48 21 C 45 19, 37 18, 32 18 Z" fill="#166534"/>
+                    </svg>
+                    <span>Tomato</span>
+                </div>
+                <p class="footer-tag">Fresh styles, no ketchup required.</p>
+                <nav class="footer-links" aria-label="Footer">
+                    <a href="https://github.com/srivtx/tomato-css">GitHub</a>
+                    <a href="https://www.npmjs.com/package/@srivtx/tomato-css">npm</a>
+                    <a href="docs.html">Docs</a>
+                    <a href="https://github.com/srivtx/tomato-css/releases">Releases</a>
+                </nav>
+                <p class="footer-credits">Made with care by <a href="https://github.com/srivtx">srivtx</a>. MIT licensed.</p>
+            </div>
         </footer>
     </div>
 
@@ -945,14 +1189,17 @@
 
         function copyInstall() {
             navigator.clipboard.writeText('npx @srivtx/tomato-css app.tom');
-            const box = document.querySelector('.install-box');
-            box.style.borderColor = '#4ade80';
-            const originalBg = box.style.background;
-            box.style.background = 'rgba(74, 222, 128, 0.1)';
-            setTimeout(() => {
-                box.style.borderColor = '';
-                box.style.background = originalBg;
-            }, 1000);
+            const btn = document.querySelector('.install-copy-btn');
+            if (btn) {
+                btn.classList.add('copied');
+                const text = btn.querySelector('.copy-text');
+                const original = text.textContent;
+                text.textContent = 'Copied!';
+                setTimeout(() => {
+                    btn.classList.remove('copied');
+                    text.textContent = original;
+                }, 1500);
+            }
         }
     </script>
 </body>
