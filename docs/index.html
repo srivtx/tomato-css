@@ -4,1279 +4,705 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tomato - The Human-Friendly CSS Preprocessor</title>
+    <title>Tomato — A CSS preprocessor that reads like English</title>
     <meta name="description"
-        content="Write CSS like you think. Components, Tailwind colors, and human-readable syntax. Fresh styles, no ketchup required.">
+        content="A small, sharp CSS preprocessor. Components, tokens, and human-readable syntax. The output is plain CSS.">
 
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="apple-touch-icon" href="apple-touch-icon.svg">
-    <link rel="manifest" href="manifest.json">
     <link rel="canonical" href="https://tomato.tom/">
 
+    <meta property="og:title" content="Tomato — A CSS preprocessor that reads like English">
+    <meta property="og:description" content="A small, sharp CSS preprocessor. Plain CSS in, plain CSS out.">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Tomato CSS - The Human-Friendly CSS Preprocessor">
-    <meta property="og:description" content="Write CSS like you think. Components, Tailwind colors, and human-readable syntax.">
-    <meta property="og:image" content="og-image.svg">
-    <meta property="og:url" content="https://tomato.tom/">
-    <meta property="og:site_name" content="Tomato CSS">
-
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Tomato CSS - The Human-Friendly CSS Preprocessor">
-    <meta name="twitter:description" content="Write CSS like you think. Components, Tailwind colors, and human-readable syntax.">
-    <meta name="twitter:image" content="og-image.svg">
-
     <meta name="theme-color" content="#f43f5e">
 
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "SoftwareApplication",
-        "name": "Tomato CSS",
-        "alternateName": "tomato-css",
-        "description": "The Human-Friendly CSS Preprocessor. Write CSS like you think.",
-        "url": "https://github.com/srivtx/tomato-css",
-        "applicationCategory": "DeveloperApplication",
-        "applicationSubCategory": "CSS Preprocessor",
-        "operatingSystem": "Cross-platform",
-        "softwareVersion": "1.2.0",
-        "downloadUrl": "https://www.npmjs.com/package/@srivtx/tomato-css",
-        "author": {
-            "@type": "Person",
-            "name": "srivtx",
-            "url": "https://github.com/srivtx"
-        },
-        "license": "https://github.com/srivtx/tomato-css/blob/main/LICENSE",
-        "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-        }
-    }
-    </script>
-
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
         rel="stylesheet">
 
-    <!-- PrismJS (Syntax Highlighting) -->
-    <link href="https://unpkg.com/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
-
-    <!-- AOS Animation -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
-    <!-- Three.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <!-- Three.js Post-Processing -->
-    <script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
-    <script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
-    <script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
-    <script src="https://unpkg.com/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
-    <script src="https://unpkg.com/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
-    <script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
-    <script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
-    <!-- Vanilla Tilt -->
-
     <style>
-        /* ============================================================
-           BASE
-        ============================================================ */
         :root {
-            --bg: #050505;
-            --surface: rgba(18, 18, 21, 0.6);
-            --surface-hover: rgba(28, 28, 32, 0.8);
-            --border: rgba(255, 255, 255, 0.08);
-            --primary: #f43f5e;
-            --primary-glow: rgba(244, 63, 94, 0.4);
-            --secondary: #fb923c;
-            --accent: #4ade80;
+            --bg: #0a0a0a;
+            --bg-2: #111111;
+            --line: #1f1f1f;
+            --line-2: #2a2a2a;
             --text: #ededed;
-            --text-2: #a1a1aa;
-            --text-3: #71717a;
-            --font-display: 'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            --font-code: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+            --text-2: #8a8a8a;
+            --text-3: #5a5a5a;
+            --accent: #f43f5e;
+            --accent-dim: #b23048;
+
+            --serif: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+            --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --mono: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        html { scroll-behavior: smooth; }
+        html {
+            background: var(--bg);
+            scroll-behavior: smooth;
+        }
 
         body {
-            font-family: var(--font-display);
+            font-family: var(--sans);
             background: var(--bg);
             color: var(--text);
-            min-height: 100vh;
-            overflow-x: hidden;
+            font-size: 16px;
+            line-height: 1.6;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            transition: background-color 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        /* 3D canvas (untouched) */
-        #canvas-container {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100vh;
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 1s ease;
-        }
-        #canvas-container.loaded { opacity: 1; }
-
-        .content-wrapper { position: relative; z-index: 10; }
-
-        /* Respect reduced motion: skip intro animation, still render 3D scene */
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-                scroll-behavior: auto !important;
-            }
-        }
-
-        /* Grain overlay (untouched) */
-        .grain {
-            position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 9999;
-            opacity: 0.05;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.5'/%3E%3C/svg%3E");
-            mix-blend-mode: overlay;
-        }
-
-        /* ============================================================
-           LAYOUT PRIMITIVES
-        ============================================================ */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .section-head {
-            text-align: center;
-            max-width: 720px;
-            margin: 0 auto 4rem;
-        }
-
-        .eyebrow {
-            display: inline-block;
-            font-family: var(--font-code);
-            font-size: 0.75rem;
-            font-weight: 500;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .section-head h2 {
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            line-height: 1.1;
-            margin-bottom: 1rem;
-            background: linear-gradient(to bottom right, #fff 0%, #a1a1aa 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .section-head p {
-            font-size: 1.05rem;
-            color: var(--text-2);
-            line-height: 1.55;
-        }
-
-        code {
-            font-family: var(--font-code);
-            font-size: 0.9em;
-            padding: 0.1em 0.35em;
-            background: rgba(255, 255, 255, 0.06);
-            border-radius: 4px;
-            color: var(--text);
-        }
-
-        /* ============================================================
-           HERO
-        ============================================================ */
-        .hero {
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            position: relative;
-            padding: 4rem 2rem 2rem;
         }
 
-        .hero-inner {
-            max-width: 1200px;
+        ::selection { background: var(--accent); color: var(--bg); }
+
+        a { color: inherit; text-decoration: none; }
+        a:hover { color: var(--accent); }
+
+        /* ---------- Page frame ---------- */
+
+        .page {
+            max-width: 1180px;
             margin: 0 auto;
-            width: 100%;
-            display: grid;
-            grid-template-columns: 1.1fr 0.9fr;
-            gap: 4rem;
-            align-items: center;
+            padding: 0 32px;
         }
 
-        .hero-content {
+        /* ---------- Top bar (only place that holds the brand + links) ---------- */
+
+        .topbar {
             display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
+            align-items: center;
+            justify-content: space-between;
+            padding: 28px 0;
+            border-bottom: 1px solid var(--line);
         }
 
-        .hero-eyebrow {
+        .brand {
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.35rem 0.85rem;
-            border-radius: 100px;
-            background: rgba(244, 63, 94, 0.08);
-            border: 1px solid rgba(244, 63, 94, 0.2);
-            color: var(--text-2);
-            font-family: var(--font-code);
-            font-size: 0.75rem;
-            font-weight: 500;
-            width: fit-content;
-        }
-
-        .hero-eyebrow .dot {
-            width: 6px; height: 6px;
-            border-radius: 50%;
-            background: var(--accent);
-            box-shadow: 0 0 8px var(--accent);
-            animation: dotPulse 2s ease-in-out infinite;
-        }
-
-        @keyframes dotPulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
-        }
-
-        .hero-title {
-            font-size: clamp(2.5rem, 5vw, 3.75rem);
-            font-weight: 800;
-            line-height: 1.05;
-            letter-spacing: -0.04em;
-            background: linear-gradient(to bottom right, #fff 0%, #a1a1aa 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .hero-title .accent {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .hero-lede {
-            font-size: 1.1rem;
-            color: var(--text-2);
-            line-height: 1.6;
-            max-width: 540px;
-        }
-
-        .hero-lede strong {
+            gap: 10px;
+            font-family: var(--mono);
+            font-size: 14px;
+            letter-spacing: 0.01em;
             color: var(--text);
-            font-weight: 600;
         }
 
-        .install-row {
+        .brand-mark { width: 22px; height: 22px; }
+
+        .topbar nav {
             display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-            align-items: center;
-        }
-
-        .install-box {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.6rem 0.6rem 0.6rem 1.25rem;
-            background: rgba(10, 10, 12, 0.5);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            font-family: var(--font-code);
-            font-size: 0.9rem;
+            gap: 28px;
+            font-family: var(--mono);
+            font-size: 13px;
             color: var(--text-2);
         }
 
-        .install-box code { background: transparent; padding: 0; font-size: inherit; }
+        .topbar nav a:hover { color: var(--text); }
 
-        .install-box .prompt { color: var(--accent); }
+        /* ---------- Hero ---------- */
 
-        .install-box--large {
-            font-size: 1rem;
-            padding: 0.75rem 0.75rem 0.75rem 1.5rem;
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 72px;
+            align-items: start;
+            padding: 96px 0 80px;
         }
 
-        .copy-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            background: rgba(244, 63, 94, 0.12);
-            border: 1px solid rgba(244, 63, 94, 0.25);
-            color: white;
-            padding: 0.4rem 0.75rem;
-            border-radius: 8px;
-            font-family: var(--font-code);
-            font-size: 0.75rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
+        .hero h1 {
+            font-family: var(--serif);
+            font-weight: 400;
+            font-size: clamp(40px, 5.5vw, 68px);
+            line-height: 1.05;
+            letter-spacing: -0.02em;
+            color: var(--text);
         }
 
-        .copy-btn:hover {
-            background: rgba(244, 63, 94, 0.2);
-            border-color: rgba(244, 63, 94, 0.4);
-        }
-
-        .copy-btn.copied {
-            background: rgba(74, 222, 128, 0.15);
-            border-color: rgba(74, 222, 128, 0.4);
+        .hero h1 em {
+            font-style: italic;
             color: var(--accent);
         }
 
-        .hero-links {
-            display: flex;
-            gap: 1.5rem;
-            margin-top: 0.5rem;
+        .lede {
+            margin-top: 24px;
+            font-size: 17px;
+            line-height: 1.55;
+            color: var(--text-2);
+            max-width: 36ch;
         }
 
-        .hero-links a {
-            color: var(--text-2);
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: color 0.2s;
+        .ctas {
+            margin-top: 36px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .btn {
             display: inline-flex;
             align-items: center;
-            gap: 0.3rem;
+            gap: 8px;
+            height: 40px;
+            padding: 0 16px;
+            font-family: var(--mono);
+            font-size: 13px;
+            border-radius: 0;
+            border: 1px solid var(--line-2);
+            background: transparent;
+            color: var(--text);
+            transition: border-color 120ms linear, color 120ms linear, background 120ms linear;
         }
+        .btn:hover { border-color: var(--text); color: var(--text); }
+        .btn-primary { background: var(--text); color: var(--bg); border-color: var(--text); }
+        .btn-primary:hover { background: var(--accent); border-color: var(--accent); color: var(--bg); }
 
-        .hero-links a:hover { color: var(--text); }
-        .hero-links a span { transition: transform 0.2s; }
-        .hero-links a:hover span { transform: translateX(3px); }
-
-        /* Hero visual */
-        .hero-visual {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 480px;
-        }
-
-        .hero-glow {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 520px; height: 520px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(244, 63, 94, 0.18) 0%, rgba(244, 63, 94, 0.05) 40%, transparent 70%);
-            filter: blur(20px);
-            animation: glowPulse 5s ease-in-out infinite;
-        }
-
-        @keyframes glowPulse {
-            0%, 100% { opacity: 0.8; transform: translate(-50%, -50%) scale(1); }
-            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.08); }
-        }
-
-        .hero-tomato {
-            width: 280px; height: 280px;
-            position: relative;
-            z-index: 2;
-            filter: drop-shadow(0 0 40px rgba(244, 63, 94, 0.5))
-                    drop-shadow(0 20px 60px rgba(244, 63, 94, 0.3));
-            animation: tomatoFloat 7s ease-in-out infinite;
-        }
-
-        @keyframes tomatoFloat {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-14px) rotate(3deg); }
-        }
-
-        /* Orbiting tokens */
-        .hero-orbit {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 420px; height: 420px;
-            pointer-events: none;
-        }
-
-        .orbit-token {
-            position: absolute;
-            top: 50%; left: 50%;
-            font-family: var(--font-code);
-            font-size: 0.7rem;
-            color: var(--text-2);
-            background: rgba(10, 10, 12, 0.7);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 0.3rem 0.65rem;
-            border-radius: 6px;
-            white-space: nowrap;
-            animation: orbitSpin 24s linear infinite;
-            animation-delay: var(--d, 0s);
-        }
-
-        @keyframes orbitSpin {
-            0% { transform: rotate(0deg) translateX(210px) rotate(0deg); opacity: 0; }
-            5% { opacity: 1; }
-            95% { opacity: 1; }
-            100% { transform: rotate(360deg) translateX(210px) rotate(-360deg); opacity: 0; }
-        }
-
-        .scroll-hint {
-            position: absolute;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            font-family: var(--font-code);
-            font-size: 0.7rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
+        .install-line {
+            margin-top: 24px;
+            font-family: var(--mono);
+            font-size: 13px;
             color: var(--text-3);
         }
-
-        .scroll-hint::after {
-            content: "";
-            display: block;
-            width: 1px;
-            height: 30px;
-            background: var(--text-3);
-            margin: 0.75rem auto 0;
-            animation: scrollPulse 2s ease-in-out infinite;
+        .install-line code {
+            color: var(--text-2);
+            padding: 0;
+            background: none;
         }
+        .install-line .prompt { color: var(--accent); user-select: none; }
 
-        @keyframes scrollPulse {
-            0%, 100% { opacity: 0.3; transform: scaleY(0.5); }
-            50% { opacity: 1; transform: scaleY(1); }
-        }
+        /* ---------- Code blocks (side-by-side .tom → .css) ---------- */
 
-        /* ============================================================
-           SYNTAX
-        ============================================================ */
-        .syntax { padding: 7rem 0; }
-
-        .syntax-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-        }
-
-        .code-card {
-            background: rgba(10, 10, 12, 0.4);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--border);
-            border-radius: 14px;
+        .code-pair {
+            border: 1px solid var(--line);
+            background: var(--bg-2);
+            font-family: var(--mono);
+            font-size: 12.5px;
+            line-height: 1.65;
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
         }
 
-        .code-head {
-            padding: 0.75rem 1.25rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-family: var(--font-code);
-            font-size: 0.8rem;
-        }
-
-        .file {
-            color: var(--text-2);
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .file-dot {
-            width: 8px; height: 8px;
-            border-radius: 50%;
-            background: currentColor;
-            opacity: 0.6;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            letter-spacing: 0.05em;
-        }
-
-        .badge-tom { background: rgba(244, 63, 94, 0.12); color: var(--primary); }
-        .badge-css { background: rgba(99, 102, 241, 0.12); color: #818cf8; }
-
-        .code {
-            padding: 1.25rem 1.5rem;
-            font-family: var(--font-code);
-            font-size: 0.85rem;
-            line-height: 1.7;
-            color: #cbd5e1;
-            white-space: pre;
-            overflow-x: auto;
-            flex: 1;
-        }
-
-        .code .c { color: #64748b; font-style: italic; }
-        .code .k { color: #f472b6; }
-        .code .v { color: #fbbf24; }
-        .code .n { color: #a78bfa; }
-        .code .s { color: #4ade80; }
-        .code .p { color: #fb923c; }
-
-        /* ============================================================
-           HOW
-        ============================================================ */
-        .how { padding: 7rem 0; }
-
-        .steps {
-            list-style: none;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-        }
-
-        .steps li {
-            padding: 2.5rem 2rem;
-            background: rgba(18, 18, 21, 0.3);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            text-align: left;
-        }
-
-        .step-num {
-            display: inline-block;
-            font-family: var(--font-code);
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--primary);
-            background: rgba(244, 63, 94, 0.1);
-            border: 1px solid rgba(244, 63, 94, 0.2);
-            padding: 0.3rem 0.7rem;
-            border-radius: 100px;
-            margin-bottom: 1.5rem;
-        }
-
-        .steps h3 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 0.75rem;
-            letter-spacing: -0.02em;
-        }
-
-        .steps p {
-            color: var(--text-2);
-            font-size: 0.95rem;
-            line-height: 1.55;
-        }
-
-        /* ============================================================
-           FEATURES
-        ============================================================ */
-        .features { padding: 7rem 0; }
-
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
-        }
-
-        .feature {
-            padding: 2.5rem;
-            background: rgba(18, 18, 21, 0.3);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            transition: border-color 0.2s, transform 0.2s;
-        }
-
-        .feature:hover {
-            border-color: rgba(244, 63, 94, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .feature-icon {
-            width: 44px; height: 44px;
+        .code-pair .file {
             display: flex;
             align-items: center;
-            justify-content: center;
-            border-radius: 10px;
-            background: rgba(244, 63, 94, 0.1);
-            border: 1px solid rgba(244, 63, 94, 0.15);
-            color: var(--primary);
-            margin-bottom: 1.25rem;
-        }
-
-        .feature-icon svg { width: 22px; height: 22px; }
-
-        .feature h3 {
-            font-size: 1.15rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            letter-spacing: -0.01em;
-        }
-
-        .feature p {
-            color: var(--text-2);
-            font-size: 0.9rem;
-            line-height: 1.55;
-        }
-
-        /* ============================================================
-           COMPARISON
-        ============================================================ */
-        .comparison { padding: 7rem 0; }
-
-        .compare-table {
-            background: rgba(10, 10, 12, 0.4);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            overflow: hidden;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .compare-row {
-            display: grid;
-            grid-template-columns: 1.2fr repeat(4, 1fr);
-            padding: 1.1rem 1.5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-            align-items: center;
-            font-size: 0.95rem;
-        }
-
-        .compare-row:last-child { border-bottom: none; }
-
-        .compare-head {
-            background: rgba(255, 255, 255, 0.02);
-            font-family: var(--font-code);
-            font-size: 0.7rem;
-            font-weight: 500;
+            gap: 8px;
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--line);
+            font-size: 11px;
+            color: var(--text-3);
             text-transform: uppercase;
             letter-spacing: 0.08em;
-            color: var(--text-3);
-            padding: 0.9rem 1.5rem;
         }
 
-        .compare-tomato { background: rgba(244, 63, 94, 0.06); }
-        .compare-tomato .compare-name { color: var(--primary); font-weight: 600; }
-        .compare-name { font-weight: 600; }
-        .yes { color: var(--accent); }
+        .code-pair .file .dot {
+            width: 7px; height: 7px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
 
-        /* ============================================================
-           PLAYGROUND
-        ============================================================ */
-        .playground { padding: 7rem 0; }
-
-        .playground-grid {
+        .code-pair .panes {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
         }
 
-        #tomato-input {
-            flex: 1;
-            width: 100%;
-            background: transparent;
-            border: none;
-            padding: 1.25rem 1.5rem;
-            font-family: var(--font-code);
-            font-size: 0.85rem;
-            line-height: 1.7;
-            color: #cbd5e1;
-            resize: none;
-            outline: none;
-            min-height: 360px;
+        .code-pair .pane {
+            padding: 18px 18px 22px;
+            overflow-x: auto;
         }
 
-        /* ============================================================
-           CTA
-        ============================================================ */
-        .cta { padding: 8rem 0; text-align: center; }
-
-        .cta-inner h2 {
-            font-size: clamp(2.25rem, 5vw, 3.5rem);
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            line-height: 1.1;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #fff 0%, #a1a1aa 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+        .code-pair .pane + .pane {
+            border-left: 1px solid var(--line);
         }
 
-        .cta-inner p {
-            color: var(--text-2);
-            font-size: 1.05rem;
-            margin-bottom: 2.5rem;
-        }
-
-        .cta-row {
-            display: inline-flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .github-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.85rem 1.5rem;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 100px;
+        .code-pair pre {
+            font-family: var(--mono);
+            font-size: 12.5px;
+            line-height: 1.65;
             color: var(--text);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: all 0.2s;
+            white-space: pre;
         }
 
-        .github-btn:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-1px);
+        .tom .k { color: var(--accent); }   /* keyword: component, use, hover */
+        .tom .s { color: var(--text-2); }   /* selector */
+        .tom .p { color: var(--text); }     /* property */
+        .tom .v { color: var(--text-2); }   /* value */
+        .tom .c { color: var(--text-3); font-style: italic; } /* comment */
+
+        .css .sel { color: var(--text-2); }
+        .css .prop { color: var(--accent); }
+        .css .val { color: var(--text); }
+        .css .punc { color: var(--text-3); }
+
+        /* ---------- Section frame ---------- */
+
+        section {
+            border-top: 1px solid var(--line);
+            padding: 80px 0;
         }
 
-        /* ============================================================
-           FOOTER
-        ============================================================ */
-        footer { padding: 4rem 0 3rem; border-top: 1px solid rgba(255, 255, 255, 0.06); }
-
-        .footer-inner {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1.5rem;
-            text-align: center;
-        }
-
-        .footer-brand {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 2rem;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .footer-links a {
-            color: var(--text-2);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.2s;
-        }
-
-        .footer-links a:hover { color: var(--text); }
-
-        .footer-meta {
+        .section-label {
+            font-family: var(--mono);
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
             color: var(--text-3);
-            font-size: 0.8rem;
+            margin-bottom: 18px;
         }
 
-        .footer-meta a {
+        .section-title {
+            font-family: var(--serif);
+            font-weight: 400;
+            font-size: clamp(28px, 3.4vw, 40px);
+            line-height: 1.15;
+            letter-spacing: -0.01em;
+            color: var(--text);
+            max-width: 24ch;
+            margin-bottom: 48px;
+        }
+
+        /* ---------- "What it does" prose section ---------- */
+
+        .prose {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 64px;
+            align-items: start;
+        }
+
+        .prose .meta {
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--text-3);
+            line-height: 1.7;
+        }
+        .prose .meta div + div { margin-top: 6px; }
+
+        .prose .body p {
+            font-size: 16px;
+            line-height: 1.7;
             color: var(--text-2);
-            text-decoration: none;
+            max-width: 60ch;
+        }
+        .prose .body p + p { margin-top: 14px; }
+
+        .prose .body code {
+            font-family: var(--mono);
+            font-size: 13px;
+            color: var(--text);
+            background: var(--bg-2);
+            border: 1px solid var(--line);
+            padding: 1px 6px;
         }
 
-        .footer-meta a:hover { color: var(--text); }
+        .prose .body strong {
+            color: var(--text);
+            font-weight: 500;
+        }
 
-        /* ============================================================
-           RESPONSIVE
-        ============================================================ */
+        /* ---------- Playground (small, two-pane, no decoration) ---------- */
+
+        .playground {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            border: 1px solid var(--line);
+            background: var(--bg-2);
+            min-height: 420px;
+        }
+
+        .playground textarea,
+        .playground pre {
+            font-family: var(--mono);
+            font-size: 13px;
+            line-height: 1.65;
+            background: transparent;
+            color: var(--text);
+            border: 0;
+            outline: none;
+            resize: none;
+            padding: 20px 22px;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .playground textarea {
+            width: 100%;
+            height: 100%;
+            min-height: 380px;
+            border-right: 1px solid var(--line);
+            caret-color: var(--accent);
+        }
+
+        .playground pre {
+            color: var(--text-2);
+            overflow: auto;
+        }
+
+        .playground pre .sel { color: var(--text-2); }
+        .playground pre .prop { color: var(--accent); }
+        .playground pre .val { color: var(--text); }
+        .playground pre .punc { color: var(--text-3); }
+
+        .playground-toolbar {
+            grid-column: 1 / -1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 16px;
+            border-top: 1px solid var(--line);
+            font-family: var(--mono);
+            font-size: 11px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-3);
+        }
+
+        .playground-toolbar .right { display: flex; gap: 16px; }
+
+        /* ---------- Spec section: numbered list of language features ---------- */
+
+        .spec-list {
+            list-style: none;
+            counter-reset: spec;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            border-top: 1px solid var(--line);
+        }
+        .spec-list li {
+            counter-increment: spec;
+            padding: 24px 0;
+            border-bottom: 1px solid var(--line);
+            display: grid;
+            grid-template-columns: 48px 1fr;
+            gap: 12px;
+            align-items: start;
+        }
+        .spec-list li::before {
+            content: counter(spec, decimal-leading-zero);
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--text-3);
+            padding-top: 2px;
+        }
+        .spec-list .head {
+            font-family: var(--mono);
+            font-size: 14px;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+        .spec-list .desc {
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-2);
+        }
+        .spec-list .desc code {
+            font-family: var(--mono);
+            font-size: 12.5px;
+            color: var(--text);
+        }
+
+        /* ---------- Footer ---------- */
+
+        footer {
+            border-top: 1px solid var(--line);
+            padding: 40px 0 56px;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--text-3);
+        }
+        footer nav { display: flex; gap: 24px; }
+        footer nav a:hover { color: var(--text); }
+
+        /* ---------- Responsive ---------- */
+
         @media (max-width: 900px) {
-            .hero { padding: 6rem 1.5rem 2rem; min-height: auto; }
-            .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
-            .hero-visual { min-height: 320px; order: -1; }
-            .hero-tomato { width: 200px; height: 200px; }
-            .hero-glow { width: 360px; height: 360px; }
-            .hero-orbit { width: 320px; height: 320px; }
-            @keyframes orbitSpin {
-                0% { transform: rotate(0deg) translateX(150px) rotate(0deg); opacity: 0; }
-                5% { opacity: 1; }
-                95% { opacity: 1; }
-                100% { transform: rotate(360deg) translateX(150px) rotate(-360deg); opacity: 0; }
-            }
-            .syntax-grid, .feature-grid, .playground-grid { grid-template-columns: 1fr; }
-            .steps { grid-template-columns: 1fr; }
-            .compare-row { grid-template-columns: 1.2fr repeat(4, 1fr); font-size: 0.75rem; padding: 0.75rem; }
-            .section-head h2 { font-size: 1.75rem; }
+            .hero { grid-template-columns: 1fr; gap: 48px; padding: 56px 0; }
+            .prose { grid-template-columns: 1fr; gap: 16px; }
+            .playground { grid-template-columns: 1fr; min-height: 0; }
+            .playground textarea { min-height: 240px; border-right: 0; border-bottom: 1px solid var(--line); }
+            .playground pre { min-height: 200px; }
+            .spec-list { grid-template-columns: 1fr; }
+            .topbar nav { gap: 18px; }
+            footer { flex-direction: column; gap: 16px; align-items: flex-start; }
         }
     </style>
 </head>
 
 <body>
-    <div class="grain"></div>
-    <div id="canvas-container"></div>
 
-    <div class="content-wrapper">
+    <div class="page">
 
-        <!-- ============================================================
-             HERO
-        ============================================================ -->
-        <section class="hero" data-bg-color="#050505">
-            <div class="hero-inner">
-                <div class="hero-content">
-                    <div class="hero-eyebrow">
-                        <span class="dot"></span>
-                        v1.2.0 &middot; just shipped
-                    </div>
+        <!-- Top bar (the only nav) -->
+        <header class="topbar">
+            <a href="/" class="brand">
+                <svg class="brand-mark" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+                    <path d="M32 12 C 30 7, 36 4, 38 9 C 40 4, 46 7, 44 12 C 50 11, 56 14, 56 20 C 56 22, 54 24, 52 24 C 56 30, 54 40, 50 46 C 46 52, 38 56, 32 56 C 26 56, 18 52, 14 46 C 10 40, 8 30, 12 24 C 10 24, 8 22, 8 20 C 8 14, 14 11, 20 12 C 18 7, 24 4, 26 9 C 28 4, 34 7, 32 12 Z" fill="#f43f5e"/>
+                    <ellipse cx="22" cy="32" rx="6" ry="9" fill="#fca5a5" opacity="0.6"/>
+                </svg>
+                <span>tomato</span>
+            </a>
+            <nav>
+                <a href="#spec">Spec</a>
+                <a href="#try">Try</a>
+                <a href="https://github.com/srivtx/tomato-css">GitHub</a>
+                <a href="https://www.npmjs.com/package/@srivtx/tomato-css">npm</a>
+            </nav>
+        </header>
 
-                    <h1 class="hero-title">
-                        The CSS preprocessor<br>
-                        that <span class="accent">thinks</span> like you.
-                    </h1>
-
-                    <p class="hero-lede">
-                        Human-friendly syntax. Tailwind colors built in. Components without
-                        the ceremony. Zero config. <strong>16kB</strong> and zero dependencies.
-                    </p>
-
-                    <div class="install-row">
-                        <div class="install-box">
-                            <span class="prompt">$</span>
-                            <code>npx @srivtx/tomato-css app.tom</code>
-                            <button class="copy-btn" type="button" onclick="copyInstall()" aria-label="Copy install command">
-                                <span class="copy-icon">⧉</span>
-                                <span class="copy-text">Copy</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="hero-links">
-                        <a href="docs.html">Read the docs <span>&rarr;</span></a>
-                        <a href="https://github.com/srivtx/tomato-css">View on GitHub <span>&rarr;</span></a>
-                    </div>
+        <!-- Hero -->
+        <section class="hero" style="border-top:0; padding-top: 96px; padding-bottom: 64px;">
+            <div>
+                <h1>A CSS preprocessor that <em>reads</em> like English.</h1>
+                <p class="lede">
+                    A small, sharp language that compiles to plain CSS.
+                    Components, tokens, breakpoints. No new runtime. No framework. Just shorter files.
+                </p>
+                <div class="ctas">
+                    <a class="btn btn-primary" href="#try">Try it</a>
+                    <a class="btn" href="https://github.com/srivtx/tomato-css">Read on GitHub</a>
                 </div>
-
-                <div class="hero-visual" aria-hidden="true">
-                    <div class="hero-glow"></div>
-                    <div class="hero-orbit">
-                        <span class="orbit-token" style="--d:0s">component btn:</span>
-                        <span class="orbit-token" style="--d:-4.8s">bg rose-500</span>
-                        <span class="orbit-token" style="--d:-9.6s">pad 2 4</span>
-                        <span class="orbit-token" style="--d:-14.4s">round lg</span>
-                        <span class="orbit-token" style="--d:-19.2s">use btn</span>
-                    </div>
-                    <svg class="hero-tomato" viewBox="0 0 64 64">
-                        <defs>
-                            <radialGradient id="heroBody" cx="35%" cy="32%" r="68%">
-                                <stop offset="0%" stop-color="#fda4af"/>
-                                <stop offset="35%" stop-color="#fb7185"/>
-                                <stop offset="70%" stop-color="#f43f5e"/>
-                                <stop offset="100%" stop-color="#9f1239"/>
-                            </radialGradient>
-                            <linearGradient id="heroLeaf" x1="50%" y1="0%" x2="50%" y2="100%">
-                                <stop offset="0%" stop-color="#4ade80"/>
-                                <stop offset="100%" stop-color="#15803d"/>
-                            </linearGradient>
-                        </defs>
-                        <circle cx="32" cy="38" r="22" fill="url(#heroBody)"/>
-                        <ellipse cx="24" cy="30" rx="7" ry="4" fill="#fff" fill-opacity="0.4"/>
-                        <ellipse cx="22" cy="33" rx="2" ry="1" fill="#fff" fill-opacity="0.25"/>
-                        <rect x="30.5" y="2" width="3" height="9" rx="1.5" fill="#15803d"/>
-                        <path d="M32 16 C 28 12 32 6 36 12 C 35 14 33 16 32 16 Z" fill="url(#heroLeaf)"/>
-                        <path d="M32 17 C 22 14 12 15 10 20 C 14 23 24 22 32 19 Z" fill="url(#heroLeaf)"/>
-                        <path d="M32 17 C 42 14 52 15 54 20 C 50 23 40 22 32 19 Z" fill="url(#heroLeaf)"/>
-                        <path d="M32 18 C 28 22 18 23 16 21 C 19 19 27 18 32 18 Z" fill="#166534"/>
-                        <path d="M32 18 C 36 22 46 23 48 21 C 45 19 37 18 32 18 Z" fill="#166534"/>
-                    </svg>
+                <div class="install-line">
+                    <span class="prompt">$</span> <code>npm install -D @srivtx/tomato-css</code>
                 </div>
             </div>
 
-            <div class="scroll-hint" aria-hidden="true">Scroll</div>
-        </section>
-
-        <!-- ============================================================
-             SYNTAX
-        ============================================================ -->
-        <section class="syntax" data-bg-color="#0a0a0f">
-            <div class="container">
-                <div class="section-head">
-                    <span class="eyebrow">The syntax</span>
-                    <h2>Read like English. Compile to CSS.</h2>
-                    <p>Same component. Two ways to write it. Tomato is fewer lines, fewer colons, and far fewer decisions.</p>
+            <div class="code-pair" role="group" aria-label="Tomato input and CSS output">
+                <div class="file">
+                    <span class="dot"></span>
+                    <span>button.tom &nbsp;→&nbsp; button.css</span>
                 </div>
-
-                <div class="syntax-grid">
-                    <article class="code-card">
-                        <header class="code-head">
-                            <span class="file"><i class="file-dot"></i>button.tom</span>
-                            <span class="badge badge-tom">TOMATO</span>
-                        </header>
-                        <pre class="code"><span class="c"># A reusable button component</span>
-<span class="k">component</span> btn:
-  <span class="k">pad</span> <span class="n">2</span> <span class="n">4</span>
-  <span class="k">round</span> <span class="v">lg</span>
-  <span class="k">bold</span>
-  <span class="k">bg</span> <span class="v">rose-500</span>
-  <span class="k">color</span> <span class="v">white</span>
+                <div class="panes">
+                    <div class="pane tom">
+<pre><span class="c"># a button</span>
+<span class="k">component</span> <span class="s">btn</span>:
+  <span class="p">pad</span> <span class="v">2 4</span>
+  <span class="p">round</span> <span class="v">lg</span>
+  <span class="p">bold</span>
+  <span class="p">pointer</span>
 
 <span class="s">button</span>:
-  <span class="k">use</span> btn
+  <span class="k">use</span> <span class="v">btn</span>
+  <span class="p">bg</span> <span class="v">blue-500</span>
+  <span class="p">color</span> <span class="v">white</span>
 
-  <span class="p">hover</span>:
-    <span class="k">bg</span> <span class="v">rose-600</span></pre>
-                    </article>
-
-                    <article class="code-card">
-                        <header class="code-head">
-                            <span class="file"><i class="file-dot"></i>output.css</span>
-                            <button class="copy-btn" id="copy-css-btn" type="button" onclick="copyCSS()">
-                                <span class="copy-icon">⧉</span>
-                                <span class="copy-text">Copy</span>
-                            </button>
-                        </header>
-                        <pre class="code" id="css-output"></pre>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <!-- ============================================================
-             HOW
-        ============================================================ -->
-        <section class="how" data-bg-color="#0f172a">
-            <div class="container">
-                <div class="section-head">
-                    <span class="eyebrow">How it works</span>
-                    <h2>Three steps. That's the whole thing.</h2>
-                </div>
-
-                <ol class="steps">
-                    <li>
-                        <span class="step-num">01</span>
-                        <h3>Write</h3>
-                        <p>Create a <code>.tom</code> file. Use components, tokens, and human syntax. No new language to learn.</p>
-                    </li>
-                    <li>
-                        <span class="step-num">02</span>
-                        <h3>Compile</h3>
-                        <p>Run one command. Get standard CSS. No runtime, no build step, no magic.</p>
-                    </li>
-                    <li>
-                        <span class="step-num">03</span>
-                        <h3>Ship</h3>
-                        <p>Drop the CSS in your project. Works everywhere CSS works. Pairs with anything.</p>
-                    </li>
-                </ol>
-            </div>
-        </section>
-
-        <!-- ============================================================
-             FEATURES
-        ============================================================ -->
-        <section class="features" data-bg-color="#1e1b4b">
-            <div class="container">
-                <div class="section-head">
-                    <span class="eyebrow">Features</span>
-                    <h2>Everything you need.<br>Nothing you don't.</h2>
-                </div>
-
-                <div class="feature-grid">
-                    <article class="feature">
-                        <div class="feature-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="3" y="3" width="7" height="7" rx="1.5"/>
-                                <rect x="14" y="3" width="7" height="7" rx="1.5"/>
-                                <rect x="3" y="14" width="7" height="7" rx="1.5"/>
-                                <path d="M14 17.5h7M14 14h7"/>
-                            </svg>
-                        </div>
-                        <h3>Components</h3>
-                        <p>Define once with <code>component btn:</code>, use anywhere with <code>use btn</code>. Nest them. Compose them.</p>
-                    </article>
-
-                    <article class="feature">
-                        <div class="feature-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="9"/>
-                                <circle cx="12" cy="12" r="4"/>
-                                <path d="M12 3v3M12 18v3M3 12h3M18 12h3"/>
-                            </svg>
-                        </div>
-                        <h3>Tailwind colors</h3>
-                        <p>All 22 palettes, every shade. <code>bg rose-500</code>, <code>color slate-900</code>. Built in, zero config.</p>
-                    </article>
-
-                    <article class="feature">
-                        <div class="feature-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M4 7h16M4 12h10M4 17h16"/>
-                            </svg>
-                        </div>
-                        <h3>Human syntax</h3>
-                        <p><code>row spread</code> not <code>display: flex; justify-content: space-between</code>. <code>round lg</code> not <code>border-radius: 0.5rem</code>.</p>
-                    </article>
-
-                    <article class="feature">
-                        <div class="feature-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="2" y="3" width="20" height="14" rx="2"/>
-                                <path d="M8 21h8M12 17v4M2 10h20"/>
-                            </svg>
-                        </div>
-                        <h3>Responsive &amp; dark mode</h3>
-                        <p><code>@mobile</code>, <code>@tablet</code>, <code>@desktop</code>, <code>@dark</code>, <code>@light</code>. Built into the syntax.</p>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <!-- ============================================================
-             COMPARISON
-        ============================================================ -->
-        <section class="comparison" data-bg-color="#0a0a0f">
-            <div class="container">
-                <div class="section-head">
-                    <span class="eyebrow">Comparison</span>
-                    <h2>How it stacks up.</h2>
-                </div>
-
-                <div class="compare-table">
-                    <div class="compare-row compare-head">
-                        <div></div>
-                        <div>Components</div>
-                        <div>Colors</div>
-                        <div>Config</div>
-                        <div>Bundle</div>
+  <span class="k">hover</span>:
+    <span class="p">bg</span> <span class="v">blue-600</span></pre>
                     </div>
-                    <div class="compare-row compare-tomato">
-                        <div class="compare-name">Tomato</div>
-                        <div><span class="yes">Built-in</span></div>
-                        <div><span class="yes">22 palettes</span></div>
-                        <div><span class="yes">None</span></div>
-                        <div><strong>16kB</strong></div>
-                    </div>
-                    <div class="compare-row">
-                        <div class="compare-name">Sass</div>
-                        <div>@mixin</div>
-                        <div>None</div>
-                        <div>Optional</div>
-                        <div>1.4MB</div>
-                    </div>
-                    <div class="compare-row">
-                        <div class="compare-name">Less</div>
-                        <div>.mixin()</div>
-                        <div>None</div>
-                        <div>Optional</div>
-                        <div>3MB</div>
-                    </div>
-                    <div class="compare-row">
-                        <div class="compare-name">Tailwind</div>
-                        <div>@apply</div>
-                        <div>Built-in</div>
-                        <div>Required</div>
-                        <div>3MB+</div>
+                    <div class="pane css">
+<pre><span class="sel">button</span> <span class="punc">{</span>
+  <span class="prop">padding</span>: <span class="val">0.5rem 1rem</span>;
+  <span class="prop">border-radius</span>: <span class="val">0.5rem</span>;
+  <span class="prop">font-weight</span>: <span class="val">bold</span>;
+  <span class="prop">cursor</span>: <span class="val">pointer</span>;
+  <span class="prop">background</span>: <span class="val">#3b82f6</span>;
+  <span class="prop">color</span>: <span class="val">#ffffff</span>;
+<span class="punc">}</span>
+
+<span class="sel">button:hover</span> <span class="punc">{</span>
+  <span class="prop">background</span>: <span class="val">#2563eb</span>;
+<span class="punc">}</span></pre>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- ============================================================
-             PLAYGROUND
-        ============================================================ -->
-        <section class="playground" data-bg-color="#1e1b4b">
-            <div class="container">
-                <div class="section-head">
-                    <span class="eyebrow">Playground</span>
-                    <h2>Try it. Edit the code.</h2>
-                    <p>Type on the left. Standard CSS on the right. No build, no refresh, no friction.</p>
+        <!-- What it does -->
+        <section>
+            <div class="section-label">§ 01 — What it is</div>
+            <h2 class="section-title">Plain English in, plain CSS out.</h2>
+
+            <div class="prose">
+                <div class="meta">
+                    <div>parser &nbsp;·&nbsp; ~3kb</div>
+                    <div>runtime &nbsp;·&nbsp; none</div>
+                    <div>output &nbsp;·&nbsp; css</div>
                 </div>
+                <div class="body">
+                    <p>
+                        Tomato is a <strong>preprocessor</strong>, not a framework. You write <code>.tom</code> files. The compiler
+                        reads them and emits standard CSS. There is no JavaScript shipped to the browser and no classes you
+                        have to remember.
+                    </p>
+                    <p>
+                        The language is intentionally small. <code>pad 2 4</code> instead of <code>padding: 0.5rem 1rem</code>.
+                        <code>use btn</code> instead of copy-pasting twelve lines. <code>@mobile:</code> instead of
+                        writing a media query by hand. You can read the whole spec in two minutes.
+                    </p>
+                    <p>
+                        Tailwind colors are built in. The spacing scale, radius scale, and shadow scale match the same
+                        scales you've been using for years. Anything Tomato can't express, you drop into a
+                        <code>property: value;</code> line and it passes through unchanged.
+                    </p>
+                </div>
+            </div>
+        </section>
 
-                <div class="playground-grid">
-                    <article class="code-card">
-                        <header class="code-head">
-                            <span class="file"><i class="file-dot"></i>app.tom</span>
-                            <button class="copy-btn" id="resetBtn" type="button">Reset</button>
-                        </header>
-                        <textarea id="tomato-input" spellcheck="false">component btn:
-  pad 2 4
-  round lg
-  bold
-  pointer
-  smooth
-  no border
+        <!-- Playground -->
+        <section id="try">
+            <div class="section-label">§ 02 — Try it</div>
+            <h2 class="section-title">Edit on the left. Read the CSS on the right.</h2>
 
-.primary-btn:
-  use btn
-  bg rose-500
-  color white
-  shadow lg
+            <div class="playground">
+                <textarea id="tomato-input" spellcheck="false" aria-label="Tomato source"># A small card
+component card:
+  bg white
+  pad 6
+  round xl
+  shadow md
 
-.primary-btn:hover:
-  bg rose-600
-  shadow xl
+.card:
+  use card
+  column
+  gap 4
+
+  hover:
+    shadow lg
+
+  @mobile:
+    pad 4
 </textarea>
-                    </article>
-
-                    <article class="code-card">
-                        <header class="code-head">
-                            <span class="file"><i class="file-dot"></i>output.css</span>
-                            <button class="copy-btn" type="button" onclick="copyCSS()">
-                                <span class="copy-icon">⧉</span>
-                                <span class="copy-text">Copy</span>
-                            </button>
-                        </header>
-                        <pre class="code" id="css-output"></pre>
-                    </article>
+                <pre id="css-output" aria-live="polite"></pre>
+                <div class="playground-toolbar">
+                    <span>input.tom → output.css</span>
+                    <span class="right">
+                        <span>compiles in your browser</span>
+                    </span>
                 </div>
             </div>
         </section>
 
-        <!-- ============================================================
-             CTA
-        ============================================================ -->
-        <section class="cta" data-bg-color="#0a0a0f">
-            <div class="container cta-inner">
-                <h2>Fresh styles.<br>No ketchup required.</h2>
-                <p>One command. Zero config. MIT licensed. 16kB.</p>
-                <div class="cta-row">
-                    <div class="install-box install-box--large">
-                        <span class="prompt">$</span>
-                        <code>npm i @srivtx/tomato-css</code>
-                        <button class="copy-btn" type="button" onclick="copyInstall()">
-                            <span class="copy-icon">⧉</span>
-                            <span class="copy-text">Copy</span>
-                        </button>
+        <!-- Spec -->
+        <section id="spec">
+            <div class="section-label">§ 03 — The spec</div>
+            <h2 class="section-title">A small language, on purpose.</h2>
+
+            <ol class="spec-list">
+                <li>
+                    <div></div>
+                    <div>
+                        <div class="head">Selectors</div>
+                        <div class="desc">
+                            Plain <code>button</code>, <code>.class</code>, <code>#id</code>, and
+                            <code>button.btn</code>. Comma-separated groups (<code>.a, .b</code>) work.
+                        </div>
                     </div>
-                    <a class="github-btn" href="https://github.com/srivtx/tomato-css">
-                        <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18" aria-hidden="true">
-                            <path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.8-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2 1-.3 2-.4 3-.4s2 .1 3 .4c2.3-1.5 3.3-1.2 3.3-1.2.7 1.7.3 2.9.1 3.2.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.3.8 1 .8 2v3c0 .4.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/>
-                        </svg>
-                        Star on GitHub
-                    </a>
-                </div>
-            </div>
+                </li>
+                <li>
+                    <div></div>
+                    <div>
+                        <div class="head">Shortcuts</div>
+                        <div class="desc">
+                            <code>pad</code>, <code>m</code>, <code>round</code>, <code>shadow</code>, <code>bg</code>,
+                            <code>color</code>, <code>row</code>, <code>column</code>, <code>grid</code>, <code>gap</code>,
+                            <code>center</code>, <code>hidden</code>, <code>block</code>, <code>flex</code>.
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div></div>
+                    <div>
+                        <div class="head">Components</div>
+                        <div class="desc">
+                            <code>component btn:</code> defines a reusable block. <code>use btn</code> pastes it
+                            into any selector.
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div></div>
+                    <div>
+                        <div class="head">Nesting</div>
+                        <div class="desc">
+                            <code>hover:</code>, <code>focus:</code>, <code>active:</code>, <code>disabled:</code>.
+                            Indent one level. No <code>&amp;</code> needed.
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div></div>
+                    <div>
+                        <div class="head">Breakpoints</div>
+                        <div class="desc">
+                            <code>@mobile</code>, <code>@tablet</code>, <code>@laptop</code>, <code>@desktop</code>,
+                            <code>@wide</code> &nbsp;— match the Tailwind widths out of the box.
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div></div>
+                    <div>
+                        <div class="head">Color modes</div>
+                        <div class="desc">
+                            <code>@dark:</code> and <code>@light:</code> compile to real
+                            <code>prefers-color-scheme</code> media queries.
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div></div>
+                    <div>
+                        <div class="head">Tokens</div>
+                        <div class="desc">
+                            Define a color once as <code>primary</code>, then use <code>bg primary</code> anywhere.
+                            <code>@import "./tokens.tom"</code> shares them across files.
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div></div>
+                    <div>
+                        <div class="head">Pass-through</div>
+                        <div class="desc">
+                            Anything Tomato doesn't recognise is copied to the output untouched. CSS variables,
+                            <code>grid-template-areas</code>, the lot.
+                        </div>
+                    </div>
+                </li>
+            </ol>
         </section>
 
-        <!-- ============================================================
-             FOOTER
-        ============================================================ -->
+        <!-- Footer -->
         <footer>
-            <div class="container footer-inner">
-                <div class="footer-brand">
-                    <svg width="32" height="32" viewBox="0 0 64 64" aria-hidden="true">
-                        <defs>
-                            <radialGradient id="footerBody" cx="35%" cy="32%" r="68%">
-                                <stop offset="0%" stop-color="#fb7185"/>
-                                <stop offset="50%" stop-color="#f43f5e"/>
-                                <stop offset="100%" stop-color="#9f1239"/>
-                            </radialGradient>
-                            <linearGradient id="footerLeaf" x1="50%" y1="0%" x2="50%" y2="100%">
-                                <stop offset="0%" stop-color="#4ade80"/>
-                                <stop offset="100%" stop-color="#15803d"/>
-                            </linearGradient>
-                        </defs>
-                        <circle cx="32" cy="38" r="22" fill="url(#footerBody)"/>
-                        <ellipse cx="24" cy="30" rx="7" ry="4" fill="#fff" fill-opacity="0.38"/>
-                        <rect x="30.5" y="2" width="3" height="9" rx="1.5" fill="#15803d"/>
-                        <path d="M32 17 C 22 14 12 15 10 20 C 14 23 24 22 32 19 Z" fill="url(#footerLeaf)"/>
-                        <path d="M32 17 C 42 14 52 15 54 20 C 50 23 40 22 32 19 Z" fill="url(#footerLeaf)"/>
-                        <path d="M32 18 C 28 22 18 23 16 21 C 19 19 27 18 32 18 Z" fill="#166534"/>
-                        <path d="M32 18 C 36 22 46 23 48 21 C 45 19 37 18 32 18 Z" fill="#166534"/>
-                    </svg>
-                    <span>Tomato</span>
-                </div>
-
-                <nav class="footer-links" aria-label="Footer">
-                    <a href="docs.html">Docs</a>
-                    <a href="https://www.npmjs.com/package/@srivtx/tomato-css">npm</a>
-                    <a href="https://github.com/srivtx/tomato-css">GitHub</a>
-                    <a href="https://github.com/srivtx/tomato-css/releases">Releases</a>
-                </nav>
-
-                <p class="footer-meta">MIT licensed. Made with care by <a href="https://github.com/srivtx">srivtx</a>.</p>
-            </div>
+            <div>MIT licensed · srivtx · 2026</div>
+            <nav>
+                <a href="https://github.com/srivtx/tomato-css">GitHub</a>
+                <a href="https://www.npmjs.com/package/@srivtx/tomato-css">npm</a>
+                <a href="https://github.com/srivtx/tomato-css/releases">Releases</a>
+                <a href="https://github.com/srivtx/tomato-css/blob/main/CHANGELOG.md">Changelog</a>
+            </nav>
         </footer>
 
     </div>
 
-    <!-- Scripts -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://unpkg.com/prismjs@1.29.0/prism.js"></script>
-
-    <script src="js/three-scene.js"></script>
-
-    <script>
-        // Chameleon Background: smoothly transition body background color
-        // as different sections come into view. Works with body's solid
-        // background-color (no gradient, so no override conflict).
-        (function() {
-            const targets = document.querySelectorAll('[data-bg-color]');
-            if (!targets.length) return;
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        const color = entry.target.getAttribute('data-bg-color');
-                        if (color) document.body.style.backgroundColor = color;
-                    }
-                });
-            }, { root: null, threshold: 0.35 });
-            targets.forEach((el) => observer.observe(el));
-        })();
-    </script>
-
     <script>
         // Tiny in-page compiler for the playground.
-        // (Real compiler lives in /src/compiler.js; this is just enough
-        // to make the live demo on the landing page actually compile.)
-        const COLORS_TOM = { 'slate-900':'#0f172a','slate-50':'#f8fafc','slate-300':'#cbd5e1','slate-400':'#94a3b8','slate-500':'#64748b','slate-600':'#475569','slate-700':'#334155','slate-800':'#1e293b','slate-900':'#0f172a','slate-950':'#020617','red-50':'#fef2f2','red-500':'#ef4444','red-600':'#dc2626','orange-50':'#fff7ed','orange-500':'#f97316','orange-600':'#ea580c','amber-50':'#fffbeb','amber-500':'#f59e0b','amber-600':'#d97706','yellow-500':'#eab308','yellow-600':'#ca8a04','lime-500':'#84cc16','green-500':'#22c55e','green-600':'#16a34a','emerald-500':'#10b981','emerald-600':'#059669','teal-500':'#14b8a6','teal-600':'#0d9488','cyan-500':'#06b6d4','sky-500':'#0ea5e9','blue-50':'#eff6ff','blue-500':'#3b82f6','blue-600':'#2563eb','blue-700':'#1d4ed8','indigo-500':'#6366f1','indigo-600':'#4f46e5','violet-500':'#8b5cf6','violet-600':'#7c3aed','purple-500':'#a855f7','purple-600':'#9333ea','fuchsia-500':'#d946ef','pink-500':'#ec4899','pink-600':'#db2777','rose-50':'#fff1f2','rose-500':'#f43f5e','rose-600':'#e11d48','rose-700':'#be123c','white':'#ffffff','black':'#000000','transparent':'transparent' };
-        const SPACING_TOM = { '0':'0','0.5':'0.125rem','1':'0.25rem','1.5':'0.375rem','2':'0.5rem','2.5':'0.625rem','3':'0.75rem','3.5':'0.875rem','4':'1rem','5':'1.25rem','6':'1.5rem','7':'1.75rem','8':'2rem','9':'2.25rem','10':'2.5rem','12':'3rem','14':'3.5rem','16':'4rem','20':'5rem','24':'6rem','xs':'0.25rem','sm':'0.5rem','md':'1rem','lg':'1.5rem','xl':'2rem','2xl':'3rem' };
-        const RADIUS_TOM = { 'none':'0','sm':'0.125rem','md':'0.375rem','lg':'0.5rem','xl':'0.75rem','2xl':'1rem','3xl':'1.5rem','full':'9999px' };
-        const SHADOWS_TOM = { 'sm':'0 1px 2px 0 rgb(0 0 0 / 0.05)','md':'0 4px 6px -1px rgb(0 0 0 / 0.1)','lg':'0 10px 15px -3px rgb(0 0 0 / 0.1)','xl':'0 20px 25px -5px rgb(0 0 0 / 0.1)','2xl':'0 25px 50px -12px rgb(0 0 0 / 0.25)' };
-        const BP_TOM = { '@mobile':'640px','@tablet':'768px','@laptop':'1024px','@desktop':'1280px','@wide':'1536px' };
+        const COLORS_TOM = {'slate-900':'#0f172a','slate-50':'#f8fafc','slate-300':'#cbd5e1','slate-500':'#64748b','slate-800':'#1e293b','red-500':'#ef4444','red-600':'#dc2626','orange-500':'#f97316','amber-500':'#f59e0b','yellow-500':'#eab308','lime-500':'#84cc16','green-500':'#22c55e','emerald-500':'#10b981','teal-500':'#14b8a6','cyan-500':'#06b6d4','sky-500':'#0ea5e9','blue-50':'#eff6ff','blue-500':'#3b82f6','blue-600':'#2563eb','indigo-500':'#6366f1','violet-500':'#8b5cf6','violet-600':'#7c3aed','purple-500':'#a855f7','fuchsia-500':'#d946ef','pink-500':'#ec4899','rose-500':'#f43f5e','white':'#ffffff','black':'#000000','transparent':'transparent'};
+        const SPACING_TOM = {'0':'0','0.5':'0.125rem','1':'0.25rem','2':'0.5rem','3':'0.75rem','4':'1rem','5':'1.25rem','6':'1.5rem','8':'2rem','12':'3rem','16':'4rem','xs':'0.25rem','sm':'0.5rem','md':'1rem','lg':'1.5rem','xl':'2rem','2xl':'3rem'};
+        const RADIUS_TOM = {'none':'0','sm':'0.125rem','md':'0.375rem','lg':'0.5rem','xl':'0.75rem','2xl':'1rem','3xl':'1.5rem','full':'9999px'};
+        const SHADOWS_TOM = {'sm':'0 1px 2px 0 rgb(0 0 0 / 0.05)','md':'0 4px 6px -1px rgb(0 0 0 / 0.1)','lg':'0 10px 15px -3px rgb(0 0 0 / 0.1)','xl':'0 20px 25px -5px rgb(0 0 0 / 0.1)','2xl':'0 25px 50px -12px rgb(0 0 0 / 0.25)'};
+        const BP_TOM = {'@mobile':'640px','@tablet':'768px','@laptop':'1024px','@desktop':'1280px','@wide':'1536px'};
 
         const INPUT = document.getElementById('tomato-input');
         const OUTPUT = document.getElementById('css-output');
 
         function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-        function highlight(s) {
+        function highlightCSS(s) {
             let out = esc(s);
-            out = out.replace(/(\/\*[\s\S]*?\*\/|#.*)/g, '<span class="c">$1</span>');
-            out = out.replace(/(^|\n)([ \t]*)(component|use|hover|focus|active|disabled|@media|@mobile|@tablet|@laptop|@desktop|@wide|@dark|@light)\b/g,
-                (m, br, ind, kw) => `${br}${ind}<span class="k">${kw}</span>`);
-            out = out.replace(/(^|\n)([ \t]*)(pad|margin|round|shadow|bg|color|font|size|row|column|grid|gap|weight|width|height|pointer|smooth|no border|center|hidden|block|inline|flex|relative|absolute|fixed|sticky|opacity|top|right|bottom|left|z|overflow)([ \t])/g,
-                (m, br, ind, kw, sp) => `${br}${ind}<span class="k">${kw}</span>${sp}`);
-            out = out.replace(/(rose|slate|gray|zinc|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|black|white|transparent)(-\d{2,3})?/g,
-                m => `<span class="v">${m}</span>`);
-            out = out.replace(/(\d+(?:\.\d+)?)(rem|px|em|%)/g, '<span class="n">$1$3</span>');
-            out = out.replace(/(\b\d+\b)(?=[ \t]*$|[ \t]*\n)/g, '<span class="n">$1</span>');
+            out = out.replace(/^([^{]+)\{/gm, (m, sel) => `<span class="sel">${sel.trim()}</span> {`);
+            out = out.replace(/([a-z-]+)(:)/g, '<span class="prop">$1</span>$2');
+            out = out.replace(/(:\s*)([^;]+)(;)/g, '$1<span class="val">$2</span>$3');
+            out = out.replace(/([{};])/g, '<span class="punc">$1</span>');
             return out;
         }
 
         function resolve(p) {
             p = p.replace(/\b([a-z]+-\d{2,3}|white|black|transparent)\b/g, m => COLORS_TOM[m] || m);
-            p = p.replace(/\b(\d+(?:\.\d+)?)(xs|sm|md|lg|xl|2xl|3xl)\b/g, (_, n, k) => SPACING_TOM[k] || `${n}rem`);
             p = p.replace(/\b(xs|sm|md|lg|xl|2xl|3xl)\b/g, m => SPACING_TOM[m] || m);
             p = p.replace(/\b(none|sm|md|lg|xl|2xl|3xl|full)\b/g, m => RADIUS_TOM[m] || m);
             p = p.replace(/\b(sm|md|lg|xl|2xl)\b/g, m => SHADOWS_TOM[m] || m);
@@ -1284,20 +710,25 @@
         }
 
         function compileProp(p) {
+            p = p.trim();
             if (p.startsWith('bg ')) return `background: ${resolve(p.slice(3))};`;
             if (p.startsWith('color ')) return `color: ${resolve(p.slice(6))};`;
-            if (p.startsWith('pad ')) { const v = p.slice(4).split(' ').map(resolve); return `padding: ${v.join(' ')};`; }
-            if (p.startsWith('m ') || p.startsWith('margin ')) { const s = p.startsWith('m ') ? 2 : 7; const v = p.slice(s).split(' ').map(resolve); return `margin: ${v.join(' ')};`; }
+            if (p.startsWith('pad ')) { const v = p.slice(4).split(/\s+/).map(resolve); return `padding: ${v.join(' ')};`; }
+            if (p === 'm' || p.startsWith('m ')) { const v = p.slice(1).trim().split(/\s+/).map(resolve); return `margin: ${v.join(' ')};`; }
             if (p === 'round' || p.startsWith('round ')) { const s = p === 'round' ? 'lg' : p.slice(6); return `border-radius: ${RADIUS_TOM[s] || s};`; }
             if (p === 'shadow' || p.startsWith('shadow ')) { const s = p === 'shadow' ? 'md' : p.slice(7); return `box-shadow: ${SHADOWS_TOM[s] || s};`; }
             if (p === 'bold') return 'font-weight: bold;';
             if (p === 'pointer') return 'cursor: pointer;';
-            if (p === 'smooth') return 'transition: all 0.2s ease;';
-            if (p === 'no border') return 'border: none;';
-            if (p === 'row') return 'display: flex;\n  flex-direction: row;';
             if (p === 'column') return 'display: flex;\n  flex-direction: column;';
-            if (p === 'center all') return 'display: flex;\n  justify-content: center;\n  align-items: center;';
-            if (p.includes(' ')) { const [a, ...b] = p.split(' '); return `${a}: ${resolve(b.join(' '))};`; }
+            if (p === 'row') return 'display: flex;\n  flex-direction: row;';
+            if (p === 'center') return 'display: flex;\n  justify-content: center;\n  align-items: center;';
+            if (p === 'hidden') return 'display: none;';
+            if (p === 'flex') return 'display: flex;';
+            if (p === 'block') return 'display: block;';
+            if (p === 'inline') return 'display: inline;';
+            if (p.startsWith('gap ')) return `gap: ${resolve(p.slice(4))};`;
+            if (p.startsWith('grid ')) return `display: grid;\n  grid-template-columns: repeat(${p.slice(5).trim()}, 1fr);`;
+            if (p.includes(' ')) { const [a, ...b] = p.split(/\s+/); return `${a}: ${resolve(b.join(' '))};`; }
             return null;
         }
 
@@ -1305,101 +736,67 @@
             const lines = source.split('\n');
             const components = {};
             const styles = {};
-            let currentSelector = null, currentComponent = null, currentNested = null;
+            let curSel = null, curComp = null, curNest = null;
             for (const raw of lines) {
                 const line = raw.trim();
                 if (!line || line.startsWith('#') || line.startsWith('//')) continue;
                 const indent = raw.search(/\S/);
                 if (indent === 0 && /^component\s+[\w-]+:$/.test(line)) {
                     const m = line.match(/^component\s+([\w-]+):$/);
-                    currentComponent = m[1];
-                    components[currentComponent] = [];
-                    currentSelector = null; currentNested = null;
-                    continue;
+                    curComp = m[1]; components[curComp] = [];
+                    curSel = null; curNest = null; continue;
                 }
-                if (indent === 0 && /^[.#]?[\w-]+:$/.test(line)) {
-                    currentSelector = line.replace(':', '');
-                    styles[currentSelector] = { props: [], nested: {} };
-                    currentComponent = null; currentNested = null;
-                    continue;
+                if (indent === 0 && /^[\.\#\w-][\w-]*:$/.test(line)) {
+                    curSel = line.replace(':', '');
+                    styles[curSel] = { props: [], nested: {} };
+                    curComp = null; curNest = null; continue;
                 }
                 if (indent > 0 && /^(hover|active|focus|disabled|@mobile|@tablet|@laptop|@desktop|@wide|@dark|@light):$/.test(line)) {
-                    if (currentSelector) { currentNested = line.replace(':', ''); styles[currentSelector].nested[currentNested] = []; }
+                    if (curSel) { curNest = line.replace(':', ''); styles[curSel].nested[curNest] = []; }
                     continue;
                 }
-                if (currentComponent && indent > 0 && !currentNested) components[currentComponent].push(line);
-                else if (currentSelector && indent > 0) {
-                    if (currentNested) styles[currentSelector].nested[currentNested].push(line);
-                    else styles[currentSelector].props.push(line);
+                if (curComp && indent > 0 && !curNest) components[curComp].push(line);
+                else if (curSel && indent > 0) {
+                    if (curNest) styles[curSel].nested[curNest].push(line);
+                    else styles[curSel].props.push(line);
                 }
             }
             const expand = (props) => {
                 const out = [];
                 for (const p of props) {
-                    if (p.startsWith('use ')) { const name = p.slice(4).trim(); if (components[name]) out.push(...components[name]); }
+                    if (p.startsWith('use ')) { const n = p.slice(4).trim(); if (components[n]) out.push(...components[n]); }
                     else out.push(p);
                 }
                 return out;
             };
-            const out = [];
+            const blocks = [];
             for (const [sel, block] of Object.entries(styles)) {
-                const cssSel = sel.startsWith('.') || sel.startsWith('#') ? sel : 'button,input,a,p,h1,h2,h3,h4,h5,h6,div,span,nav,header,footer,main,section,article,aside,body,html,ul,ol,li,img,form,input,textarea,select,label,table,tr,td,th,thead,tbody'.split(',').includes(sel) ? sel : `.${sel}`;
+                const cssSel = sel.startsWith('.') || sel.startsWith('#') ? sel : sel;
                 const mainProps = expand(block.props).map(compileProp).filter(Boolean);
                 if (mainProps.length) {
-                    out.push(`${cssSel} {\n${mainProps.map(d => '  ' + (d.endsWith(';') ? d : d + ';')).join('\n')}\n}`);
+                    blocks.push(`${cssSel} {\n${mainProps.map(d => '  ' + (d.endsWith(';') ? d : d + ';')).join('\n')}\n}`);
                 }
                 for (const [pseudo, np] of Object.entries(block.nested)) {
                     const compiled = expand(np).map(compileProp).filter(Boolean);
                     if (!compiled.length) continue;
                     if (pseudo.startsWith('@')) {
                         const bp = BP_TOM[pseudo];
-                        if (bp) out.push(`@media (max-width: ${bp}) {\n  ${cssSel} {\n${compiled.map(c => '    ' + c).join('\n')}\n  }\n}`);
+                        if (bp) blocks.push(`@media (max-width: ${bp}) {\n  ${cssSel} {\n${compiled.map(c => '    ' + c).join('\n')}\n  }\n}`);
                     } else {
-                        out.push(`${cssSel}:${pseudo} {\n${compiled.map(c => '  ' + c).join('\n')}\n}`);
+                        blocks.push(`${cssSel}:${pseudo} {\n${compiled.map(c => '  ' + c).join('\n')}\n}`);
                     }
                 }
             }
-            return out.join('\n\n');
+            return blocks.join('\n\n');
         }
 
         function update() {
-            try { OUTPUT.innerHTML = highlight(compile(INPUT.value)); }
+            try { OUTPUT.innerHTML = highlightCSS(compile(INPUT.value)); }
             catch (e) { OUTPUT.textContent = '/* ' + e.message + ' */'; }
         }
         if (INPUT && OUTPUT) { INPUT.addEventListener('input', update); update(); }
-
-        function copyInstall() {
-            navigator.clipboard.writeText('npx @srivtx/tomato-css app.tom');
-            const btn = document.querySelector('.hero-content .copy-btn');
-            if (!btn) return;
-            btn.classList.add('copied');
-            const t = btn.querySelector('.copy-text');
-            const o = t.textContent;
-            t.textContent = 'Copied!';
-            setTimeout(() => { btn.classList.remove('copied'); t.textContent = o; }, 1500);
-        }
-
-        function copyCSS() {
-            navigator.clipboard.writeText(OUTPUT.textContent);
-            const btn = document.getElementById('copy-css-btn');
-            if (!btn) return;
-            btn.classList.add('copied');
-            const t = btn.querySelector('.copy-text');
-            const o = t.textContent;
-            t.textContent = 'Copied!';
-            setTimeout(() => { btn.classList.remove('copied'); t.textContent = o; }, 1500);
-        }
-
-        const resetBtn = document.getElementById('resetBtn');
-        if (resetBtn && INPUT) {
-            const original = INPUT.value;
-            resetBtn.addEventListener('click', () => { INPUT.value = original; update(); });
-        }
-
-        // Hide grain over the hero (it's distracting against the 3D scene)
-        const grain = document.querySelector('.grain');
-        if (grain) grain.style.display = 'none';
     </script>
+
 </body>
 
 </html>
