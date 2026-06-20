@@ -303,11 +303,9 @@
         .hero-right {
             position: relative;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 1rem;
-            min-height: 540px;
+            min-height: 480px;
             animation: heroSlideIn 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
             animation-delay: 0.2s;
         }
@@ -315,7 +313,7 @@
         .hero-tomato-stage {
             position: relative;
             width: 100%;
-            height: 320px;
+            height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -326,86 +324,28 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 360px;
-            height: 360px;
+            width: 480px;
+            height: 480px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(244, 63, 94, 0.15) 0%, transparent 60%);
+            background: radial-gradient(circle, rgba(244, 63, 94, 0.18) 0%, transparent 65%);
             animation: glowPulse 6s ease-in-out infinite;
             pointer-events: none;
         }
 
         @keyframes glowPulse {
             0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
-            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.08); }
         }
 
         .hero-tomato {
-            width: 200px;
-            height: 200px;
+            width: 260px;
+            height: 260px;
             filter: drop-shadow(0 0 60px rgba(244, 63, 94, 0.5))
                     drop-shadow(0 0 120px rgba(244, 63, 94, 0.25));
             animation: heroTomatoFloat 7s ease-in-out infinite;
             position: relative;
             z-index: 2;
         }
-
-        /* Terminal preview below the tomato */
-        .hero-terminal {
-            width: 100%;
-            max-width: 460px;
-            background: rgba(5, 5, 8, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
-            overflow: hidden;
-            backdrop-filter: blur(12px);
-            font-family: var(--font-code);
-            font-size: 0.8rem;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .hero-terminal-header {
-            padding: 0.6rem 1rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        .hero-terminal-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #333;
-        }
-
-        .hero-terminal-dot:nth-child(1) { background: #ff5f57; }
-        .hero-terminal-dot:nth-child(2) { background: #febc2e; }
-        .hero-terminal-dot:nth-child(3) { background: #28c840; }
-
-        .hero-terminal-title {
-            margin-left: 0.5rem;
-            color: var(--text-muted);
-            font-size: 0.75rem;
-        }
-
-        .hero-terminal-body {
-            padding: 1rem 1.25rem;
-            color: #cbd5e1;
-            line-height: 1.7;
-        }
-
-        .hero-terminal-line {
-            display: block;
-            white-space: pre;
-        }
-
-        .hero-terminal-line .prompt { color: #4ade80; }
-        .hero-terminal-line .cmd { color: var(--text-main); }
-        .hero-terminal-line .out { color: var(--text-muted); }
-        .hero-terminal-line .ok { color: #4ade80; }
-        .hero-terminal-line .file { color: #60a5fa; }
-        .hero-terminal-line .err { color: #f87171; }
 
         @keyframes heroTomatoFloat {
             0%, 100% {
@@ -416,53 +356,7 @@
             }
         }
 
-        /* Orbiting code tokens around the tomato */
-        .orbit {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 380px;
-            height: 380px;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .orbit-token {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            font-family: var(--font-code);
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            background: rgba(10, 10, 12, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 0.4rem 0.75rem;
-            border-radius: 8px;
-            backdrop-filter: blur(12px);
-            white-space: nowrap;
-            animation: orbitSpin 22s linear infinite;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .orbit-token:nth-child(1) { animation-delay: 0s; }
-        .orbit-token:nth-child(2) { animation-delay: -4.4s; }
-        .orbit-token:nth-child(3) { animation-delay: -8.8s; }
-        .orbit-token:nth-child(4) { animation-delay: -13.2s; }
-        .orbit-token:nth-child(5) { animation-delay: -17.6s; }
-
-        @keyframes orbitSpin {
-            0% {
-                transform: rotate(0deg) translateX(180px) rotate(0deg);
-                opacity: 0;
-            }
-            8% { opacity: 1; }
-            92% { opacity: 1; }
-            100% {
-                transform: rotate(360deg) translateX(180px) rotate(-360deg);
-                opacity: 0;
-            }
-        }
+        /* (orbit tokens removed — was visual clutter) */
 
         .scroll-hint {
             position: absolute;
@@ -740,15 +634,8 @@
                 gap: 3rem;
             }
             .hero-right { min-height: 360px; }
-            .hero-tomato { width: 160px; height: 160px; }
-            .hero-tomato-stage { height: 240px; }
-            .orbit { width: 280px; height: 280px; }
-            @keyframes orbitSpin {
-                0% { transform: rotate(0deg) translateX(130px) rotate(0deg); opacity: 0; }
-                10% { opacity: 1; }
-                90% { opacity: 1; }
-                100% { transform: rotate(360deg) translateX(130px) rotate(-360deg); opacity: 0; }
-            }
+            .hero-tomato { width: 180px; height: 180px; }
+            .hero-tomato-glow { width: 320px; height: 320px; }
             .steps { grid-template-columns: 1fr; }
             .syntax-grid { grid-template-columns: 1fr; }
             .comparison-row { grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr; font-size: 0.7rem; padding: 0.75rem 0.75rem; }
@@ -1262,13 +1149,6 @@
             <div class="hero-right">
                 <div class="hero-tomato-stage">
                     <div class="hero-tomato-glow" aria-hidden="true"></div>
-                    <div class="orbit" aria-hidden="true">
-                        <span class="orbit-token">component btn:</span>
-                        <span class="orbit-token">bg rose-500</span>
-                        <span class="orbit-token">pad 2 4</span>
-                        <span class="orbit-token">round lg</span>
-                        <span class="orbit-token">use btn</span>
-                    </div>
                     <svg class="hero-tomato" viewBox="0 0 64 64" aria-hidden="true">
                         <defs>
                             <radialGradient id="heroTomatoBody" cx="35%" cy="32%" r="68%">
@@ -1292,21 +1172,6 @@
                         <path d="M32 18 C 28 22, 18 23, 16 21 C 19 19, 27 18, 32 18 Z" fill="#166534"/>
                         <path d="M32 18 C 36 22, 46 23, 48 21 C 45 19, 37 18, 32 18 Z" fill="#166534"/>
                     </svg>
-                </div>
-                <div class="hero-terminal" aria-hidden="true">
-                    <div class="hero-terminal-header">
-                        <span class="hero-terminal-dot"></span>
-                        <span class="hero-terminal-dot"></span>
-                        <span class="hero-terminal-dot"></span>
-                        <span class="hero-terminal-title">~/project</span>
-                    </div>
-                    <div class="hero-terminal-body">
-                        <span class="hero-terminal-line"><span class="prompt">$</span> <span class="cmd">npx @srivtx/tomato-css app.tom</span></span>
-                        <span class="hero-terminal-line"><span class="out">Reading app.tom...</span></span>
-                        <span class="hero-terminal-line"><span class="out">Found 1 component, 2 selectors</span></span>
-                        <span class="hero-terminal-line"><span class="ok">✓</span> <span class="out">Wrote app.css (</span><span class="file">482 bytes</span><span class="out">)</span></span>
-                        <span class="hero-terminal-line"><span class="prompt">$</span> <span class="cmd" style="opacity:0.6">▌</span></span>
-                    </div>
                 </div>
             </div>
             <div class="scroll-hint">Scroll to explore</div>
