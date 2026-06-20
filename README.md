@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="docs/favicon.svg" alt="Tomato CSS" width="80" height="80">
+<img src="logo.svg" alt="Tomato CSS" width="80" height="80">
 
 # Tomato CSS
 

@@ -4,29 +4,58 @@
       <stop offset="0%" stop-color="#1a1a1f"/>
       <stop offset="100%" stop-color="#050505"/>
     </radialGradient>
-    <radialGradient id="g" cx="40%" cy="30%" r="65%">
-      <stop offset="0%" stop-color="#fb7185"/>
-      <stop offset="50%" stop-color="#f43f5e"/>
-      <stop offset="100%" stop-color="#be123c"/>
+    <radialGradient id="body" cx="35%" cy="32%" r="68%">
+      <stop offset="0%" stop-color="#fda4af"/>
+      <stop offset="35%" stop-color="#fb7185"/>
+      <stop offset="70%" stop-color="#f43f5e"/>
+      <stop offset="100%" stop-color="#9f1239"/>
     </radialGradient>
+    <linearGradient id="leaf" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#4ade80"/>
+      <stop offset="100%" stop-color="#15803d"/>
+    </linearGradient>
+    <linearGradient id="leafDark" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#166534"/>
+    </linearGradient>
     <linearGradient id="text" x1="0%" y1="0%" x2="0%" y2="100%">
       <stop offset="0%" stop-color="#ffffff"/>
       <stop offset="100%" stop-color="#a1a1aa"/>
     </linearGradient>
   </defs>
+
   <rect width="1200" height="630" fill="url(#bg)"/>
-  <circle cx="200" cy="315" r="140" fill="url(#g)" opacity="0.95"/>
-  <ellipse cx="165" cy="270" rx="40" ry="26" fill="#ffffff" fill-opacity="0.3"/>
-  <path d="M180 195 Q200 165 220 195 L220 155 L180 155 Z" fill="#16a34a"/>
-  <path d="M120 195 Q75 175 105 215 Q130 220 155 210 Z" fill="#22c55e"/>
-  <path d="M280 195 Q325 175 295 215 Q270 220 245 210 Z" fill="#22c55e"/>
-  <g font-family="-apple-system, 'Segoe UI', Inter, sans-serif" fill="url(#text)">
-    <text x="400" y="270" font-size="86" font-weight="800" letter-spacing="-2">Tomato CSS</text>
-    <text x="400" y="350" font-size="32" font-weight="500" fill="#a1a1aa">The Human-Friendly CSS Preprocessor</text>
-    <text x="400" y="430" font-size="22" font-weight="500" fill="#71717a">Write CSS like you think. Components, Tailwind colors,</text>
-    <text x="400" y="460" font-size="22" font-weight="500" fill="#71717a">and human-readable syntax.</text>
+
+  <g transform="translate(200, 315)">
+    <ellipse cx="-30" cy="-10" rx="25" ry="6" fill="#000" opacity="0.3"/>
+
+    <circle cx="0" cy="0" r="130" fill="url(#body)"/>
+
+    <ellipse cx="-40" cy="-40" rx="42" ry="24" fill="#ffffff" fill-opacity="0.38"/>
+    <ellipse cx="-50" cy="-22" rx="13" ry="6" fill="#ffffff" fill-opacity="0.25"/>
+
+    <rect x="-12" y="-160" width="24" height="65" rx="12" fill="#15803d"/>
+
+    <path d="M0 -100 C -28 -130, 0 -185, 28 -130 C 20 -116, 8 -100, 0 -100 Z" fill="url(#leafDark)"/>
+
+    <path d="M0 -90 C -70 -110, -160 -100, -170 -75 C -145 -55, -85 -65, 0 -85 Z" fill="url(#leaf)"/>
+    <path d="M0 -90 C 70 -110, 160 -100, 170 -75 C 145 -55, 85 -65, 0 -85 Z" fill="url(#leaf)"/>
+
+    <path d="M0 -85 C -30 -60, -100 -50, -115 -60 C -95 -80, -45 -90, 0 -85 Z" fill="url(#leafDark)"/>
+    <path d="M0 -85 C 30 -60, 100 -50, 115 -60 C 95 -80, 45 -90, 0 -85 Z" fill="url(#leafDark)"/>
+
+    <path d="M-150 -100 C -130 -110, -110 -110, -90 -100" stroke="#bbf7d0" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.7"/>
+    <path d="M90 -100 C 110 -110, 130 -110, 150 -100" stroke="#bbf7d0" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.7"/>
   </g>
+
+  <g font-family="-apple-system, 'Segoe UI', Inter, sans-serif" fill="url(#text)">
+    <text x="450" y="270" font-size="86" font-weight="800" letter-spacing="-2">Tomato CSS</text>
+    <text x="450" y="350" font-size="32" font-weight="500" fill="#a1a1aa">The Human-Friendly CSS Preprocessor</text>
+    <text x="450" y="430" font-size="22" font-weight="500" fill="#71717a">Write CSS like you think. Components, Tailwind colors,</text>
+    <text x="450" y="460" font-size="22" font-weight="500" fill="#71717a">and human-readable syntax.</text>
+  </g>
+
   <g font-family="'JetBrains Mono', monospace" fill="#52525b" font-size="20">
-    <text x="400" y="540">npm i @srivtx/tomato-css</text>
+    <text x="450" y="540">npm i @srivtx/tomato-css</text>
   </g>
 </svg>
