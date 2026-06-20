@@ -164,97 +164,70 @@
             z-index: 10;
         }
 
-        /* Nav */
-        nav {
+        /* Minimal floating nav — just the logo and a CTA, no bar */
+        .floating-nav {
             position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem 2rem;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 1.75rem;
-            background: rgba(10, 10, 12, 0.35);
-            backdrop-filter: blur(24px) saturate(180%);
-            -webkit-backdrop-filter: blur(24px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 0.65rem 1.5rem;
-            border-radius: 100px;
             z-index: 100;
-            box-shadow:
-                0 10px 40px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.05);
-            position: fixed;
-        }
-
-        nav::before {
-            content: "";
-            position: absolute;
-            inset: -1px;
-            border-radius: 100px;
-            padding: 1px;
-            background: linear-gradient(135deg, rgba(244, 63, 94, 0.4), rgba(251, 146, 60, 0.2), rgba(168, 85, 247, 0.3));
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
             pointer-events: none;
-            opacity: 0.6;
         }
 
-        .logo {
-            font-weight: 700;
-            font-size: 1.15rem;
-            color: var(--text-main);
-            text-decoration: none;
-            letter-spacing: -0.02em;
+        .floating-nav > * {
+            pointer-events: auto;
+        }
+
+        .floating-logo {
             display: inline-flex;
             align-items: center;
             gap: 0.6rem;
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: -0.02em;
         }
 
-        .logo svg {
+        .floating-logo svg {
             width: 32px;
             height: 32px;
-            flex-shrink: 0;
             filter: drop-shadow(0 0 12px rgba(244, 63, 94, 0.5));
+            animation: tomatoPulse 4s ease-in-out infinite;
             transition: transform 0.3s ease, filter 0.3s ease;
         }
 
-        .logo:hover svg {
+        .floating-logo:hover svg {
             transform: rotate(-8deg) scale(1.1);
-            filter: drop-shadow(0 0 18px rgba(244, 63, 94, 0.8));
-        }
-
-        @keyframes tomatoPulse {
-            0%, 100% { filter: drop-shadow(0 0 12px rgba(244, 63, 94, 0.5)); }
-            50% { filter: drop-shadow(0 0 20px rgba(244, 63, 94, 0.7)); }
-        }
-
-        .logo svg {
-            animation: tomatoPulse 4s ease-in-out infinite;
-        }
-
-        .logo:hover svg {
             animation: none;
         }
 
-        .nav-links {
+        .floating-right {
             display: flex;
-            gap: 1.5rem;
+            align-items: center;
+            gap: 1.25rem;
         }
 
-        .nav-links a {
-            text-decoration: none;
+        .floating-link {
             color: var(--text-secondary);
+            text-decoration: none;
             font-size: 0.9rem;
             font-weight: 500;
-            transition: color 0.2s;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            transition: all 0.2s;
         }
 
-        .nav-links a:hover {
+        .floating-link:hover {
             color: var(--text-main);
+            background: rgba(255, 255, 255, 0.05);
         }
 
-        .cta-btn {
+        .floating-cta {
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
             text-decoration: none;
@@ -263,11 +236,80 @@
             font-size: 0.9rem;
             font-weight: 600;
             transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 0 20px rgba(244, 63, 94, 0.3);
         }
 
-        .cta-btn:hover {
+        .floating-cta:hover {
             transform: translateY(-1px);
-            box-shadow: 0 0 20px var(--primary-glow);
+            box-shadow: 0 0 30px var(--primary-glow);
+        }
+
+        /* Mobile menu trigger — only visible on small screens */
+        .menu-trigger {
+            display: none;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: var(--text-main);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            backdrop-filter: blur(8px);
+        }
+
+        /* Fullscreen menu overlay */
+        .fullscreen-menu {
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 5, 5, 0.97);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            z-index: 200;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .fullscreen-menu.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .fullscreen-menu a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+        }
+
+        .fullscreen-menu .close-btn {
+            position: absolute;
+            top: 1.5rem;
+            right: 2rem;
+            font-size: 2rem;
+            background: none;
+            border: 0;
+            color: var(--text-main);
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .floating-right .floating-link { display: none; }
+            .menu-trigger { display: inline-flex; }
+        }
+
+        @keyframes tomatoPulse {
+            0%, 100% { filter: drop-shadow(0 0 12px rgba(244, 63, 94, 0.5)); }
+            50% { filter: drop-shadow(0 0 20px rgba(244, 63, 94, 0.7)); }
         }
 
         /* Hero */
@@ -869,9 +911,9 @@
     <div id="canvas-container"></div>
 
     <div class="content-wrapper">
-    <nav>
-        <a href="#" class="logo" aria-label="Tomato CSS home">
-            <svg width="28" height="28" viewBox="0 0 64 64" aria-hidden="true">
+    <div class="floating-nav" role="navigation" aria-label="Main">
+        <a href="#" class="floating-logo" aria-label="Tomato CSS home">
+            <svg width="32" height="32" viewBox="0 0 64 64" aria-hidden="true">
                 <defs>
                     <radialGradient id="navTomato" cx="35%" cy="32%" r="68%">
                         <stop offset="0%" stop-color="#fb7185"/>
@@ -893,13 +935,23 @@
             </svg>
             <span>Tomato</span>
         </a>
-        <div class="nav-links">
-            <a href="#features">Features</a>
-            <a href="docs.html">Documentation</a>
-            <a href="https://github.com/srivtx/tomato-css">GitHub</a>
+        <div class="floating-right">
+            <a href="#features" class="floating-link">Features</a>
+            <a href="docs.html" class="floating-link">Docs</a>
+            <a href="https://github.com/srivtx/tomato-css" class="floating-link">GitHub</a>
+            <a href="docs.html#installation" class="floating-cta">Get Started</a>
+            <button class="menu-trigger" id="menuTrigger" aria-label="Open menu">☰</button>
         </div>
-        <a href="docs.html#installation" class="cta-btn">Get Started</a>
-    </nav>
+    </div>
+
+    <div class="fullscreen-menu" id="fullscreenMenu" role="dialog" aria-label="Navigation menu">
+        <button class="close-btn" id="closeMenu" aria-label="Close menu">×</button>
+        <a href="#features" class="menu-link">Features</a>
+        <a href="docs.html" class="menu-link">Documentation</a>
+        <a href="https://github.com/srivtx/tomato-css" class="menu-link">GitHub</a>
+        <a href="https://www.npmjs.com/package/@srivtx/tomato-css" class="menu-link">npm</a>
+        <a href="docs.html#installation" class="menu-link">Get Started</a>
+    </div>
 
         <section class="hero" data-aos="fade-up" data-bg-color="#050505">
             <div class="hero-badge">
@@ -1292,6 +1344,26 @@
                 }, 1500);
             }
         }
+
+        (function() {
+            const trigger = document.getElementById('menuTrigger');
+            const menu = document.getElementById('fullscreenMenu');
+            const close = document.getElementById('closeMenu');
+            if (trigger && menu) {
+                const open = () => {
+                    menu.classList.add('open');
+                    document.body.style.overflow = 'hidden';
+                };
+                const shut = () => {
+                    menu.classList.remove('open');
+                    document.body.style.overflow = '';
+                };
+                trigger.addEventListener('click', open);
+                if (close) close.addEventListener('click', shut);
+                menu.querySelectorAll('a').forEach(a => a.addEventListener('click', shut));
+                document.addEventListener('keydown', e => { if (e.key === 'Escape') shut(); });
+            }
+        })();
     </script>
 </body>
 
