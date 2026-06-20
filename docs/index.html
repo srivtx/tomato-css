@@ -303,29 +303,91 @@
         .hero-right {
             position: relative;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
+            gap: 2rem;
             min-height: 480px;
+            animation: heroSlideIn 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+            animation-delay: 0.2s;
         }
 
         .hero-tomato-stage {
             position: relative;
             width: 100%;
-            height: 100%;
+            height: 280px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
         .hero-tomato {
-            width: 220px;
-            height: 220px;
+            width: 200px;
+            height: 200px;
             filter: drop-shadow(0 0 60px rgba(244, 63, 94, 0.5))
                     drop-shadow(0 0 120px rgba(244, 63, 94, 0.25));
             animation: heroTomatoFloat 7s ease-in-out infinite;
             position: relative;
             z-index: 2;
         }
+
+        /* Terminal preview below the tomato */
+        .hero-terminal {
+            width: 100%;
+            max-width: 460px;
+            background: rgba(5, 5, 8, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            overflow: hidden;
+            backdrop-filter: blur(12px);
+            font-family: var(--font-code);
+            font-size: 0.8rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-terminal-header {
+            padding: 0.6rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .hero-terminal-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #333;
+        }
+
+        .hero-terminal-dot:nth-child(1) { background: #ff5f57; }
+        .hero-terminal-dot:nth-child(2) { background: #febc2e; }
+        .hero-terminal-dot:nth-child(3) { background: #28c840; }
+
+        .hero-terminal-title {
+            margin-left: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+
+        .hero-terminal-body {
+            padding: 1rem 1.25rem;
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        .hero-terminal-line {
+            display: block;
+            white-space: pre;
+        }
+
+        .hero-terminal-line .prompt { color: #4ade80; }
+        .hero-terminal-line .cmd { color: var(--text-main); }
+        .hero-terminal-line .out { color: var(--text-muted); }
+        .hero-terminal-line .ok { color: #4ade80; }
+        .hero-terminal-line .file { color: #60a5fa; }
+        .hero-terminal-line .err { color: #f87171; }
 
         @keyframes heroTomatoFloat {
             0%, 100% {
@@ -502,6 +564,18 @@
 
         .syntax-card-header .file {
             color: var(--text-secondary);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .syntax-card-header .file::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+            opacity: 0.6;
         }
 
         .syntax-card-header .lang {
@@ -523,11 +597,15 @@
             overflow-x: auto;
         }
 
-        .syntax-code .key { color: #f472b6; }
+        .syntax-code .key { color: #f472b6; font-weight: 500; }
         .syntax-code .val { color: #fbbf24; }
-        .syntax-code .com { color: var(--text-muted); }
+        .syntax-code .num { color: #a78bfa; }
+        .syntax-code .com { color: #64748b; font-style: italic; }
         .syntax-code .prop { color: #93c5fd; }
-        .syntax-code .punc { color: var(--text-secondary); }
+        .syntax-code .punc { color: #64748b; }
+        .syntax-code .sel { color: #4ade80; }
+        .syntax-code .psuedo { color: #fb923c; }
+        .syntax-code .value { color: #fda4af; }
 
         /* Comparison table */
         .comparison {
@@ -1195,6 +1273,21 @@
                         <path d="M32 18 C 36 22, 46 23, 48 21 C 45 19, 37 18, 32 18 Z" fill="#166534"/>
                     </svg>
                 </div>
+                <div class="hero-terminal" aria-hidden="true">
+                    <div class="hero-terminal-header">
+                        <span class="hero-terminal-dot"></span>
+                        <span class="hero-terminal-dot"></span>
+                        <span class="hero-terminal-dot"></span>
+                        <span class="hero-terminal-title">~/project</span>
+                    </div>
+                    <div class="hero-terminal-body">
+                        <span class="hero-terminal-line"><span class="prompt">$</span> <span class="cmd">npx @srivtx/tomato-css app.tom</span></span>
+                        <span class="hero-terminal-line"><span class="out">Reading app.tom...</span></span>
+                        <span class="hero-terminal-line"><span class="out">Found 1 component, 2 selectors</span></span>
+                        <span class="hero-terminal-line"><span class="ok">✓</span> <span class="out">Wrote app.css (</span><span class="file">482 bytes</span><span class="out">)</span></span>
+                        <span class="hero-terminal-line"><span class="prompt">$</span> <span class="cmd" style="opacity:0.6">▌</span></span>
+                    </div>
+                </div>
             </div>
             <div class="scroll-hint">Scroll to explore</div>
         </section>
@@ -1231,42 +1324,44 @@
                         <span class="file">button.tom</span>
                         <span class="lang">TOMATO</span>
                     </div>
-                    <pre class="syntax-code"><span class="key">component</span> btn:
-  <span class="key">pad</span> 2 4
-  <span class="key">round</span> lg
+                    <pre class="syntax-code"><span class="com"># A reusable button component</span>
+<span class="key">component</span> btn:
+  <span class="key">pad</span> <span class="num">2</span> <span class="num">4</span>
+  <span class="key">round</span> <span class="val">lg</span>
   <span class="key">bold</span>
-  <span class="key">bg</span> rose-500
-  <span class="key">color</span> white
+  <span class="key">bg</span> <span class="val">rose-500</span>
+  <span class="key">color</span> <span class="val">white</span>
 
-<span class="key">button</span>:
+<span class="sel">button</span>:
   <span class="key">use</span> btn
-  <span class="key">hover</span>:
-    <span class="key">bg</span> rose-600</pre>
+
+  <span class="psuedo">hover</span>:
+    <span class="key">bg</span> <span class="val">rose-600</span></pre>
                 </div>
                 <div class="syntax-card css">
                     <div class="syntax-card-header">
                         <span class="file">output.css</span>
                         <span class="lang">CSS</span>
                     </div>
-                    <pre class="syntax-code"><span class="com">/* Same output, 12 lines */</span>
+                    <pre class="syntax-code"><span class="com">/* Compiled output */</span>
 <span class="prop">.btn</span> {
-  <span class="key">padding</span>: 0.5rem 1rem;
-  <span class="key">border-radius</span>: 0.5rem;
-  <span class="key">font-weight</span>: bold;
-  <span class="key">background</span>: #f43f5e;
-  <span class="key">color</span>: #fff;
+  <span class="key">padding</span>: <span class="num">0.5rem</span> <span class="num">1rem</span>;
+  <span class="key">border-radius</span>: <span class="num">0.5rem</span>;
+  <span class="key">font-weight</span>: <span class="value">bold</span>;
+  <span class="key">background</span>: <span class="value">#f43f5e</span>;
+  <span class="key">color</span>: <span class="value">#fff</span>;
 }
 
 <span class="prop">button</span> {
-  <span class="key">padding</span>: 0.5rem 1rem;
-  <span class="key">border-radius</span>: 0.5rem;
-  <span class="key">font-weight</span>: bold;
-  <span class="key">background</span>: #f43f5e;
-  <span class="key">color</span>: #fff;
+  <span class="key">padding</span>: <span class="num">0.5rem</span> <span class="num">1rem</span>;
+  <span class="key">border-radius</span>: <span class="num">0.5rem</span>;
+  <span class="key">font-weight</span>: <span class="value">bold</span>;
+  <span class="key">background</span>: <span class="value">#f43f5e</span>;
+  <span class="key">color</span>: <span class="value">#fff</span>;
 }
 
 <span class="prop">button:hover</span> {
-  <span class="key">background</span>: #e11d48;
+  <span class="key">background</span>: <span class="value">#e11d48</span>;
 }</pre>
                 </div>
             </div>
