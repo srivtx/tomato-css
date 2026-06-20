@@ -164,198 +164,46 @@
             z-index: 10;
         }
 
-        /* Minimal floating nav — just the logo and a CTA, no bar */
-        .floating-nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            padding: 1.5rem 2rem;
-            display: flex;
-            justify-content: space-between;
+        /* No nav. The hero IS the navigation. */
+
+        /* Hero — split layout, the hero IS the navigation */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 4rem;
             align-items: center;
-            z-index: 100;
-            pointer-events: none;
+            padding: 6rem 6rem 6rem 6rem;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
-        .floating-nav > * {
-            pointer-events: auto;
+        .hero-left {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1.5rem;
         }
 
-        .floating-logo {
+        .hero-logo-row {
             display: inline-flex;
             align-items: center;
             gap: 0.6rem;
             text-decoration: none;
             color: var(--text-main);
+        }
+
+        .hero-logo-row svg {
+            width: 28px;
+            height: 28px;
+            filter: drop-shadow(0 0 8px rgba(244, 63, 94, 0.4));
+        }
+
+        .hero-logo-row span {
             font-weight: 700;
-            font-size: 1.1rem;
-            letter-spacing: -0.02em;
-        }
-
-        .floating-logo svg {
-            width: 32px;
-            height: 32px;
-            filter: drop-shadow(0 0 12px rgba(244, 63, 94, 0.5));
-            animation: tomatoPulse 4s ease-in-out infinite;
-            transition: transform 0.3s ease, filter 0.3s ease;
-        }
-
-        .floating-logo:hover svg {
-            transform: rotate(-8deg) scale(1.1);
-            animation: none;
-        }
-
-        .floating-right {
-            display: flex;
-            align-items: center;
-            gap: 1.25rem;
-        }
-
-        .floating-link {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            padding: 0.5rem 0.75rem;
-            border-radius: 8px;
-            transition: all 0.2s;
-        }
-
-        .floating-link:hover {
-            color: var(--text-main);
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .floating-cta {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: white;
-            text-decoration: none;
-            padding: 0.5rem 1.25rem;
-            border-radius: 100px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 0 20px rgba(244, 63, 94, 0.3);
-        }
-
-        .floating-cta:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 0 30px var(--primary-glow);
-        }
-
-        /* Mobile menu trigger — only visible on small screens */
-        .menu-trigger {
-            display: none;
-            background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            color: var(--text-main);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            backdrop-filter: blur(8px);
-        }
-
-        /* Fullscreen menu overlay */
-        .fullscreen-menu {
-            position: fixed;
-            inset: 0;
-            background: rgba(5, 5, 5, 0.97);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 2rem;
-            z-index: 200;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s;
-        }
-
-        .fullscreen-menu.open {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .fullscreen-menu a {
-            color: var(--text-main);
-            text-decoration: none;
-            font-size: 1.5rem;
-            font-weight: 600;
-            padding: 0.5rem 1rem;
-        }
-
-        .fullscreen-menu .close-btn {
-            position: absolute;
-            top: 1.5rem;
-            right: 2rem;
-            font-size: 2rem;
-            background: none;
-            border: 0;
-            color: var(--text-main);
-            cursor: pointer;
-        }
-
-        @media (max-width: 768px) {
-            .floating-right .floating-link { display: none; }
-            .menu-trigger { display: inline-flex; }
-        }
-
-        @keyframes tomatoPulse {
-            0%, 100% { filter: drop-shadow(0 0 12px rgba(244, 63, 94, 0.5)); }
-            50% { filter: drop-shadow(0 0 20px rgba(244, 63, 94, 0.7)); }
-        }
-
-        /* Hero */
-        .hero {
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 100px 1rem 2rem;
-            pointer-events: none;
-            /* Allow events to pass through to 3D background if needed */
-        }
-
-        .hero * {
-            pointer-events: auto;
-        }
-
-        .hero h1 {
-            font-size: 5rem;
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            letter-spacing: -0.04em;
-            background: linear-gradient(to bottom right, #fff 30%, #a1a1aa 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 4px 30px rgba(255, 255, 255, 0.1);
-        }
-
-        .hero h1 span {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto 2.5rem auto;
-            line-height: 1.6;
+            font-size: 1rem;
+            letter-spacing: -0.01em;
         }
 
         .hero-badge {
@@ -369,7 +217,6 @@
             color: var(--text-secondary);
             font-size: 0.8rem;
             font-weight: 500;
-            margin-bottom: 1.5rem;
             font-family: var(--font-code);
             letter-spacing: 0.02em;
         }
@@ -380,6 +227,33 @@
             border-radius: 50%;
             background: #4ade80;
             box-shadow: 0 0 8px #4ade80;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.75rem, 6vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -0.04em;
+            background: linear-gradient(to bottom right, #fff 30%, #a1a1aa 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin: 0;
+        }
+
+        .hero h1 .accent {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            max-width: 520px;
+            margin: 0;
         }
 
         .install-box {
@@ -397,34 +271,9 @@
             gap: 1rem;
         }
 
-        .install-box:hover {
-            border-color: rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .install-box span {
-            color: var(--text-main);
-        }
-
         .install-box .prefix {
             color: var(--border);
             margin-right: 0.5rem;
-        }
-
-        .install-copy-btn {
-            background: rgba(244, 63, 94, 0.15);
-            border: 1px solid rgba(244, 63, 94, 0.3);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            font-family: var(--font-main);
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
         }
 
         .install-copy-btn:hover {
@@ -436,6 +285,374 @@
             background: rgba(74, 222, 128, 0.2);
             border-color: rgba(74, 222, 128, 0.5);
             color: #4ade80;
+        }
+
+        .hero-meta {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .hero-meta strong {
+            color: var(--text-main);
+            font-weight: 600;
+            display: block;
+            font-size: 1.3rem;
+            margin-bottom: 0.15rem;
+        }
+
+        /* Hero right — the tomato visual */
+        .hero-right {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 480px;
+        }
+
+        .hero-tomato-stage {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-tomato {
+            width: 220px;
+            height: 220px;
+            filter: drop-shadow(0 0 60px rgba(244, 63, 94, 0.5))
+                    drop-shadow(0 0 120px rgba(244, 63, 94, 0.25));
+            animation: heroTomatoFloat 7s ease-in-out infinite;
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes heroTomatoFloat {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-18px) rotate(4deg);
+            }
+        }
+
+        /* Orbiting code tokens around the tomato */
+        .orbit {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 380px;
+            height: 380px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .orbit-token {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            font-family: var(--font-code);
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            background: rgba(10, 10, 12, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 0.35rem 0.7rem;
+            border-radius: 8px;
+            backdrop-filter: blur(8px);
+            white-space: nowrap;
+            animation: orbitSpin 20s linear infinite;
+        }
+
+        .orbit-token:nth-child(1) { animation-delay: 0s; }
+        .orbit-token:nth-child(2) { animation-delay: -4s; }
+        .orbit-token:nth-child(3) { animation-delay: -8s; }
+        .orbit-token:nth-child(4) { animation-delay: -12s; }
+        .orbit-token:nth-child(5) { animation-delay: -16s; }
+
+        @keyframes orbitSpin {
+            0% {
+                transform: rotate(0deg) translateX(180px) rotate(0deg);
+                opacity: 0;
+            }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% {
+                transform: rotate(360deg) translateX(180px) rotate(-360deg);
+                opacity: 0;
+            }
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-family: var(--font-code);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .scroll-hint::after {
+            content: "";
+            width: 1px;
+            height: 30px;
+            background: linear-gradient(to bottom, var(--text-muted), transparent);
+            animation: scrollPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 0.3; transform: scaleY(0.6); }
+            50% { opacity: 1; transform: scaleY(1); }
+        }
+
+        /* How it works — 3 steps */
+        .how-it-works {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 8rem 4rem;
+        }
+
+        .how-it-works h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 4rem;
+            letter-spacing: -0.03em;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            position: relative;
+        }
+
+        .step {
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .step-num {
+            display: inline-block;
+            width: 48px;
+            height: 48px;
+            line-height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            font-family: var(--font-code);
+        }
+
+        .step h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .step p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Syntax showcase — .tom vs CSS side by side */
+        .syntax-showcase {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 4rem 8rem;
+        }
+
+        .syntax-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .syntax-card {
+            background: rgba(10, 10, 12, 0.4);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .syntax-card-header {
+            padding: 0.75rem 1.25rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: var(--font-code);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .syntax-card-header .file {
+            color: var(--text-secondary);
+        }
+
+        .syntax-card-header .lang {
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+        }
+
+        .syntax-card.tom .lang { background: rgba(244, 63, 94, 0.15); color: var(--primary); }
+        .syntax-card.css .lang { background: rgba(99, 102, 241, 0.15); color: #818cf8; }
+
+        .syntax-code {
+            padding: 1.5rem;
+            font-family: var(--font-code);
+            font-size: 0.85rem;
+            line-height: 1.7;
+            color: #e2e8f0;
+            white-space: pre;
+            overflow-x: auto;
+        }
+
+        .syntax-code .key { color: #f472b6; }
+        .syntax-code .val { color: #fbbf24; }
+        .syntax-code .com { color: var(--text-muted); }
+        .syntax-code .prop { color: #93c5fd; }
+        .syntax-code .punc { color: var(--text-secondary); }
+
+        /* Comparison table */
+        .comparison {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 4rem 4rem 8rem;
+        }
+
+        .comparison h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+            letter-spacing: -0.03em;
+        }
+
+        .comparison p.lead {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+        }
+
+        .comparison-table {
+            background: rgba(10, 10, 12, 0.4);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .comparison-row {
+            display: grid;
+            grid-template-columns: 1.5fr repeat(4, 1fr);
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .comparison-row:last-child { border-bottom: none; }
+        .comparison-row.header { background: rgba(255, 255, 255, 0.03); font-weight: 600; color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        .comparison-row.tomato { background: rgba(244, 63, 94, 0.08); }
+        .comparison-row .name { font-weight: 600; }
+        .comparison-row .tomato-name { color: var(--primary); }
+        .comparison-row .yes { color: #4ade80; }
+        .comparison-row .no { color: var(--text-muted); }
+        .comparison-row .partial { color: #fbbf24; }
+
+        /* Final CTA */
+        .final-cta {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 8rem 4rem;
+            text-align: center;
+        }
+
+        .final-cta h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff 0%, #a1a1aa 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .final-cta p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .final-cta .install-box { font-size: 1.05rem; padding: 0.8rem 0.8rem 0.8rem 1.75rem; }
+
+        .cta-buttons {
+            display: inline-flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .github-stars {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.55rem 1rem;
+            border-radius: 100px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .github-stars:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        @media (max-width: 900px) {
+            .hero {
+                grid-template-columns: 1fr;
+                padding: 4rem 1.5rem;
+                min-height: auto;
+                gap: 3rem;
+            }
+            .hero-right { min-height: 300px; }
+            .hero-tomato { width: 160px; height: 160px; }
+            .orbit { width: 280px; height: 280px; }
+            @keyframes orbitSpin {
+                0% { transform: rotate(0deg) translateX(120px) rotate(0deg); opacity: 0; }
+                10% { opacity: 1; }
+                90% { opacity: 1; }
+                100% { transform: rotate(360deg) translateX(120px) rotate(-360deg); opacity: 0; }
+            }
+            .steps { grid-template-columns: 1fr; }
+            .syntax-grid { grid-template-columns: 1fr; }
+            .comparison-row { grid-template-columns: 1.5fr repeat(4, 1fr); font-size: 0.75rem; }
         }
 
         .hero-visual {
@@ -911,97 +1128,302 @@
     <div id="canvas-container"></div>
 
     <div class="content-wrapper">
-    <div class="floating-nav" role="navigation" aria-label="Main">
-        <a href="#" class="floating-logo" aria-label="Tomato CSS home">
-            <svg width="32" height="32" viewBox="0 0 64 64" aria-hidden="true">
-                <defs>
-                    <radialGradient id="navTomato" cx="35%" cy="32%" r="68%">
-                        <stop offset="0%" stop-color="#fb7185"/>
-                        <stop offset="50%" stop-color="#f43f5e"/>
-                        <stop offset="100%" stop-color="#9f1239"/>
-                    </radialGradient>
-                    <linearGradient id="navLeaf" x1="50%" y1="0%" x2="50%" y2="100%">
-                        <stop offset="0%" stop-color="#4ade80"/>
-                        <stop offset="100%" stop-color="#15803d"/>
-                    </linearGradient>
-                </defs>
-                <circle cx="32" cy="38" r="22" fill="url(#navTomato)"/>
-                <ellipse cx="24" cy="30" rx="7" ry="4" fill="#fff" fill-opacity="0.38"/>
-                <rect x="30.5" y="2" width="3" height="9" rx="1.5" fill="#15803d"/>
-                <path d="M32 17 C 22 14, 12 15, 10 20 C 14 23, 24 22, 32 19 Z" fill="url(#navLeaf)"/>
-                <path d="M32 17 C 42 14, 52 15, 54 20 C 50 23, 40 22, 32 19 Z" fill="url(#navLeaf)"/>
-                <path d="M32 18 C 28 22, 18 23, 16 21 C 19 19, 27 18, 32 18 Z" fill="#166534"/>
-                <path d="M32 18 C 36 22, 46 23, 48 21 C 45 19, 37 18, 32 18 Z" fill="#166534"/>
-            </svg>
-            <span>Tomato</span>
-        </a>
-        <div class="floating-right">
-            <a href="#features" class="floating-link">Features</a>
-            <a href="docs.html" class="floating-link">Docs</a>
-            <a href="https://github.com/srivtx/tomato-css" class="floating-link">GitHub</a>
-            <a href="docs.html#installation" class="floating-cta">Get Started</a>
-            <button class="menu-trigger" id="menuTrigger" aria-label="Open menu">☰</button>
-        </div>
-    </div>
+    <div id="canvas-container"></div>
 
-    <div class="fullscreen-menu" id="fullscreenMenu" role="dialog" aria-label="Navigation menu">
-        <button class="close-btn" id="closeMenu" aria-label="Close menu">×</button>
-        <a href="#features" class="menu-link">Features</a>
-        <a href="docs.html" class="menu-link">Documentation</a>
-        <a href="https://github.com/srivtx/tomato-css" class="menu-link">GitHub</a>
-        <a href="https://www.npmjs.com/package/@srivtx/tomato-css" class="menu-link">npm</a>
-        <a href="docs.html#installation" class="menu-link">Get Started</a>
-    </div>
+    <div class="content-wrapper">
 
-        <section class="hero" data-aos="fade-up" data-bg-color="#050505">
-            <div class="hero-badge">
-                <span class="dot"></span>
-                v1.2.0 — Open source, MIT licensed
+        <section class="hero" data-bg-color="#050505">
+            <div class="hero-left">
+                <a href="#" class="hero-logo-row" aria-label="Tomato CSS">
+                    <svg viewBox="0 0 64 64" aria-hidden="true">
+                        <defs>
+                            <radialGradient id="heroLogoBody" cx="35%" cy="32%" r="68%">
+                                <stop offset="0%" stop-color="#fb7185"/>
+                                <stop offset="50%" stop-color="#f43f5e"/>
+                                <stop offset="100%" stop-color="#9f1239"/>
+                            </radialGradient>
+                            <linearGradient id="heroLogoLeaf" x1="50%" y1="0%" x2="50%" y2="100%">
+                                <stop offset="0%" stop-color="#4ade80"/>
+                                <stop offset="100%" stop-color="#15803d"/>
+                            </linearGradient>
+                        </defs>
+                        <circle cx="32" cy="38" r="22" fill="url(#heroLogoBody)"/>
+                        <ellipse cx="24" cy="30" rx="7" ry="4" fill="#fff" fill-opacity="0.38"/>
+                        <rect x="30.5" y="2" width="3" height="9" rx="1.5" fill="#15803d"/>
+                        <path d="M32 17 C 22 14, 12 15, 10 20 C 14 23, 24 22, 32 19 Z" fill="url(#heroLogoLeaf)"/>
+                        <path d="M32 17 C 42 14, 52 15, 54 20 C 50 23, 40 22, 32 19 Z" fill="url(#heroLogoLeaf)"/>
+                        <path d="M32 18 C 28 22, 18 23, 16 21 C 19 19, 27 18, 32 18 Z" fill="#166534"/>
+                        <path d="M32 18 C 36 22, 46 23, 48 21 C 45 19, 37 18, 32 18 Z" fill="#166534"/>
+                    </svg>
+                    <span>Tomato</span>
+                </a>
+                <div class="hero-badge">
+                    <span class="dot"></span>
+                    v1.2.0 — Open source, MIT licensed
+                </div>
+                <h1>Write CSS like <br>you <span class="accent">think</span>.</h1>
+                <p>A human-friendly preprocessor that actually makes sense. Compile semantic, reusable components into optimized CSS. No config file. No new language to learn.</p>
+                <div class="install-box">
+                    <span class="prefix">$</span>
+                    <span>npx @srivtx/tomato-css app.tom</span>
+                    <button class="install-copy-btn" onclick="copyInstall()" aria-label="Copy install command">
+                        <span class="copy-icon">📋</span>
+                        <span class="copy-text">Copy</span>
+                    </button>
+                </div>
+                <div class="hero-meta">
+                    <div>
+                        <strong>16kB</strong>
+                        npm package size
+                    </div>
+                    <div>
+                        <strong>0 deps</strong>
+                        runtime dependencies
+                    </div>
+                    <div>
+                        <strong>MIT</strong>
+                        licensed
+                    </div>
+                </div>
             </div>
-            <h1>Write CSS like<br>you <span>think</span>.</h1>
-            <p>A human-friendly preprocessor that actually makes sense. Compile semantic, reusable components into
-                optimized CSS.</p>
-
-            <div class="install-box">
-                <span class="prefix">$</span>
-                <span>npx @srivtx/tomato-css app.tom</span>
-                <button class="install-copy-btn" onclick="copyInstall()" aria-label="Copy install command">
-                    <span class="copy-icon">📋</span>
-                    <span class="copy-text">Copy</span>
-                </button>
+            <div class="hero-right">
+                <div class="hero-tomato-stage">
+                    <div class="orbit" aria-hidden="true">
+                        <span class="orbit-token">component btn:</span>
+                        <span class="orbit-token">bg rose-500</span>
+                        <span class="orbit-token">pad 2 4</span>
+                        <span class="orbit-token">round lg</span>
+                        <span class="orbit-token">use btn</span>
+                    </div>
+                    <svg class="hero-tomato" viewBox="0 0 64 64" aria-hidden="true">
+                        <defs>
+                            <radialGradient id="heroTomatoBody" cx="35%" cy="32%" r="68%">
+                                <stop offset="0%" stop-color="#fda4af"/>
+                                <stop offset="35%" stop-color="#fb7185"/>
+                                <stop offset="70%" stop-color="#f43f5e"/>
+                                <stop offset="100%" stop-color="#9f1239"/>
+                            </radialGradient>
+                            <linearGradient id="heroTomatoLeaf" x1="50%" y1="0%" x2="50%" y2="100%">
+                                <stop offset="0%" stop-color="#4ade80"/>
+                                <stop offset="100%" stop-color="#15803d"/>
+                            </linearGradient>
+                        </defs>
+                        <circle cx="32" cy="38" r="22" fill="url(#heroTomatoBody)"/>
+                        <ellipse cx="24" cy="30" rx="7" ry="4" fill="#ffffff" fill-opacity="0.4"/>
+                        <ellipse cx="22" cy="33" rx="2" ry="1" fill="#ffffff" fill-opacity="0.25"/>
+                        <rect x="30.5" y="2" width="3" height="9" rx="1.5" fill="#15803d"/>
+                        <path d="M32 16 C 28 12, 32 6, 36 12 C 35 14, 33 16, 32 16 Z" fill="url(#heroTomatoLeaf)"/>
+                        <path d="M32 17 C 22 14, 12 15, 10 20 C 14 23, 24 22, 32 19 Z" fill="url(#heroTomatoLeaf)"/>
+                        <path d="M32 17 C 42 14, 52 15, 54 20 C 50 23, 40 22, 32 19 Z" fill="url(#heroTomatoLeaf)"/>
+                        <path d="M32 18 C 28 22, 18 23, 16 21 C 19 19, 27 18, 32 18 Z" fill="#166534"/>
+                        <path d="M32 18 C 36 22, 46 23, 48 21 C 45 19, 37 18, 32 18 Z" fill="#166534"/>
+                    </svg>
+                </div>
             </div>
+            <div class="scroll-hint">Scroll to explore</div>
+        </section>
 
-            <div class="hero-visual">
-                <svg class="hero-tomato" viewBox="0 0 64 64" aria-hidden="true">
-                    <defs>
-                        <radialGradient id="heroTomatoBody" cx="35%" cy="32%" r="68%">
-                            <stop offset="0%" stop-color="#fda4af"/>
-                            <stop offset="35%" stop-color="#fb7185"/>
-                            <stop offset="70%" stop-color="#f43f5e"/>
-                            <stop offset="100%" stop-color="#9f1239"/>
-                        </radialGradient>
-                        <linearGradient id="heroTomatoLeaf" x1="50%" y1="0%" x2="50%" y2="100%">
-                            <stop offset="0%" stop-color="#4ade80"/>
-                            <stop offset="100%" stop-color="#15803d"/>
-                        </linearGradient>
-                    </defs>
-                    <circle cx="32" cy="38" r="22" fill="url(#heroTomatoBody)"/>
-                    <ellipse cx="24" cy="30" rx="7" ry="4" fill="#ffffff" fill-opacity="0.4"/>
-                    <ellipse cx="22" cy="33" rx="2" ry="1" fill="#ffffff" fill-opacity="0.25"/>
-                    <rect x="30.5" y="2" width="3" height="9" rx="1.5" fill="#15803d"/>
-                    <path d="M32 16 C 28 12, 32 6, 36 12 C 35 14, 33 16, 32 16 Z" fill="url(#heroTomatoLeaf)"/>
-                    <path d="M32 17 C 22 14, 12 15, 10 20 C 14 23, 24 22, 32 19 Z" fill="url(#heroTomatoLeaf)"/>
-                    <path d="M32 17 C 42 14, 52 15, 54 20 C 50 23, 40 22, 32 19 Z" fill="url(#heroTomatoLeaf)"/>
-                    <path d="M32 18 C 28 22, 18 23, 16 21 C 19 19, 27 18, 32 18 Z" fill="#166534"/>
-                    <path d="M32 18 C 36 22, 46 23, 48 21 C 45 19, 37 18, 32 18 Z" fill="#166534"/>
-                </svg>
+        <section class="how-it-works" data-bg-color="#0a0a0f">
+            <h2>Three steps. That's it.</h2>
+            <div class="steps">
+                <div class="step">
+                    <span class="step-num">01</span>
+                    <h3>Write</h3>
+                    <p>Create a <code>.tom</code> file. Use components, tokens, and human syntax.</p>
+                </div>
+                <div class="step">
+                    <span class="step-num">02</span>
+                    <h3>Compile</h3>
+                    <p>Run one command. Get standard CSS — no magic, no runtime.</p>
+                </div>
+                <div class="step">
+                    <span class="step-num">03</span>
+                    <h3>Ship</h3>
+                    <p>Drop the CSS in your project. Works everywhere CSS works.</p>
+                </div>
             </div>
         </section>
 
-        <!-- Spacer for scrolling effect -->
-        <div style="height: 20vh;"></div>
+        <section class="syntax-showcase" data-bg-color="#0f172a">
+            <div style="text-align: center; margin-bottom: 1rem;">
+                <h2 style="font-size: 2.5rem; font-weight: 700; letter-spacing: -0.03em;">See the difference</h2>
+                <p style="color: var(--text-secondary); margin-top: 0.5rem;">Same button. Two ways to write it.</p>
+            </div>
+            <div class="syntax-grid">
+                <div class="syntax-card tom">
+                    <div class="syntax-card-header">
+                        <span class="file">button.tom</span>
+                        <span class="lang">TOMATO</span>
+                    </div>
+                    <pre class="syntax-code"><span class="key">component</span> btn:
+  <span class="key">pad</span> 2 4
+  <span class="key">round</span> lg
+  <span class="key">bold</span>
+  <span class="key">bg</span> rose-500
+  <span class="key">color</span> white
+
+<span class="key">button</span>:
+  <span class="key">use</span> btn
+  <span class="key">hover</span>:
+    <span class="key">bg</span> rose-600</pre>
+                </div>
+                <div class="syntax-card css">
+                    <div class="syntax-card-header">
+                        <span class="file">output.css</span>
+                        <span class="lang">CSS</span>
+                    </div>
+                    <pre class="syntax-code"><span class="com">/* Same output, 12 lines */</span>
+<span class="prop">.btn</span> {
+  <span class="key">padding</span>: 0.5rem 1rem;
+  <span class="key">border-radius</span>: 0.5rem;
+  <span class="key">font-weight</span>: bold;
+  <span class="key">background</span>: #f43f5e;
+  <span class="key">color</span>: #fff;
+}
+
+<span class="prop">button</span> {
+  <span class="key">padding</span>: 0.5rem 1rem;
+  <span class="key">border-radius</span>: 0.5rem;
+  <span class="key">font-weight</span>: bold;
+  <span class="key">background</span>: #f43f5e;
+  <span class="key">color</span>: #fff;
+}
+
+<span class="prop">button:hover</span> {
+  <span class="key">background</span>: #e11d48;
+}</pre>
+                </div>
+            </div>
+        </section>
 
         <section id="features" class="features-section" data-bg-color="#0f172a">
+            <div class="section-header" data-aos="fade-up">
+                <h2>What's in the box</h2>
+                <p style="color: var(--text-secondary)">Everything you need. Nothing you don't.</p>
+            </div>
+
+            <div class="feature-grid">
+                <div class="feature-card spotlight-card" data-tilt data-tilt-glare data-tilt-max-glare="0.5"
+                    data-aos="fade-up" data-aos-delay="100">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="7" height="7" rx="1"/>
+                            <rect x="14" y="3" width="7" height="7" rx="1"/>
+                            <rect x="3" y="14" width="7" height="7" rx="1"/>
+                            <path d="M14 17.5h7M14 14h7"/>
+                        </svg>
+                    </div>
+                    <div class="card-number">01</div>
+                    <h3>Smart<br>Components</h3>
+                    <p>Define reusable style groups with <code>component btn:</code> and use them anywhere.</p>
+                </div>
+                <div class="feature-card spotlight-card" data-tilt data-tilt-glare data-tilt-max-glare="0.5"
+                    data-aos="fade-up" data-aos-delay="200">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="13.5" cy="6.5" r="2.5"/>
+                            <circle cx="17.5" cy="10.5" r="2.5"/>
+                            <circle cx="8.5" cy="7.5" r="2.5"/>
+                            <circle cx="6.5" cy="12.5" r="2.5"/>
+                            <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>
+                        </svg>
+                    </div>
+                    <div class="card-number">02</div>
+                    <h3>Native<br>Colors</h3>
+                    <p>Full Tailwind palette built-in. Just use <code>rose-500</code>, <code>bg slate-900</code>
+                        directly.</p>
+                </div>
+                <div class="feature-card spotlight-card" data-tilt data-tilt-glare data-tilt-max-glare="0.5"
+                    data-aos="fade-up" data-aos-delay="300">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                            <line x1="9" y1="13" x2="15" y2="13"/>
+                            <line x1="9" y1="17" x2="15" y2="17"/>
+                            <line x1="9" y1="9" x2="11" y2="9"/>
+                        </svg>
+                    </div>
+                    <div class="card-number">03</div>
+                    <h3>Human<br>Syntax</h3>
+                    <p>No colons. No semicolons. Just pure readable logic like <code>pad 4</code>,
+                        <code>round lg</code>.
+                    </p>
+                </div>
+                <div class="feature-card spotlight-card" data-tilt data-tilt-glare data-tilt-max-glare="0.5"
+                    data-aos="fade-up" data-aos-delay="400">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2"/>
+                            <path d="M8 21h8M12 17v4"/>
+                        </svg>
+                    </div>
+                    <div class="card-number">04</div>
+                    <h3>Responsive<br>Built-in</h3>
+                    <p><code>@mobile</code>, <code>@tablet</code>, <code>@desktop</code>, <code>@dark</code>, <code>@light</code>. All the breakpoints you need.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="comparison" data-bg-color="#1e1b4b">
+            <h2>How Tomato compares</h2>
+            <p class="lead">A preprocessor is a tool. The right tool depends on what you're building.</p>
+            <div class="comparison-table">
+                <div class="comparison-row header">
+                    <div></div>
+                    <div>Components</div>
+                    <div>Tailwind colors</div>
+                    <div>Config file</div>
+                    <div>Bundle</div>
+                </div>
+                <div class="comparison-row tomato">
+                    <div class="name tomato-name">Tomato</div>
+                    <div class="yes">Built-in</div>
+                    <div class="yes">22 palettes</div>
+                    <div class="yes">None</div>
+                    <div>16kB</div>
+                </div>
+                <div class="comparison-row">
+                    <div class="name">Sass</div>
+                    <div class="yes">@mixin</div>
+                    <div class="no">None</div>
+                    <div class="partial">Optional</div>
+                    <div>1.4MB</div>
+                </div>
+                <div class="comparison-row">
+                    <div class="name">Less</div>
+                    <div class="yes">.mixin()</div>
+                    <div class="no">None</div>
+                    <div class="partial">Optional</div>
+                    <div>3MB</div>
+                </div>
+                <div class="comparison-row">
+                    <div class="name">Tailwind</div>
+                    <div class="partial">@apply</div>
+                    <div class="yes">Built-in</div>
+                    <div class="no">Required</div>
+                    <div>3MB+</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="final-cta" data-bg-color="#0a0a0f">
+            <h2>Fresh styles.<br>No ketchup required.</h2>
+            <p>Install in one command. No config. No dependencies. MIT licensed.</p>
+            <div class="cta-buttons">
+                <div class="install-box">
+                    <span class="prefix">$</span>
+                    <span>npm i @srivtx/tomato-css</span>
+                    <button class="install-copy-btn" onclick="copyInstall()" aria-label="Copy install command">
+                        <span class="copy-icon">📋</span>
+                        <span class="copy-text">Copy</span>
+                    </button>
+                </div>
+                <a class="github-stars" href="https://github.com/srivtx/tomato-css">
+                    ★ Star on GitHub
+                </a>
+            </div>
+        </section>
             <div class="section-header" data-aos="fade-up">
                 <h2>Fresh Features</h2>
                 <p style="color: var(--text-secondary)">Built for developers who love clean styling.</p>
