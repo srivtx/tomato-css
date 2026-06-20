@@ -167,37 +167,74 @@
         /* Nav */
         nav {
             position: fixed;
-            top: 24px;
+            top: 20px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
             align-items: center;
-            gap: 2rem;
-            background: rgba(10, 10, 12, 0.5);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            gap: 1.75rem;
+            background: rgba(10, 10, 12, 0.35);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 0.75rem 2rem;
+            padding: 0.65rem 1.5rem;
             border-radius: 100px;
             z-index: 100;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            box-shadow:
+                0 10px 40px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            position: fixed;
+        }
+
+        nav::before {
+            content: "";
+            position: absolute;
+            inset: -1px;
+            border-radius: 100px;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(244, 63, 94, 0.4), rgba(251, 146, 60, 0.2), rgba(168, 85, 247, 0.3));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            opacity: 0.6;
         }
 
         .logo {
             font-weight: 700;
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             color: var(--text-main);
             text-decoration: none;
             letter-spacing: -0.02em;
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.6rem;
         }
 
         .logo svg {
-            width: 28px;
-            height: 28px;
+            width: 32px;
+            height: 32px;
             flex-shrink: 0;
+            filter: drop-shadow(0 0 12px rgba(244, 63, 94, 0.5));
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+
+        .logo:hover svg {
+            transform: rotate(-8deg) scale(1.1);
+            filter: drop-shadow(0 0 18px rgba(244, 63, 94, 0.8));
+        }
+
+        @keyframes tomatoPulse {
+            0%, 100% { filter: drop-shadow(0 0 12px rgba(244, 63, 94, 0.5)); }
+            50% { filter: drop-shadow(0 0 20px rgba(244, 63, 94, 0.7)); }
+        }
+
+        .logo svg {
+            animation: tomatoPulse 4s ease-in-out infinite;
+        }
+
+        .logo:hover svg {
+            animation: none;
         }
 
         .nav-links {
@@ -357,6 +394,34 @@
             background: rgba(74, 222, 128, 0.2);
             border-color: rgba(74, 222, 128, 0.5);
             color: #4ade80;
+        }
+
+        .hero-visual {
+            margin-top: 4rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-tomato {
+            width: 140px;
+            height: 140px;
+            filter: drop-shadow(0 0 40px rgba(244, 63, 94, 0.4))
+                    drop-shadow(0 0 80px rgba(244, 63, 94, 0.2));
+            animation: heroTomatoFloat 6s ease-in-out infinite;
+        }
+
+        @keyframes heroTomatoFloat {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+                filter: drop-shadow(0 0 40px rgba(244, 63, 94, 0.4))
+                        drop-shadow(0 0 80px rgba(244, 63, 94, 0.2));
+            }
+            50% {
+                transform: translateY(-12px) rotate(3deg);
+                filter: drop-shadow(0 0 60px rgba(244, 63, 94, 0.6))
+                        drop-shadow(0 0 120px rgba(244, 63, 94, 0.3));
+            }
         }
 
         /* Features Section */
@@ -852,6 +917,32 @@
                     <span class="copy-icon">📋</span>
                     <span class="copy-text">Copy</span>
                 </button>
+            </div>
+
+            <div class="hero-visual">
+                <svg class="hero-tomato" viewBox="0 0 64 64" aria-hidden="true">
+                    <defs>
+                        <radialGradient id="heroTomatoBody" cx="35%" cy="32%" r="68%">
+                            <stop offset="0%" stop-color="#fda4af"/>
+                            <stop offset="35%" stop-color="#fb7185"/>
+                            <stop offset="70%" stop-color="#f43f5e"/>
+                            <stop offset="100%" stop-color="#9f1239"/>
+                        </radialGradient>
+                        <linearGradient id="heroTomatoLeaf" x1="50%" y1="0%" x2="50%" y2="100%">
+                            <stop offset="0%" stop-color="#4ade80"/>
+                            <stop offset="100%" stop-color="#15803d"/>
+                        </linearGradient>
+                    </defs>
+                    <circle cx="32" cy="38" r="22" fill="url(#heroTomatoBody)"/>
+                    <ellipse cx="24" cy="30" rx="7" ry="4" fill="#ffffff" fill-opacity="0.4"/>
+                    <ellipse cx="22" cy="33" rx="2" ry="1" fill="#ffffff" fill-opacity="0.25"/>
+                    <rect x="30.5" y="2" width="3" height="9" rx="1.5" fill="#15803d"/>
+                    <path d="M32 16 C 28 12, 32 6, 36 12 C 35 14, 33 16, 32 16 Z" fill="url(#heroTomatoLeaf)"/>
+                    <path d="M32 17 C 22 14, 12 15, 10 20 C 14 23, 24 22, 32 19 Z" fill="url(#heroTomatoLeaf)"/>
+                    <path d="M32 17 C 42 14, 52 15, 54 20 C 50 23, 40 22, 32 19 Z" fill="url(#heroTomatoLeaf)"/>
+                    <path d="M32 18 C 28 22, 18 23, 16 21 C 19 19, 27 18, 32 18 Z" fill="#166534"/>
+                    <path d="M32 18 C 36 22, 46 23, 48 21 C 45 19, 37 18, 32 18 Z" fill="#166534"/>
+                </svg>
             </div>
         </section>
 
