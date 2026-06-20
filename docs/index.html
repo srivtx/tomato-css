@@ -13,10 +13,6 @@
     <link rel="manifest" href="manifest.json">
     <link rel="canonical" href="https://tomato.tom/">
 
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-
     <meta property="og:type" content="website">
     <meta property="og:title" content="Tomato CSS - The Human-Friendly CSS Preprocessor">
     <meta property="og:description" content="Write CSS like you think. Components, Tailwind colors, and human-readable syntax.">
@@ -135,22 +131,15 @@
             color: white;
         }
 
-        html {
-            background-color: var(--bg);
-            background-image: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(244, 63, 94, 0.30) 0%, transparent 55%),
-                              radial-gradient(ellipse 60% 50% at 85% 40%, rgba(251, 146, 60, 0.22) 0%, transparent 50%),
-                              radial-gradient(ellipse 70% 60% at 15% 80%, rgba(168, 85, 247, 0.18) 0%, transparent 50%);
-            background-attachment: fixed;
-            min-height: 100vh;
-        }
-
         body {
             font-family: var(--font-main), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: transparent;
+            background: var(--bg);
             color: var(--text-main);
             min-height: 100vh;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
+            transition: background-color 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            /* Smooth Chameleon transition */
         }
 
         /* 3D Canvas Container */
@@ -163,9 +152,6 @@
             z-index: -1;
             opacity: 0;
             transition: opacity 1s ease;
-            background-image: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(244, 63, 94, 0.25) 0%, transparent 55%),
-                              radial-gradient(ellipse 60% 50% at 85% 40%, rgba(251, 146, 60, 0.18) 0%, transparent 50%),
-                              radial-gradient(ellipse 70% 60% at 15% 80%, rgba(168, 85, 247, 0.15) 0%, transparent 50%);
         }
 
         #canvas-container.loaded {
@@ -652,286 +638,21 @@
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.5'/%3E%3C/svg%3E");
             mix-blend-mode: overlay;
         }
-
-        /* Skip link */
-        .skip-link {
-            position: absolute;
-            top: -100px;
-            left: 1rem;
-            background: var(--primary);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 600;
-            z-index: 10000;
-            transition: top 0.2s;
-        }
-
-        .skip-link:focus {
-            top: 1rem;
-        }
-
-        /* Hamburger */
-        .hamburger {
-            display: none;
-            background: transparent;
-            border: 0;
-            width: 40px;
-            height: 40px;
-            padding: 0;
-            cursor: pointer;
-            position: relative;
-            z-index: 200;
-        }
-
-        .hamburger span {
-            display: block;
-            position: absolute;
-            height: 2px;
-            width: 24px;
-            background: var(--text-main);
-            left: 8px;
-            transition: transform 0.3s, opacity 0.2s, top 0.3s;
-        }
-
-        .hamburger span:nth-child(1) { top: 13px; }
-        .hamburger span:nth-child(2) { top: 19px; }
-        .hamburger span:nth-child(3) { top: 25px; }
-
-        .hamburger[aria-expanded="true"] span:nth-child(1) {
-            top: 19px;
-            transform: rotate(45deg);
-        }
-
-        .hamburger[aria-expanded="true"] span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .hamburger[aria-expanded="true"] span:nth-child(3) {
-            top: 19px;
-            transform: rotate(-45deg);
-        }
-
-        /* Focus styles for keyboard nav */
-        a:focus-visible,
-        button:focus-visible,
-        .install-box:focus-visible {
-            outline: 2px solid var(--primary);
-            outline-offset: 3px;
-            border-radius: 4px;
-        }
-
-        .nav-links a {
-            padding: 0.25rem 0;
-        }
-
-        /* Mobile (up to 768px) */
-        @media (max-width: 768px) {
-            .skip-link:focus { top: 0.5rem; }
-
-            nav {
-                top: 12px;
-                padding: 0.5rem 1rem;
-                gap: 0.5rem;
-                width: calc(100% - 1.5rem);
-                max-width: 400px;
-                justify-content: space-between;
-            }
-
-            .logo {
-                font-size: 1.05rem;
-            }
-
-            .logo svg { width: 24px; height: 24px; }
-
-            .nav-links {
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: rgba(5, 5, 5, 0.97);
-                backdrop-filter: blur(20px);
-                -webkit-backdrop-filter: blur(20px);
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                gap: 2.5rem;
-                padding: 5rem 2rem;
-                z-index: 150;
-                opacity: 0;
-                pointer-events: none;
-                transition: opacity 0.25s;
-            }
-
-            .nav-links.open {
-                opacity: 1;
-                pointer-events: auto;
-            }
-
-            .nav-links a {
-                font-size: 1.4rem;
-                color: var(--text-main);
-            }
-
-            .nav-links a:not(.cta-btn) {
-                padding: 0.5rem 1rem;
-            }
-
-            .mobile-cta {
-                margin-top: 1.5rem;
-                font-size: 1rem;
-            }
-
-            .hamburger {
-                display: block;
-            }
-
-            .cta-btn:not(.mobile-cta) {
-                display: none;
-            }
-
-            #canvas-container { display: none; }
-
-            .grain { display: none; }
-
-            .hero {
-                min-height: 90vh;
-                padding: 80px 1.25rem 2rem;
-            }
-
-            .hero h1 {
-                font-size: clamp(2.25rem, 9vw, 3.5rem);
-                letter-spacing: -0.03em;
-                margin-bottom: 1.25rem;
-            }
-
-            .hero p {
-                font-size: 1.05rem;
-                max-width: 100%;
-                line-height: 1.5;
-                margin-bottom: 2rem;
-            }
-
-            .install-box {
-                font-size: 0.85rem;
-                padding: 0.85rem 1.1rem;
-                width: 100%;
-                max-width: 320px;
-                justify-content: center;
-            }
-
-            .section-header h2 {
-                font-size: clamp(1.75rem, 6vw, 2.5rem);
-            }
-
-            .section-header {
-                margin-bottom: 3rem;
-            }
-
-            .features-section {
-                padding: 4rem 0;
-            }
-
-            .feature-grid {
-                grid-template-columns: 1fr;
-                gap: 1.25rem;
-                padding: 0 1.25rem;
-            }
-
-            .feature-card {
-                min-height: 280px;
-                padding: 2rem;
-            }
-
-            .card-number {
-                font-size: 7rem;
-                top: -10px;
-            }
-
-            .playground {
-                padding: 4rem 1.25rem;
-            }
-
-            .playground-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-
-            .editor-box {
-                font-size: 0.85rem;
-            }
-
-            .editor-textarea {
-                min-height: 200px;
-                padding: 1rem;
-                font-size: 0.8rem;
-            }
-
-            .output-box {
-                padding: 1.5rem;
-                font-size: 0.8rem;
-            }
-
-            section {
-                padding-left: 1.25rem !important;
-                padding-right: 1.25rem !important;
-            }
-
-            [data-aos] {
-                transition-duration: 0.4s !important;
-            }
-        }
-
-        /* Tablet (769px - 1024px) */
-        @media (min-width: 769px) and (max-width: 1024px) {
-            .hero h1 { font-size: 4rem; }
-            .feature-grid { grid-template-columns: repeat(2, 1fr); }
-            .feature-card:nth-child(3) { grid-column: 1 / -1; max-width: 50%; margin: 0 auto; }
-            .playground-grid { grid-template-columns: 1fr; }
-        }
-
-        /* Reduce motion for users who request it */
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-                scroll-behavior: auto !important;
-            }
-
-            [data-aos] {
-                opacity: 1 !important;
-                transform: none !important;
-            }
-
-            .grain { display: none; }
-        }
     </style>
 </head>
 
 <body>
-    <a href="#main" class="skip-link">Skip to main content</a>
-
     <div id="canvas-container"></div>
 
     <div class="content-wrapper">
-        <nav role="navigation" aria-label="Main">
+        <nav>
             <a href="#" class="logo">🍅 Tomato</a>
-            <div class="nav-links" id="navLinks">
+            <div class="nav-links">
                 <a href="#features">Features</a>
                 <a href="docs.html">Documentation</a>
                 <a href="https://github.com/srivtx/tomato-css">GitHub</a>
             </div>
             <a href="docs.html#installation" class="cta-btn">Get Started</a>
-            <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
         </nav>
 
         <section class="hero" data-aos="fade-up" data-bg-color="#050505">
@@ -1034,7 +755,10 @@
     <!-- Scripts -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://unpkg.com/prismjs@1.29.0/prism.js"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+
+    <script src="js/three-scene.js"></script>
+
+    <script>
         AOS.init({ duration: 800, once: true });
 
         // Vanilla Tilt Init
@@ -1043,6 +767,27 @@
             speed: 400,
             glare: true,
             "max-glare": 0.2
+        });
+
+        // Chameleon Background Logic
+        const sections = document.querySelectorAll('[data-bg-color]');
+        const observerOptions = {
+            root: null,
+            threshold: 0.4, // Trigger when 40% of section is visible
+            rootMargin: "0px"
+        };
+
+        const bgObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const color = entry.target.getAttribute('data-bg-color');
+                    document.body.style.backgroundColor = color;
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            bgObserver.observe(section);
         });
 
 
@@ -1209,34 +954,6 @@
                 box.style.background = originalBg;
             }, 1000);
         }
-
-        (function() {
-            const hamburger = document.getElementById('hamburger');
-            const navLinks = document.getElementById('navLinks');
-            if (hamburger && navLinks) {
-                hamburger.addEventListener('click', () => {
-                    const open = navLinks.classList.toggle('open');
-                    hamburger.setAttribute('aria-expanded', open ? 'true' : 'false');
-                    document.body.style.overflow = open ? 'hidden' : '';
-                });
-
-                navLinks.querySelectorAll('a').forEach(a => {
-                    a.addEventListener('click', () => {
-                        navLinks.classList.remove('open');
-                        hamburger.setAttribute('aria-expanded', 'false');
-                        document.body.style.overflow = '';
-                    });
-                });
-
-                document.addEventListener('keydown', e => {
-                    if (e.key === 'Escape' && navLinks.classList.contains('open')) {
-                        navLinks.classList.remove('open');
-                        hamburger.setAttribute('aria-expanded', 'false');
-                        document.body.style.overflow = '';
-                    }
-                });
-            }
-        })();
     </script>
 </body>
 
