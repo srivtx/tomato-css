@@ -19,10 +19,20 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,600,700,800&display=swap">
 
     <style>
+        /* Departure Mono — self-hosted (not on Google Fonts or Fontshare) */
+        @font-face {
+            font-family: 'Departure Mono';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url('fonts/DepartureMono-Regular.woff2') format('woff2');
+        }
+
         :root {
             --bg: #0a0a0a;
             --bg-2: #111111;
@@ -34,9 +44,9 @@
             --accent: #f43f5e;
             --accent-dim: #b23048;
 
-            --serif: 'Instrument Serif', Georgia, 'Times New Roman', serif;
-            --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            --mono: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+            --serif: 'Bricolage Grotesque', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --sans: 'Cabinet Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --mono: 'Departure Mono', 'SF Mono', Menlo, monospace;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -84,23 +94,70 @@
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            font-family: var(--mono);
-            font-size: 14px;
-            letter-spacing: 0.01em;
+            font-family: var(--sans);
+            font-weight: 600;
+            font-size: 15px;
+            letter-spacing: -0.01em;
             color: var(--text);
         }
 
-        .brand-mark { width: 22px; height: 22px; }
+        .brand-mark {
+            width: 22px; height: 22px;
+            transition: transform 240ms cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .brand:hover .brand-mark { transform: rotate(-12deg) scale(1.08); }
+
+        .topbar { position: relative; z-index: 1; }
+
+        /* ---------- Canvas pixel particles behind the page ---------- */
+        .particle-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.85;
+        }
+        .page { position: relative; z-index: 1; }
 
         .topbar nav {
             display: flex;
             gap: 28px;
-            font-family: var(--mono);
-            font-size: 13px;
+            font-family: var(--sans);
+            font-size: 14px;
             color: var(--text-2);
         }
 
+        .topbar nav a {
+            position: relative;
+            padding: 4px 0;
+            transition: color 120ms linear;
+        }
+        .topbar nav a::after {
+            content: "";
+            position: absolute;
+            left: 0; right: 0; bottom: 0;
+            height: 1px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transform-origin: left center;
+            transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
         .topbar nav a:hover { color: var(--text); }
+        .topbar nav a:hover::after { transform: scaleX(1); }
+
+        /* ---------- Scroll progress bar (top edge of viewport) ---------- */
+        .scroll-progress {
+            position: fixed;
+            top: 0; left: 0;
+            height: 2px;
+            width: 0;
+            background: var(--accent);
+            z-index: 100;
+            transition: width 80ms linear;
+            pointer-events: none;
+        }
 
         /* ---------- Hero ---------- */
 
@@ -114,15 +171,18 @@
 
         .hero h1 {
             font-family: var(--serif);
-            font-weight: 400;
+            font-weight: 700;
+            font-variation-settings: "opsz" 96;
             font-size: clamp(40px, 5.5vw, 68px);
-            line-height: 1.05;
-            letter-spacing: -0.02em;
+            line-height: 1.02;
+            letter-spacing: -0.03em;
             color: var(--text);
         }
 
         .hero h1 em {
             font-style: italic;
+            font-weight: 700;
+            font-variation-settings: "opsz" 96;
             color: var(--accent);
         }
 
@@ -171,6 +231,30 @@
             background: none;
         }
         .install-line .prompt { color: var(--accent); user-select: none; }
+        .install-meta {
+            display: inline-block;
+            margin-left: 12px;
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--text-3);
+            letter-spacing: 0.02em;
+        }
+        .install-meta::before {
+            content: "·";
+            margin-right: 10px;
+            color: var(--line-2);
+        }
+
+        /* External-link arrow (after the label, in monospace so it aligns) */
+        .ext {
+            display: inline-block;
+            margin-left: 3px;
+            font-family: var(--mono);
+            font-size: 0.85em;
+            color: var(--text-3);
+            transition: transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1), color 120ms linear;
+        }
+        a:hover .ext { color: var(--accent); transform: translate(2px, -2px); }
 
         /* ---------- Code blocks (side-by-side .tom → .css) ---------- */
 
@@ -252,10 +336,11 @@
 
         .section-title {
             font-family: var(--serif);
-            font-weight: 400;
+            font-weight: 700;
+            font-variation-settings: "opsz" 48;
             font-size: clamp(28px, 3.4vw, 40px);
-            line-height: 1.15;
-            letter-spacing: -0.01em;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
             color: var(--text);
             max-width: 24ch;
             margin-bottom: 48px;
@@ -435,6 +520,9 @@
 
 <body>
 
+    <canvas class="particle-canvas" id="topbar-particles" aria-hidden="true"></canvas>
+    <div class="scroll-progress" aria-hidden="true"></div>
+
     <div class="page">
 
         <!-- Top bar (the only nav) -->
@@ -449,8 +537,8 @@
             <nav>
                 <a href="#spec">Spec</a>
                 <a href="#try">Try</a>
-                <a href="https://github.com/srivtx/tomato-css">GitHub</a>
-                <a href="https://www.npmjs.com/package/@srivtx/tomato-css">npm</a>
+                <a href="https://github.com/srivtx/tomato-css">GitHub <span class="ext">↗</span></a>
+                <a href="https://www.npmjs.com/package/@srivtx/tomato-css">npm <span class="ext">↗</span></a>
             </nav>
         </header>
 
@@ -468,6 +556,7 @@
                 </div>
                 <div class="install-line">
                     <span class="prompt">$</span> <code>npm install -D @srivtx/tomato-css</code>
+                    <span class="install-meta">v1.2.0 · 12kb · 0 deps</span>
                 </div>
             </div>
 
@@ -670,10 +759,10 @@ component card:
         <footer>
             <div>MIT licensed · srivtx · 2026</div>
             <nav>
-                <a href="https://github.com/srivtx/tomato-css">GitHub</a>
-                <a href="https://www.npmjs.com/package/@srivtx/tomato-css">npm</a>
-                <a href="https://github.com/srivtx/tomato-css/releases">Releases</a>
-                <a href="https://github.com/srivtx/tomato-css/blob/main/CHANGELOG.md">Changelog</a>
+                <a href="https://github.com/srivtx/tomato-css">GitHub <span class="ext">↗</span></a>
+                <a href="https://www.npmjs.com/package/@srivtx/tomato-css">npm <span class="ext">↗</span></a>
+                <a href="https://github.com/srivtx/tomato-css/releases">Releases <span class="ext">↗</span></a>
+                <a href="https://github.com/srivtx/tomato-css/blob/main/CHANGELOG.md">Changelog <span class="ext">↗</span></a>
             </nav>
         </footer>
 
@@ -795,6 +884,339 @@ component card:
             catch (e) { OUTPUT.textContent = '/* ' + e.message + ' */'; }
         }
         if (INPUT && OUTPUT) { INPUT.addEventListener('input', update); update(); }
+
+        // Scroll progress bar
+        (function() {
+            const bar = document.querySelector('.scroll-progress');
+            if (!bar) return;
+            const onScroll = () => {
+                const h = document.documentElement;
+                const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+                bar.style.width = (isFinite(pct) ? pct : 0) + '%';
+            };
+            window.addEventListener('scroll', onScroll, { passive: true });
+            onScroll();
+        })();
+
+        // Tiny pixel particles drifting behind the topbar.
+        // Subtle on purpose: 1-2px squares, low opacity, slow speeds.
+        (function() {
+            const canvas = document.getElementById('topbar-particles');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return;
+
+            let w = 0, h = 0, dpr = 1;
+            const PARTICLES = 140;
+            const particles = [];
+            const streaks = [];
+            const rings = [];                // expanding rings on button impact
+            let hoveredBtn = null;
+            let attractStrength = 0;
+            let spawnAccum = 0;
+            let repulsePos = null;            // last hover-out position
+            let repulseFrames = 0;            // frames remaining of the push
+            const ATTRACT = 0.05;
+            const MAX_SPEED = 0.7;
+            const RANDOM_KICK = 0.022;        // visible jitter
+            const GLOBAL_DAMP = 0.999;        // very light drag — particles stay alive
+            const HOVER_OUT_DAMP = 0.96;      // gradual return to baseline on hover-out
+            const REPULSE_FORCE = 0.1;        // gentle push on hover-out
+            const REPULSE_DURATION = 22;      // ~0.37s of push
+            const REPULSE_RADIUS = 200;       // reach
+            const STREAK_SPEED_MIN = 3.5;
+            const STREAK_SPEED_MAX = 5.5;
+            const STREAK_TAIL = 55;
+            const STREAK_LIFE_MIN = 16;
+            const STREAK_LIFE_MAX = 30;
+
+            function resize() {
+                dpr = window.devicePixelRatio || 1;
+                w = window.innerWidth;
+                h = window.innerHeight;
+                canvas.width = w * dpr;
+                canvas.height = h * dpr;
+                canvas.style.width = w + 'px';
+                canvas.style.height = h + 'px';
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
+                ctx.scale(dpr, dpr);
+                ctx.imageSmoothingEnabled = false;
+            }
+
+            function seed() {
+                particles.length = 0;
+                for (let i = 0; i < PARTICLES; i++) {
+                    const r = Math.random();
+                    particles.push({
+                        x: Math.random() * w,
+                        y: Math.random() * h,
+                        vx: (Math.random() - 0.5) * 0.22,
+                        vy: (Math.random() - 0.5) * 0.18,
+                        size: r < 0.55 ? 1 : r < 0.9 ? 2 : 3,
+                        alpha: 0.35 + Math.random() * 0.35,
+                        flash: 0,                // 0-1, boosted by nearby streaks
+                    });
+                }
+            }
+
+            function attractPos() {
+                if (!hoveredBtn) return null;
+                const r = hoveredBtn.getBoundingClientRect();
+                return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+            }
+
+            function spawnStreak(target) {
+                // Spawn from somewhere on a circle around the target, racing
+                // toward the target at high speed. A bit of random angular
+                // jitter so they don't all come from the same line.
+                const ang = Math.random() * Math.PI * 2;
+                const r = 240 + Math.random() * 180;
+                const x = target.x + Math.cos(ang) * r;
+                const y = target.y + Math.sin(ang) * r;
+                const dx = target.x - x;
+                const dy = target.y - y;
+                const len = Math.sqrt(dx * dx + dy * dy) || 1;
+                const speed = STREAK_SPEED_MIN + Math.random() * (STREAK_SPEED_MAX - STREAK_SPEED_MIN);
+                streaks.push({
+                    x, y,
+                    vx: (dx / len) * speed,
+                    vy: (dy / len) * speed,
+                    life: STREAK_LIFE_MIN + Math.random() * (STREAK_LIFE_MAX - STREAK_LIFE_MIN),
+                    maxLife: 0,
+                });
+                streaks[streaks.length - 1].maxLife = streaks[streaks.length - 1].life;
+            }
+
+            function step() {
+                const target = attractPos();
+                if (target) {
+                    // ease in while hovering
+                    attractStrength += (1 - attractStrength) * 0.08;
+                } else {
+                    // hover-out: kill streaks. Don't snap velocities — let
+                    // the damping below ease particles back to baseline so
+                    // they keep drifting naturally instead of halting.
+                    attractStrength = 0;
+                    spawnAccum = 0;
+                    streaks.length = 0;
+                    rings.length = 0;
+                }
+
+                // Spawn streaks only while a button is being hovered.
+                if (target && attractStrength > 0.02) {
+                    spawnAccum += 0.55 * attractStrength;
+                    while (spawnAccum >= 1) {
+                        spawnStreak(target);
+                        spawnAccum -= 1;
+                    }
+                } else {
+                    spawnAccum = 0;
+                }
+
+                // Update + cull streaks.
+                for (let i = streaks.length - 1; i >= 0; i--) {
+                    const s = streaks[i];
+                    s.x += s.vx;
+                    s.y += s.vy;
+                    s.life -= 1;
+
+                    // Detect "impact": the streak has reached the button
+                    // and should trigger a ring at the impact point.
+                    if (target && !s.impacted) {
+                        const dx = target.x - s.x;
+                        const dy = target.y - s.y;
+                        if (dx * dx + dy * dy < 22 * 22) {
+                            s.impacted = true;
+                            rings.push({
+                                x: s.x, y: s.y,
+                                r: 0, maxR: 18 + Math.random() * 10,
+                                life: 22, maxLife: 22,
+                            });
+                        }
+                    }
+
+                    if (s.life <= 0) streaks.splice(i, 1);
+                }
+
+                // Update + cull rings.
+                for (let i = rings.length - 1; i >= 0; i--) {
+                    const r = rings[i];
+                    r.r += 0.9;
+                    r.life -= 1;
+                    if (r.life <= 0) rings.splice(i, 1);
+                }
+
+                // Update particle positions.
+                ctx.clearRect(0, 0, w, h);
+                const damp = target ? GLOBAL_DAMP : HOVER_OUT_DAMP;
+                for (const p of particles) {
+                    // visible jitter: small random kicks every frame
+                    p.vx += (Math.random() - 0.5) * RANDOM_KICK;
+                    p.vy += (Math.random() - 0.5) * RANDOM_KICK;
+
+                    if (target && attractStrength > 0.001) {
+                        const dx = target.x - p.x;
+                        const dy = target.y - p.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy) + 0.5;
+                        p.vx += (dx / dist) * ATTRACT * attractStrength;
+                        p.vy += (dy / dist) * ATTRACT * attractStrength;
+                    }
+
+                    // Hover-out repulse: push particles away from the last
+                    // button position. Stronger when close, decays over
+                    // REPULSE_DURATION frames. The button "releases" them.
+                    if (repulsePos && repulseFrames > 0) {
+                        const dx = p.x - repulsePos.x;
+                        const dy = p.y - repulsePos.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy) + 0.5;
+                        const falloff = Math.max(0, 1 - dist / REPULSE_RADIUS);
+                        const strength = REPULSE_FORCE * (repulseFrames / REPULSE_DURATION) * falloff;
+                        p.vx += (dx / dist) * strength;
+                        p.vy += (dy / dist) * strength;
+                    }
+
+                    // Always apply drag. Stronger on hover-out so the
+                    // particles ease back to their baseline drift instead
+                    // of either halting (snap) or coasting forever (no drag).
+                    p.vx *= damp;
+                    p.vy *= damp;
+
+                    const sp = Math.hypot(p.vx, p.vy);
+                    if (sp > MAX_SPEED) {
+                        p.vx = (p.vx / sp) * MAX_SPEED;
+                        p.vy = (p.vy / sp) * MAX_SPEED;
+                    }
+
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.x < 0) p.x += w; else if (p.x >= w) p.x -= w;
+                    if (p.y < 0) p.y += h; else if (p.y >= h) p.y -= h;
+                }
+
+                // Tick the repulse timer.
+                if (repulseFrames > 0) {
+                    repulseFrames--;
+                    if (repulseFrames === 0) repulsePos = null;
+                }
+
+                // Draw the connection lines first — these are the "lines
+                // connecting the particles" that appear each frame a streak
+                // passes near a particle. They make the streak look like it
+                // is weaving through the field. A close streak also boosts
+                // the particle's `flash`, which we use when drawing pixels.
+                const CONNECT_DIST = 70;
+                const FLASH_DIST = 30;
+                ctx.lineCap = 'butt';
+                for (const s of streaks) {
+                    const t = s.life / s.maxLife;
+                    const fade = t * t;
+                    for (const p of particles) {
+                        const dx = s.x - p.x;
+                        const dy = s.y - p.y;
+                        const d = Math.sqrt(dx * dx + dy * dy);
+                        if (d < CONNECT_DIST) {
+                            const op = (1 - d / CONNECT_DIST) * 0.75 * fade;
+                            ctx.globalAlpha = op;
+                            ctx.strokeStyle = '#f43f5e';
+                            ctx.lineWidth = 0.8;
+                            ctx.beginPath();
+                            ctx.moveTo(p.x, p.y);
+                            ctx.lineTo(s.x, s.y);
+                            ctx.stroke();
+                        }
+                        if (d < FLASH_DIST) {
+                            // Closer = stronger flash, capped per-frame so a
+                            // single particle can't blow out from many streaks.
+                            const boost = (1 - d / FLASH_DIST) * 0.35 * fade;
+                            if (boost > p.flash) p.flash = Math.min(1, p.flash + boost);
+                        }
+                    }
+                }
+
+                // Draw the streak body — bright head + long tapered tail.
+                for (const s of streaks) {
+                    const sp = Math.hypot(s.vx, s.vy) || 1;
+                    const tx = s.x - (s.vx / sp) * STREAK_TAIL;
+                    const ty = s.y - (s.vy / sp) * STREAK_TAIL;
+                    const t = s.life / s.maxLife;
+                    const fade = t * t;
+                    const grad = ctx.createLinearGradient(s.x, s.y, tx, ty);
+                    grad.addColorStop(0,    'rgba(252,165,165,' + (0.95 * fade).toFixed(3) + ')');
+                    grad.addColorStop(0.25, 'rgba(244,63,94,'  + (0.85 * fade).toFixed(3) + ')');
+                    grad.addColorStop(0.7,  'rgba(244,63,94,'  + (0.35 * fade).toFixed(3) + ')');
+                    grad.addColorStop(1,    'rgba(244,63,94,0)');
+                    ctx.strokeStyle = grad;
+                    ctx.lineWidth = 1.4;
+                    ctx.globalAlpha = 1;
+                    ctx.beginPath();
+                    ctx.moveTo(tx, ty);
+                    ctx.lineTo(s.x, s.y);
+                    ctx.stroke();
+                    // bright head pixel
+                    ctx.globalAlpha = fade;
+                    ctx.fillStyle = '#fecaca';
+                    ctx.fillRect(Math.floor(s.x) - 1, Math.floor(s.y) - 1, 3, 3);
+                }
+
+                // Draw rings (button impact) — small expanding circles.
+                ctx.lineWidth = 1;
+                for (const r of rings) {
+                    const t = r.life / r.maxLife;
+                    ctx.globalAlpha = t * 0.55;
+                    ctx.strokeStyle = '#f43f5e';
+                    ctx.beginPath();
+                    ctx.arc(r.x, r.y, r.r, 0, Math.PI * 2);
+                    ctx.stroke();
+                }
+
+                // Draw particles on top. Each particle decays its flash
+                // back to 0; while flashing, it gets brighter and slightly
+                // larger (the 'lit up by the streak' effect).
+                ctx.fillStyle = '#f43f5e';
+                for (const p of particles) {
+                    p.flash *= 0.86;
+                    if (p.flash < 0.005) p.flash = 0;
+                    const f = p.flash;
+                    const alpha = Math.min(1, p.alpha + f * 0.55);
+                    const grow = f * 1.5;
+                    const sz = p.size + grow;
+                    ctx.globalAlpha = alpha;
+                    ctx.fillRect(
+                        Math.floor(p.x - grow * 0.5),
+                        Math.floor(p.y - grow * 0.5),
+                        Math.max(1, Math.floor(sz)),
+                        Math.max(1, Math.floor(sz))
+                    );
+                }
+                ctx.globalAlpha = 1;
+
+                requestAnimationFrame(step);
+            }
+
+            resize();
+            seed();
+            step();
+            window.addEventListener('resize', () => { resize(); seed(); }, { passive: true });
+
+            // Only .btn elements pull the particles. The hover state tracks
+            // the element so the target follows the button on scroll.
+            // On hover-out, remember the last position so we can push the
+            // particles back outward (the "released" feeling).
+            document.querySelectorAll('.btn').forEach((btn) => {
+                btn.addEventListener('mouseenter', () => {
+                    hoveredBtn = btn;
+                    // cancel any in-progress repulse from a previous hover
+                    repulseFrames = 0;
+                    repulsePos = null;
+                });
+                btn.addEventListener('mouseleave', () => {
+                    const r = btn.getBoundingClientRect();
+                    repulsePos = { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+                    repulseFrames = REPULSE_DURATION;
+                    hoveredBtn = null;
+                });
+            });
+        })();
     </script>
 
 </body>
