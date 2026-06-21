@@ -4,1600 +4,1237 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tomato CSS - Documentation</title>
-    <meta name="description" content="Complete documentation for Tomato CSS - the human-friendly CSS preprocessor.">
+    <title>Tomato — Documentation</title>
+    <meta name="description" content="Complete documentation for Tomato CSS — the human-friendly CSS preprocessor.">
 
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="apple-touch-icon" href="apple-touch-icon.svg">
     <link rel="canonical" href="https://tomato.tom/docs.html">
 
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Tomato CSS - Documentation">
-    <meta property="og:description" content="Complete documentation for Tomato CSS - the human-friendly CSS preprocessor.">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Tomato — Documentation">
+    <meta property="og:description" content="Complete documentation for Tomato CSS.">
     <meta property="og:image" content="og-image.svg">
     <meta property="og:url" content="https://tomato.tom/docs.html">
-    <meta property="og:site_name" content="Tomato CSS">
-
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Tomato CSS - Documentation">
-    <meta name="twitter:description" content="Complete documentation for Tomato CSS - the human-friendly CSS preprocessor.">
-    <meta name="twitter:image" content="og-image.svg">
-
     <meta name="theme-color" content="#f43f5e">
 
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "TechArticle",
-        "name": "Tomato CSS Documentation",
-        "headline": "Complete documentation for Tomato CSS",
-        "description": "The Human-Friendly CSS Preprocessor. Write CSS like you think.",
-        "url": "https://tomato.tom/docs.html",
-        "author": {
-            "@type": "Person",
-            "name": "srivtx",
-            "url": "https://github.com/srivtx"
-        },
-        "publisher": {
-            "@type": "Organization",
-            "name": "Tomato CSS",
-            "url": "https://github.com/srivtx/tomato-css"
-        },
-        "version": "1.2.0",
-        "inLanguage": "en"
-    }
-    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap"
         rel="stylesheet">
-    <link href="https://unpkg.com/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,600,700,800&display=swap">
 
     <style>
+        /* Departure Mono — self-hosted */
+        @font-face {
+            font-family: 'Departure Mono';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url('fonts/DepartureMono-Regular.woff2') format('woff2');
+        }
+
         :root {
-            --bg: #09090b;
-            --surface: #121215;
-            --surface-hover: #1c1c20;
-            --border: rgba(255, 255, 255, 0.08);
-            --primary: #f43f5e;
-            --primary-glow: rgba(244, 63, 94, 0.4);
-            --text-main: #ededed;
-            --text-muted: #888888;
-            --text-primary: #ffffff;
-            --text-secondary: #a1a1aa;
-            --tomato: #f43f5e;
-            --tomato-glow: rgba(244, 63, 94, 0.12);
-            --tomato-light: #fb7185;
-            --bg-surface: rgba(255, 255, 255, 0.03);
-            --bg-card: rgba(255, 255, 255, 0.03);
-            --font-main: 'Instrument Sans', sans-serif;
-            --font-code: 'JetBrains Mono', monospace;
-            --code-bg: #050505;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: var(--font-main), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg);
-            color: var(--text-main);
-            min-height: 100vh;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* Ambient Background Effects */
-        .glow-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            /* Multi-layer glowing gradients */
-            background:
-                /* Primary Top Glow */
-                radial-gradient(circle at 50% 0%, rgba(244, 63, 94, 0.15) 0%, transparent 60%),
-                /* Secondary Blue Side Glow */
-                radial-gradient(circle at 85% 30%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
-                /* Subtle Grid Pattern */
-                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-
-            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        /* Gradient Animation for Accents (hover only) */
-        @keyframes gradientShift {
-            0% {
-                background-position: 0% 50%;
-            }
-
-            50% {
-                background-position: 100% 50%;
-            }
-
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-        /* Reading Progress Bar */
-        .progress-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #f43f5e, #fb923c);
-            z-index: 9999;
-            transition: width 0.1s ease;
-            box-shadow: 0 0 10px rgba(244, 63, 94, 0.5);
-        }
-
-        /* Ensure content is above bg */
-        .layout,
-        .hero-section {
-            position: relative;
-            z-index: 10;
-        }
-
-        /* Hero Section */
-        .hero-section {
-            padding: 4rem 0 6rem;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 4rem;
-        }
-
-        /* Nav Header (Mobile only, if needed, or remove) */
-        /* For now, we'll just style the main layout cleanly */
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-size: 1.1rem;
-            font-weight: 700;
-            text-decoration: none;
-            color: var(--text-primary);
-            letter-spacing: -0.02em;
-        }
-
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            margin-left: 2rem;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: color 0.15s;
-        }
-
-        .nav-links a:hover {
-            color: var(--text-primary);
-        }
-
-        /* Layout - Wider for premium feel */
-        .layout {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            max-width: 1600px;
-            margin: 0 auto;
-            min-height: 100vh;
-        }
-
-        /* PREMIUM SIDEBAR */
-        aside {
-            position: sticky;
-            top: 0;
-            height: 100vh;
-            overflow-y: auto;
-            padding: 0;
-            border-right: 1px solid rgba(255, 255, 255, 0.06);
-            background: #0c0c0f;
-            box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.02);
-        }
-
-        /* HIDE SCROLLBAR */
-        aside::-webkit-scrollbar {
-            display: none;
-        }
-
-        aside {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-
-        /* Logo Section */
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            font-size: 1.25rem;
-            font-weight: 700;
-            text-decoration: none;
-            color: #ffffff;
-            letter-spacing: -0.025em;
-            padding: 2.25rem 2rem;
-            margin: 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            transition: all 0.2s ease;
-            position: relative;
-        }
-
-        .logo::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 2rem;
-            right: 2rem;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(244, 63, 94, 0.3), transparent);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .logo:hover::after {
-            opacity: 1;
-        }
-
-        .logo:hover {
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        /* Navigation Container */
-        .nav-group {
-            padding: 2rem 0 4rem;
-        }
-
-        /* Section Headers */
-        aside h3 {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.14em;
-            color: #6b7280;
-            padding: 0 2rem;
-            margin: 2.5rem 0 0.75rem;
-            font-weight: 600;
-            position: relative;
-        }
-
-        aside h3:first-child {
-            margin-top: 0;
-        }
-
-        /* Nav Links - Modern & Clean */
-        .nav-link {
-            display: flex;
-            align-items: center;
-            color: #9ca3af;
-            text-decoration: none;
-            padding: 0.7rem 2rem;
-            font-size: 0.9375rem;
-            font-weight: 500;
-            letter-spacing: -0.01em;
-            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-            border-left: 2px solid transparent;
-            position: relative;
-        }
-
-        .nav-link:hover {
-            color: #ffffff;
-            background: rgba(255, 255, 255, 0.04);
-            border-left-color: rgba(244, 63, 94, 0.5);
-        }
-
-        .nav-link.active {
-            color: #ffffff;
-            background: linear-gradient(90deg, rgba(244, 63, 94, 0.12) 0%, transparent 100%);
-            border-left-color: #f43f5e;
-            font-weight: 600;
-        }
-
-        .nav-link.active::before {
-            content: '';
-            position: absolute;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 3px;
-            height: 16px;
-            background: linear-gradient(180deg, #f43f5e, #fb923c);
-            border-radius: 2px 0 0 2px;
-            box-shadow: 0 0 10px rgba(244, 63, 94, 0.5);
-        }
-
-        /* Main Content - More Spacious */
-        main {
-            padding: 5rem 8rem;
-            max-width: 950px;
-        }
-
-        h1 {
-            font-size: 3.75rem;
-            font-weight: 800;
-            letter-spacing: -0.04em;
-            margin-bottom: 1.25rem;
-            line-height: 1;
-            color: #ffffff;
-        }
-
-        h1 span {
-            background: linear-gradient(135deg, #f43f5e 0%, #fb923c 100%);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Hero Section - Enhanced */
-        .hero-section {
-            padding: 3rem 0 5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            margin-bottom: 4rem;
-            position: relative;
-        }
-
-        .hero-section::before {
-            content: '';
-            position: absolute;
-            top: -100px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 600px;
-            height: 400px;
-            background: radial-gradient(ellipse, rgba(244, 63, 94, 0.15) 0%, transparent 60%);
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .hero-section::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 200px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, #f43f5e, transparent);
-        }
-
-        section {
-            margin-bottom: 5rem;
-            scroll-margin-top: 100px;
-        }
-
-        /* Focus States for Accessibility */
-        a:focus-visible,
-        button:focus-visible {
-            outline: 2px solid #f43f5e;
-            outline-offset: 3px;
-            border-radius: 4px;
-        }
-
-        h2 {
-            font-size: 2.25rem;
-            font-weight: 700;
-            letter-spacing: -0.03em;
-            margin-bottom: 2rem;
-            padding-top: 3rem;
-            padding-bottom: 0.75rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
-            color: #ffffff;
-            position: relative;
-        }
-
-        h2::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 70px;
-            height: 2.5px;
-            background: linear-gradient(90deg, #f43f5e, #fb923c, #f43f5e);
-            background-size: 200% 100%;
-            border-radius: 2px;
-            transition: width 0.3s ease;
-        }
-
-        h2:hover::after {
-            width: 120px;
-        }
-
-        h2:first-child {
-            border-top: none;
-            padding-top: 0;
-        }
-
-        /* Premium Link Styling */
-        main a:not(.nav-link):not(.logo) {
-            color: #fb7185;
-            text-decoration: none;
-            position: relative;
-            transition: all 0.2s ease;
-        }
-
-        main a:not(.nav-link):not(.logo)::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background: linear-gradient(90deg, #f43f5e, #fb923c);
-            transition: width 0.3s ease;
-        }
-
-        main a:not(.nav-link):not(.logo):hover {
-            color: #f43f5e;
-            text-shadow: 0 0 20px rgba(244, 63, 94, 0.4);
-        }
-
-        main a:not(.nav-link):not(.logo):hover::after {
-            width: 100%;
-        }
-
-        /* Premium List Styling */
-        ul,
-        ol {
-            margin: 1.5rem 0;
-            padding-left: 0;
-            list-style: none;
-        }
-
-        li {
-            position: relative;
-            padding-left: 1.75rem;
-            margin-bottom: 0.75rem;
-            color: #a1a1aa;
-            line-height: 1.7;
-        }
-
-        ul li::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0.6em;
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #f43f5e, #fb923c);
-            box-shadow: 0 0 8px rgba(244, 63, 94, 0.4);
-        }
-
-        ol {
-            counter-reset: list-counter;
-        }
-
-        ol li::before {
-            content: counter(list-counter);
-            counter-increment: list-counter;
-            position: absolute;
-            left: 0;
-            top: 0;
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: #f43f5e;
-            background: rgba(244, 63, 94, 0.1);
-            width: 1.25rem;
-            height: 1.25rem;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        h3 {
-            font-size: 1.35rem;
-            font-weight: 600;
-            margin: 3rem 0 1.5rem;
-            color: #ffffff;
-            position: relative;
-            padding-left: 1.25rem;
-            transition: all 0.3s ease;
-        }
-
-        h3:hover {
-            color: #fb7185;
-        }
-
-        h3::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 3px;
-            height: 65%;
-            background: linear-gradient(180deg, #f43f5e, #fb923c);
-            border-radius: 2px;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 8px rgba(244, 63, 94, 0.3);
-        }
-
-        h3:hover::before {
-            height: 85%;
-            box-shadow: 0 0 15px rgba(244, 63, 94, 0.6);
-        }
-
-        p {
-            color: #a1a1aa;
-            margin-bottom: 1.75rem;
-            line-height: 1.85;
-            font-size: 1.0625rem;
-            max-width: 68ch;
-        }
-
-        /* CODE BLOCKS - Premium Design */
-        .copy-wrapper {
-            position: relative;
-            margin: 2rem 0;
-        }
-
-        pre[class*="language-"] {
-            background: rgba(8, 8, 10, 0.6) !important;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 1.75rem;
-            overflow-x: auto;
-            margin: 0;
-            font-family: var(--font-code);
-            font-size: 0.9rem;
-            line-height: 1.7;
-            position: relative;
-            box-shadow:
-                0 10px 40px rgba(0, 0, 0, 0.3),
-                0 2px 10px rgba(0, 0, 0, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.05);
-            transition: all 0.2s ease;
-        }
-
-        pre[class*="language-"]:hover {
-            box-shadow:
-                0 20px 60px rgba(0, 0, 0, 0.4),
-                0 8px 24px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.08);
-            border-color: rgba(244, 63, 94, 0.2);
-            transform: translateY(-2px);
-        }
-
-        /* Code Block Language Label */
-        .copy-wrapper[data-lang]::after {
-            content: attr(data-lang);
-            position: absolute;
-            top: 0;
-            right: 3.5rem;
-            background: linear-gradient(135deg, rgba(244, 63, 94, 0.2), rgba(251, 146, 60, 0.15));
-            color: #fb7185;
-            font-size: 0.65rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            padding: 0.35rem 0.75rem;
-            border-radius: 0 0 8px 8px;
-            border: 1px solid rgba(244, 63, 94, 0.2);
-            border-top: none;
-        }
-
-        /* Code block header line decoration */
-        .copy-wrapper {
-            position: relative;
-        }
-
-        .copy-wrapper::before {
-            content: '• • •';
-            position: absolute;
-            top: 12px;
-            left: 18px;
-            font-size: 10px;
-            letter-spacing: 4px;
-            color: rgba(255, 255, 255, 0.15);
-            pointer-events: none;
-            z-index: 5;
-        }
-
-        /* Syntax Highlighting - Enhanced */
-        pre .keyword {
-            color: #f472b6;
-            font-weight: 600;
-        }
-
-        pre .property {
-            color: #fbbf24;
-        }
-
-        pre .value {
-            color: #4ade80;
-        }
-
-        pre .comment {
-            color: #6b7280;
-            font-style: italic;
-        }
-
-        pre .selector {
-            color: #60a5fa;
-            font-weight: 600;
-        }
-
-        pre .string {
-            color: #a78bfa;
-        }
-
-        /* Inline Code - Tomato Theme */
-        code {
-            font-family: var(--font-code);
-            font-size: 0.875em;
-            background: rgba(244, 63, 94, 0.12);
-            border: 1px solid rgba(244, 63, 94, 0.25);
-            padding: 0.25em 0.5em;
-            border-radius: 4px;
-            color: #fb7185;
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
-
-        code:hover {
-            background: rgba(244, 63, 94, 0.18);
-            border-color: rgba(244, 63, 94, 0.4);
-            box-shadow: 0 0 12px rgba(244, 63, 94, 0.3);
-        }
-
-        pre code {
-            background: transparent;
-            border: none;
-            padding: 0;
-            color: inherit;
-        }
-
-        /* Premium Tables */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2.5rem 0;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-        }
-
-        th {
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
-            font-size: 0.6875rem;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: #a1a1aa;
-            font-weight: 700;
-            padding: 1.125rem 1.5rem;
-            text-align: left;
-            border-bottom: 1px solid rgba(244, 63, 94, 0.2);
-        }
-
-        td {
-            padding: 1.125rem 1.5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-            color: #d4d4d8;
-            font-size: 0.9375rem;
-        }
-
-        tr:last-child td {
-            border-bottom: none;
-        }
-
-        tr:hover td {
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        tr {
-            transition: all 0.2s ease;
-            position: relative;
-        }
-
-        tr:hover {
-            background: rgba(244, 63, 94, 0.03);
-        }
-
-        tr:hover td:first-child {
-            box-shadow: inset 3px 0 0 #f43f5e;
-        }
-
-        td:first-child code {
-            color: #fb7185;
-            background: rgba(244, 63, 94, 0.12);
-            border-color: rgba(244, 63, 94, 0.25);
-        }
-
-        /* Copy Button - Premium */
-        .copy-btn {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 6px;
-            color: #9ca3af;
-            padding: 0.5rem 0.75rem;
-            cursor: pointer;
-            opacity: 0.7;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            font-size: 0.8rem;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .copy-btn:hover {
-            opacity: 1;
-            background: rgba(244, 63, 94, 0.15);
-            color: #f43f5e;
-            border-color: rgba(244, 63, 94, 0.3);
-            transform: translateY(-1px);
-        }
-
-        /* Table Polish */
-        tr {
-            transition: background 0.2s;
-        }
-
-        tr:hover {
-            background: rgba(255, 255, 255, 0.03);
-        }
-
-        .nav-link {
-            font-size: 0.95rem;
-            letter-spacing: -0.01em;
-        }
-
-        ::selection {
-            background: rgba(244, 63, 94, 0.3);
-            color: white;
-        }
-
-        /* Active State Polish */
-        .nav-link {
-            border-left: 2px solid transparent;
-            border-radius: 0 6px 6px 0;
-            margin-bottom: 4px;
-        }
-
-        .nav-link:hover {
-            background: rgba(255, 255, 255, 0.03);
-            color: white;
-        }
-
-        .nav-link.active {
-            color: #ffffff;
-            background: rgba(255, 255, 255, 0.08);
-            border-left-color: transparent;
-            font-weight: 500;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Premium Callouts */
-        .tip,
-        .warning {
-            padding: 1.75rem 2rem;
-            border-radius: 12px;
-            margin: 2.5rem 0;
-            font-size: 0.95rem;
-            line-height: 1.7;
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow:
-                0 6px 20px rgba(0, 0, 0, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.05);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .tip:hover,
-        .warning:hover {
-            transform: translateY(-2px);
-            box-shadow:
-                0 10px 30px rgba(0, 0, 0, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.08);
-        }
-
-        .tip {
-            background: linear-gradient(135deg, rgba(74, 222, 128, 0.08) 0%, rgba(74, 222, 128, 0.02) 100%);
-            border-left: 4px solid #4ade80;
-            color: #d1fae5;
-            padding-left: 4rem;
-            position: relative;
-        }
-
-        .tip::before {
-            content: '';
-            position: absolute;
-            left: 1.25rem;
-            top: 1.75rem;
-            width: 22px;
-            height: 22px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234ade80' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5'/%3E%3Cpath d='M9 18h6'/%3E%3Cpath d='M10 22h4'/%3E%3C/svg%3E");
-            background-size: contain;
-            background-repeat: no-repeat;
-        }
-
-        .warning {
-            background: linear-gradient(135deg, rgba(251, 146, 60, 0.08) 0%, rgba(251, 146, 60, 0.02) 100%);
-            border-left: 4px solid #fb923c;
-            color: #fed7aa;
-            padding-left: 4rem;
-            position: relative;
-        }
-
-        .warning::before {
-            content: '';
-            position: absolute;
-            left: 1.25rem;
-            top: 1.75rem;
-            width: 22px;
-            height: 22px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fb923c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z'/%3E%3Cpath d='M12 9v4'/%3E%3Cpath d='M12 17h.01'/%3E%3C/svg%3E");
-            background-size: contain;
-            background-repeat: no-repeat;
-        }
-
-        /* Info Callout - Blue theme */
-        .info {
-            padding: 1.75rem 2rem;
-            border-radius: 12px;
-            margin: 2.5rem 0;
-            font-size: 0.95rem;
-            line-height: 1.7;
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow:
-                0 6px 20px rgba(0, 0, 0, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.05);
-            transition: transform 0.2s, box-shadow 0.2s;
-            background: linear-gradient(135deg, rgba(96, 165, 250, 0.08) 0%, rgba(96, 165, 250, 0.02) 100%);
-            border-left: 4px solid #60a5fa;
-            color: #bfdbfe;
-            padding-left: 4rem;
-            position: relative;
-        }
-
-        .info:hover {
-            transform: translateY(-2px);
-            box-shadow:
-                0 10px 30px rgba(0, 0, 0, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.08);
-        }
-
-        .info::before {
-            content: '';
-            position: absolute;
-            left: 1.25rem;
-            top: 1.75rem;
-            width: 22px;
-            height: 22px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2360a5fa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M12 16v-4'/%3E%3Cpath d='M12 8h.01'/%3E%3C/svg%3E");
-            background-size: contain;
-            background-repeat: no-repeat;
-        }
-
-        /* Note Callout - Purple/Violet theme */
-        .note {
-            padding: 1.75rem 2rem;
-            border-radius: 12px;
-            margin: 2.5rem 0;
-            font-size: 0.95rem;
-            line-height: 1.7;
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow:
-                0 6px 20px rgba(0, 0, 0, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.05);
-            transition: transform 0.2s, box-shadow 0.2s;
-            background: linear-gradient(135deg, rgba(167, 139, 250, 0.08) 0%, rgba(167, 139, 250, 0.02) 100%);
-            border-left: 4px solid #a78bfa;
-            color: #ddd6fe;
-            padding-left: 4rem;
-            position: relative;
-        }
-
-        .note:hover {
-            transform: translateY(-2px);
-            box-shadow:
-                0 10px 30px rgba(0, 0, 0, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.08);
-        }
-
-        .note::before {
-            content: '';
-            position: absolute;
-            left: 1.25rem;
-            top: 1.75rem;
-            width: 22px;
-            height: 22px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a78bfa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z'/%3E%3C/svg%3E");
-            background-size: contain;
-            background-repeat: no-repeat;
-        }
-
-        /* Typography Polish */
-        h1,
-        h2,
-        h3 {
-            letter-spacing: -0.02em;
-        }
+            --bg: #0a0a0a;
+            --bg-2: #111111;
+            --line: #1f1f1f;
+            --line-2: #2a2a2a;
+            --text: #ededed;
+            --text-2: #8a8a8a;
+            --text-3: #5a5a5a;
+            --accent: #f43f5e;
+            --accent-dim: #b23048;
+
+            --serif: 'Bricolage Grotesque', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --sans: 'Cabinet Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --mono: 'Departure Mono', 'SF Mono', Menlo, monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        /* Smooth Scroll */
         html {
+            background: var(--bg);
             scroll-behavior: smooth;
         }
 
-        /* Premium Scrollbar */
-        ::-webkit-scrollbar {
-            width: 12px;
-            height: 12px;
+        body {
+            font-family: var(--sans);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 16px;
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            min-height: 100vh;
         }
 
-        ::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
+        ::selection { background: var(--accent); color: var(--bg); }
+
+        a { color: inherit; text-decoration: none; }
+        a:hover { color: var(--accent); }
+
+        /* ---------- Canvas particles (same as index) ---------- */
+        .particle-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.85;
+        }
+        .scroll-progress {
+            position: fixed;
+            top: 0; left: 0;
+            height: 2px;
+            width: 0;
+            background: var(--accent);
+            z-index: 100;
+            transition: width 80ms linear;
+            pointer-events: none;
+        }
+        .page { position: relative; z-index: 1; }
+
+        /* ---------- Top bar (same as index) ---------- */
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 28px 32px;
+            border-bottom: 1px solid var(--line);
+            max-width: 1320px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--sans);
+            font-weight: 600;
+            font-size: 15px;
+            letter-spacing: -0.01em;
+            color: var(--text);
+        }
+        .brand-mark {
+            width: 22px; height: 22px;
+            transition: transform 240ms cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .brand:hover .brand-mark { transform: rotate(-12deg) scale(1.08); }
+        .brand:hover { color: var(--text); }
+        .topbar nav {
+            display: flex;
+            gap: 28px;
+            font-family: var(--sans);
+            font-size: 14px;
+            color: var(--text-2);
+        }
+        .topbar nav a {
+            position: relative;
+            padding: 4px 0;
+            transition: color 120ms linear;
+        }
+        .topbar nav a::after {
+            content: "";
+            position: absolute;
+            left: 0; right: 0; bottom: 0;
+            height: 1px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transform-origin: left center;
+            transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .topbar nav a:hover { color: var(--text); }
+        .topbar nav a:hover::after { transform: scaleX(1); }
+
+        /* ---------- Layout (sidebar + main) ---------- */
+        .layout {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 80px;
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 64px 32px 120px;
         }
 
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #f43f5e, #fb923c);
-            border-radius: 10px;
-            border: 2px solid #09090b;
-            transition: background 0.2s;
+        /* ---------- Sidebar ---------- */
+        .sidebar {
+            position: sticky;
+            top: 64px;
+            align-self: start;
+            max-height: calc(100vh - 64px);
+            overflow-y: auto;
+            font-size: 13.5px;
+        }
+        .sidebar h4 {
+            font-family: var(--mono);
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-3);
+            margin: 28px 0 8px;
+            font-weight: 400;
+        }
+        .sidebar h4:first-of-type { margin-top: 0; }
+        .sidebar nav {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-bottom: 12px;
+        }
+        .sidebar nav a {
+            color: var(--text-2);
+            padding: 4px 0;
+            border-left: 1px solid var(--line);
+            padding-left: 12px;
+            transition: color 120ms linear, border-color 220ms ease;
+        }
+        .sidebar nav a:hover { color: var(--text); }
+        .sidebar nav a.active {
+            color: var(--accent);
+            border-left-color: var(--accent);
         }
 
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(180deg, #fb7185, #fbbf24);
+        /* ---------- Main content ---------- */
+        .main { min-width: 0; }
+
+        .doc-hero {
+            padding: 0 0 64px;
+            border-bottom: 1px solid var(--line);
+            margin-bottom: 64px;
+        }
+        .doc-hero .eyebrow {
+            font-family: var(--mono);
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-3);
+            margin-bottom: 16px;
+        }
+        .doc-hero h1 {
+            font-family: var(--serif);
+            font-weight: 700;
+            font-variation-settings: "opsz" 96;
+            font-size: clamp(40px, 5vw, 60px);
+            line-height: 1.02;
+            letter-spacing: -0.03em;
+            color: var(--text);
+            margin-bottom: 18px;
+        }
+        .doc-hero h1 em {
+            font-style: italic;
+            color: var(--accent);
+        }
+        .doc-hero p {
+            font-size: 17px;
+            line-height: 1.55;
+            color: var(--text-2);
+            max-width: 60ch;
         }
 
-        /* Selection */
-        ::selection {
-            background: rgba(244, 63, 94, 0.3);
-            color: #ffffff;
+        section[id] {
+            scroll-margin-top: 32px;
+            padding-top: 64px;
+            margin-top: -1px;
+            border-top: 1px solid var(--line);
+        }
+        section[id]:first-of-type {
+            border-top: 0;
+            padding-top: 0;
+            margin-top: 0;
         }
 
-        ::-moz-selection {
-            background: rgba(244, 63, 94, 0.3);
-            color: #ffffff;
+        .section-label {
+            font-family: var(--mono);
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-3);
+            margin-bottom: 12px;
+        }
+        h2 {
+            font-family: var(--serif);
+            font-weight: 700;
+            font-variation-settings: "opsz" 60;
+            font-size: clamp(28px, 3.4vw, 38px);
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            color: var(--text);
+            margin-bottom: 24px;
+        }
+        h3 {
+            font-family: var(--sans);
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--text);
+            margin: 32px 0 12px;
+        }
+        p {
+            color: var(--text-2);
+            margin: 12px 0;
+            max-width: 70ch;
+        }
+        p code, li code {
+            font-family: var(--mono);
+            font-size: 13px;
+            color: var(--text);
+            background: var(--bg-2);
+            border: 1px solid var(--line);
+            padding: 1px 6px;
         }
 
+        /* ---------- Code blocks ---------- */
+        .code {
+            border: 1px solid var(--line);
+            background: var(--bg-2);
+            font-family: var(--mono);
+            font-size: 13px;
+            line-height: 1.7;
+            overflow: hidden;
+            margin: 16px 0 24px;
+        }
+        .code .head {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--line);
+            font-size: 10.5px;
+            color: var(--text-3);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        .code .head .dot {
+            width: 7px; height: 7px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+        .code pre {
+            font-family: var(--mono);
+            font-size: 13px;
+            line-height: 1.7;
+            color: var(--text);
+            white-space: pre;
+            padding: 18px 18px 20px;
+            overflow-x: auto;
+        }
+        .code pre .c { color: var(--text-3); font-style: italic; }
+        .code pre .k { color: var(--accent); }   /* keyword: component, use, hover */
+        .code pre .s { color: var(--text-2); }   /* selector */
+        .code pre .p { color: var(--text); }     /* property */
+        .code pre .v { color: var(--text-2); }   /* value */
+
+        /* ---------- Callouts ---------- */
+        .callout {
+            border: 1px solid var(--line);
+            border-left: 2px solid var(--accent);
+            background: var(--bg-2);
+            padding: 14px 16px;
+            margin: 16px 0 24px;
+            font-size: 14px;
+            color: var(--text-2);
+            line-height: 1.6;
+        }
+        .callout strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+        .callout code {
+            font-family: var(--mono);
+            font-size: 12.5px;
+            color: var(--text);
+        }
+        .callout.warn { border-left-color: #f59e0b; }
+
+        /* ---------- Tables ---------- */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0 32px;
+            font-size: 14px;
+            font-family: var(--mono);
+        }
+        th, td {
+            text-align: left;
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--line);
+            vertical-align: top;
+        }
+        th {
+            color: var(--text-3);
+            font-size: 11px;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            border-bottom-color: var(--line-2);
+        }
+        td {
+            color: var(--text-2);
+        }
+        td code {
+            color: var(--text);
+            font-family: var(--mono);
+            background: none;
+            border: 0;
+            padding: 0;
+        }
+        tbody tr:hover td { color: var(--text); }
+
+        /* ---------- Footer (same as index) ---------- */
+        footer {
+            border-top: 1px solid var(--line);
+            padding: 40px 0 56px;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--text-3);
+            max-width: 1320px;
+            margin: 0 auto;
+            padding-left: 32px;
+            padding-right: 32px;
+        }
+        footer nav { display: flex; gap: 24px; }
+        footer nav a:hover { color: var(--text); }
+        .ext {
+            display: inline-block;
+            margin-left: 3px;
+            font-family: var(--mono);
+            font-size: 0.85em;
+            color: var(--text-3);
+            transition: transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1), color 120ms linear;
+        }
+        a:hover .ext { color: var(--accent); transform: translate(2px, -2px); }
+
+        /* ---------- Responsive ---------- */
         @media (max-width: 900px) {
+            .topbar { padding: 20px 20px; }
+            .topbar nav { gap: 18px; }
             .layout {
                 grid-template-columns: 1fr;
+                gap: 32px;
+                padding: 40px 20px 80px;
             }
-
-            aside {
-                display: none;
+            .sidebar {
+                position: static;
+                max-height: none;
+                border-bottom: 1px solid var(--line);
+                padding-bottom: 24px;
             }
-
-            main {
-                padding: 2rem 1.5rem;
-            }
-
-            h1 {
-                font-size: 2.25rem;
-            }
+            .sidebar nav { display: none; }
+            .sidebar h4 { margin-top: 16px; }
+            footer { flex-direction: column; gap: 16px; align-items: flex-start; padding-left: 20px; padding-right: 20px; }
         }
     </style>
 </head>
 
 <body>
-    <!-- Reading Progress Bar -->
-    <div class="progress-bar" id="progressBar"></div>
 
-    <div class="glow-bg"></div>
+    <canvas class="particle-canvas" id="topbar-particles" aria-hidden="true"></canvas>
+    <div class="scroll-progress" aria-hidden="true"></div>
+
+    <!-- Top bar -->
+    <header class="topbar" id="page-top">
+        <a href="index.html" class="brand">
+            <svg class="brand-mark" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+                <path d="M32 12 C 30 7, 36 4, 38 9 C 40 4, 46 7, 44 12 C 50 11, 56 14, 56 20 C 56 22, 54 24, 52 24 C 56 30, 54 40, 50 46 C 46 52, 38 56, 32 56 C 26 56, 18 52, 14 46 C 10 40, 8 30, 12 24 C 10 24, 8 22, 8 20 C 8 14, 14 11, 20 12 C 18 7, 24 4, 26 9 C 28 4, 34 7, 32 12 Z" fill="#f43f5e"/>
+                <ellipse cx="22" cy="32" rx="6" ry="9" fill="#fca5a5" opacity="0.6"/>
+            </svg>
+            <span>tomato</span>
+        </a>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="docs.html">Docs</a>
+            <a href="https://github.com/srivtx/tomato-css">GitHub <span class="ext">↗</span></a>
+            <a href="https://www.npmjs.com/package/@srivtx/tomato-css">npm <span class="ext">↗</span></a>
+        </nav>
+    </header>
 
     <div class="layout">
-        <aside>
-            <a href="index.html" class="logo">🍅 Tomato CSS</a>
 
-            <nav class="nav-group">
-                <h3>Getting Started</h3>
-                <a href="#installation" class="nav-link">Installation</a>
-                <a href="#first-file" class="nav-link">Your First .tom File</a>
-                <a href="#cli" class="nav-link">CLI Usage</a>
-
-                <h3>Syntax</h3>
-                <a href="#selectors" class="nav-link">Selectors</a>
-                <a href="#components" class="nav-link">Components</a>
-                <a href="#pseudo-states" class="nav-link">Pseudo States</a>
-                <a href="#responsive" class="nav-link">Responsive Design</a>
-                <a href="#tokens" class="nav-link">Custom Tokens</a>
-
-                <h3>Reference</h3>
-                <a href="#colors" class="nav-link">Colors</a>
-                <a href="#all-properties" class="nav-link">All Properties</a>
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h4>Getting Started</h4>
+            <nav>
+                <a href="#installation">Installation</a>
+                <a href="#first-file">Your First .tom File</a>
+                <a href="#cli">CLI Usage</a>
+            </nav>
+            <h4>Syntax</h4>
+            <nav>
+                <a href="#selectors">Selectors</a>
+                <a href="#components">Components</a>
+                <a href="#pseudo-states">Pseudo States</a>
+                <a href="#responsive">Responsive Design</a>
+                <a href="#tokens">Custom Tokens</a>
+            </nav>
+            <h4>Reference</h4>
+            <nav>
+                <a href="#colors">Colors</a>
+                <a href="#all-properties">All Properties</a>
             </nav>
         </aside>
 
-        <main>
-            <header class="hero-section" data-aos="fade-down">
-                <h1>🍅 <span>Tomato</span> CSS</h1>
-                <p class="subtitle">The human-friendly CSS preprocessor. Write styles like you think.</p>
+        <!-- Main content -->
+        <main class="main">
+
+            <header class="doc-hero">
+                <div class="eyebrow">Tomato CSS · v1.2.0</div>
+                <h1>The <em>full</em> reference.</h1>
+                <p>
+                    Every shortcut, every component pattern, every keyword.
+                    One page. The same language on the playground and the CLI — what you see here is what the compiler accepts.
+                </p>
             </header>
 
-            <section id="installation" data-aos="fade-up">
+            <!-- § 01 Installation -->
+            <section id="installation">
+                <div class="section-label">§ 01</div>
                 <h2>Installation</h2>
 
-                <h3>Global Install (Recommended)</h3>
-                <div class="copy-wrapper" data-lang="bash">
-                    <pre><code class="language-bash">$ npm install -g @srivtx/tomato-css
+                <h3>Global install</h3>
+                <div class="code">
+                    <div class="head"><span class="dot"></span><span>bash</span></div>
+                    <pre><code>$ <span class="k">npm</span> install -g @srivtx/tomato-css
 $ tomato app.tom -o styles.css</code></pre>
                 </div>
 
-                <h3>Project Install</h3>
-                <div class="copy-wrapper" data-lang="bash">
-                    <pre><code class="language-bash">$ npm install @srivtx/tomato-css
-$ npx tomato app.tom</code></pre>
+                <h3>Project install</h3>
+                <div class="code">
+                    <div class="head"><span class="dot"></span><span>bash</span></div>
+                    <pre><code>$ <span class="k">npm</span> install --save-dev @srivtx/tomato-css
+$ npx tomato src/app.tom -o dist/styles.css</code></pre>
+                </div>
+                <p>Or add to <code>package.json</code>:</p>
+                <div class="code">
+                    <div class="head"><span class="dot"></span><span>package.json</span></div>
+                    <pre><code><span class="p">{</span>
+  <span class="p">"scripts"</span>: <span class="p">{</span>
+    <span class="p">"build"</span>: <span class="v">"tomato src/app.tom -o dist/styles.css"</span>,
+    <span class="p">"watch"</span>: <span class="v">"tomato --watch src/app.tom -o dist/styles.css"</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre>
                 </div>
 
-                <p>Or add to package.json:</p>
-                <div class="copy-wrapper" data-lang="json">
-                    <pre><code class="language-json">{
-  "scripts": {
-    "build": "tomato src/app.tom -o dist/styles.css",
-    "watch": "tomato --watch src/app.tom -o dist/styles.css"
-  }
-}</code></pre>
-                </div>
-
-                <h3>No Install (npx)</h3>
-                <div class="copy-wrapper" data-lang="bash">
-                    <pre><code class="language-bash">$ npx @srivtx/tomato-css app.tom</code></pre>
+                <h3>No install</h3>
+                <div class="code">
+                    <div class="head"><span class="dot"></span><span>bash</span></div>
+                    <pre><code>$ <span class="k">npx</span> @srivtx/tomato-css app.tom</code></pre>
                 </div>
             </section>
 
-            <section id="first-file" data-aos="fade-up">
-                <h2>Your First .tom File</h2>
+            <!-- § 02 First file -->
+            <section id="first-file">
+                <div class="section-label">§ 02</div>
+                <h2>Your first <em style="font-style: italic; color: var(--accent);">.tom</em> file</h2>
                 <p>Create a file called <code>styles.tom</code>:</p>
-                <div class="copy-wrapper" data-lang="tomato">
-                    <pre><code class="language-yaml">button:
-  bg blue-500
-  color white
-  pad 2 4
-  round lg
-  pointer
-  smooth</code></pre>
+                <div class="code">
+                    <div class="head"><span class="dot"></span><span>styles.tom</span></div>
+                    <pre><code><span class="s">button</span>:
+  <span class="p">bg</span> <span class="v">blue-500</span>
+  <span class="p">color</span> <span class="v">white</span>
+  <span class="p">pad</span> <span class="v">2 4</span>
+  <span class="p">round</span> <span class="v">lg</span>
+  <span class="p">pointer</span>
+  <span class="p">smooth</span></code></pre>
                 </div>
                 <p>Compile it:</p>
-                <div class="copy-wrapper" data-lang="bash">
-                    <pre><code class="language-bash">$ tomato styles.tom -o styles.css</code></pre>
+                <div class="code">
+                    <div class="head"><span class="dot"></span><span>bash</span></div>
+                    <pre><code>$ <span class="k">tomato</span> styles.tom -o styles.css</code></pre>
+                </div>
+                <p>Output is plain CSS you can ship:</p>
+                <div class="code">
+                    <div class="head"><span class="dot"></span><span>styles.css</span></div>
+                    <pre><code><span class="s">button</span> {
+  <span class="p">background</span>: <span class="v">#3b82f6</span>;
+  <span class="p">color</span>: <span class="v">#ffffff</span>;
+  <span class="p">padding</span>: <span class="v">0.5rem 1rem</span>;
+  <span class="p">border-radius</span>: <span class="v">0.5rem</span>;
+  <span class="p">cursor</span>: <span class="v">pointer</span>;
+  <span class="p">transition</span>: <span class="v">all 0.2s ease</span>;
+}</code></pre>
                 </div>
             </section>
 
-            <section id="cli" data-aos="fade-up">
-                <h2>CLI Usage</h2>
-                <div class="copy-wrapper" data-lang="bash">
-                    <pre><code class="language-bash">$ tomato &lt;input.tom&gt; [-o output.css]
-$ tomato --watch &lt;input.tom&gt; [-o output.css]</code></pre>
+            <!-- § 03 CLI -->
+            <section id="cli">
+                <div class="section-label">§ 03</div>
+                <h2>CLI usage</h2>
+                <div class="code">
+                    <div class="head"><span class="dot"></span><span>bash</span></div>
+                    <pre><code>$ <span class="k">tomato</span> &lt;input.tom&gt; [-o output.css]
+$ <span class="k">tomato</span> --watch &lt;input.tom&gt; [-o output.css]</code></pre>
                 </div>
-                <table>
-                    <tr>
-                        <td><code>tomato app.tom</code></td>
-                        <td>Compile to app.css</td>
-                    </tr>
-                    <tr>
-                        <td><code>tomato app.tom -o styles.css</code></td>
-                        <td>Custom output file</td>
-                    </tr>
-                    <tr>
-                        <td><code>tomato --watch app.tom</code></td>
-                        <td>Watch mode</td>
-                    </tr>
-                </table>
-            </section>
-
-            <section id="selectors" data-aos="fade-up">
-                <h2>Selectors</h2>
-                <h3>HTML Elements</h3>
-                <div class="copy-wrapper">
-                    <pre><code class="language-yaml">button:
-  bg blue-500
-
-nav:
-  row spread
-
-input:
-  pad 2 4</code></pre>
-                </div>
-
-                <h3>Classes</h3>
-                <div class="copy-wrapper">
-                    <pre><code class="language-yaml">.btn-primary:
-  bg blue-500
-  color white
-
-.card:
-  bg white
-  round xl
-  shadow lg
-
-.hero-title:
-  size 4xl
-  bold</code></pre>
-                </div>
-
-                <h3>IDs</h3>
-                <div class="copy-wrapper">
-                    <pre><code class="language-yaml">#header:
-  bg slate-900
-  pad 4 6
-
-#main-content:
-  pad 8</code></pre>
-                </div>
-
-                <h3>Auto-Class Conversion</h3>
-                <p>Names that aren't HTML elements become classes automatically:</p>
-                <div class="copy-wrapper">
-                    <pre><code class="language-yaml">// These are equivalent:
-card:           // → .card { }
-.card:          // → .card { }
-
-// But these stay as elements:
-button:         // → button { }
-nav:            // → nav { }</code></pre>
-                </div>
-                <div class="tip">HTML elements like button, nav, div, header, footer, etc. stay as element selectors.
-                    Everything else becomes a class.</div>
-            </section>
-
-            <section id="components" data-aos="fade-up">
-                <h2>Components</h2>
-                <p>Define reusable style groups with <code>component name:</code> and use them with
-                    <code>use name</code>.
-                </p>
-
-                <h3>Basic Components</h3>
-                <div class="copy-wrapper">
-                    <pre><code class="language-yaml">component btn:
-  pad 2 4
-  round lg
-  bold
-  pointer
-  smooth
-  no border
-
-button:
-  use btn
-  bg blue-500
-  color white
-
-.btn-secondary:
-  use btn
-  bg violet-500
-  color white
-
-.btn-outline:
-  use btn
-  bg transparent
-  color blue-500
-  border 2px solid blue-500</code></pre>
-                </div>
-
-                <h3>Nested Components</h3>
-                <div class="copy-wrapper">
-                    <pre><code class="language-yaml">component base-input:
-  pad 3 4
-  round md
-  border 1px solid slate-300
-  smooth
-
-component focus-ring:
-  use base-input
-  
-  focus:
-    ring 2px solid blue-400
-    border-color blue-500
-
-input:
-  use focus-ring
-  w-full</code></pre>
-                </div>
-                <div class="tip">When you <code>use</code> a component, all its properties are expanded inline. This
-                    means you can override them by adding your own after!</div>
-
-                <h3>Card Components</h3>
-                <div class="copy-wrapper">
-                    <pre><code class="language-yaml">component card:
-  bg white
-  round xl
-  shadow md
-  pad 6
-  smooth
-  
-  hover:
-    shadow lg
-    transform translateY(-2px)
-
-.product-card:
-  use card
-  column
-  gap 4
-
-.profile-card:
-  use card
-  center all
-  pad 8</code></pre>
-                </div>
-
-                <h3>Form Input Components</h3>
-                <div class="copy-wrapper">
-                    <pre><code class="language-yaml">component input-base:
-  w-full
-  pad 3 4
-  round lg
-  border 1px solid slate-200
-  bg white
-  smooth
-  
-  focus:
-    border-color blue-500
-    ring 2px solid blue-100
-    no outline
-
-input:
-  use input-base
-
-textarea:
-  use input-base
-  min-height 120px
-  resize vertical
-
-select:
-  use input-base
-  pointer</code></pre>
-                </div>
-
-                <h3>Layout Components</h3>
-                <div class="copy-wrapper">
-                    <pre><code class="language-yaml">component container:
-  max-width 1200px
-  margin 0 auto
-  pad 4 6
-
-component stack:
-  column
-  gap 4
-
-component row-layout:
-  row
-  gap 4
-  align-items center
-
-.page:
-  use container
-  use stack
-  gap 8
-
-.toolbar:
-  use row-layout
-  row spread
-  pad 4
-  bg slate-50</code></pre>
-                </div>
-                <div class="warning">You can use multiple components with multiple <code>use</code> statements!
-                    Properties are applied in order, so later ones override earlier ones.</div>
-            </section>
-
-            <section id="pseudo-states" data-aos="fade-up">
-                <h2>Pseudo States</h2>
-                <div class="copy-wrapper">
-                    <pre><code class="language-yaml">button:
-  bg blue-500
-  color white
-  smooth
-  
-  hover:
-    bg blue-600
-    shadow lg
-  
-  focus:
-    ring 2px solid blue-400
-    no outline
-  
-  active:
-    bg blue-700
-  
-  disabled:
-    opacity 0.5
-    cursor not-allowed</code></pre>
-                </div>
-            </section>
-
-            <section id="responsive" data-aos="fade-up">
-                <h2>Responsive Design</h2>
-                <div class="copy-wrapper">
-                    <pre><code class="language-yaml">hero:
-  pad 16
-  grid 3
-  gap 6
-  
-  @mobile:
-    pad 4
-    grid 1
-  
-  @tablet:
-    grid 2</code></pre>
-                </div>
-
-                <table>
-                    <tr>
-                        <th>Query</th>
-                        <th>Breakpoint</th>
-                    </tr>
-                    <tr>
-                        <td><code>@mobile:</code></td>
-                        <td>max-width: 640px</td>
-                    </tr>
-                    <tr>
-                        <td><code>@tablet:</code></td>
-                        <td>max-width: 768px</td>
-                    </tr>
-                    <tr>
-                        <td><code>@laptop:</code></td>
-                        <td>max-width: 1024px</td>
-                    </tr>
-                    <tr>
-                        <td><code>@desktop:</code></td>
-                        <td>max-width: 1280px</td>
-                    </tr>
-                </table>
-            </section>
-
-            <section id="tokens" data-aos="fade-up">
-                <h2>Custom Tokens</h2>
-                <div class="copy-wrapper">
-                    <pre><code class="language-yaml">colors:
-  primary blue-500
-  secondary violet-500
-  dark slate-900
-  light slate-50
-  muted slate-400
-  danger red-500
-  success green-500
-
-button:
-  bg primary
-  color light
-
-.alert-danger:
-  bg danger
-  color white</code></pre>
-                </div>
-            </section>
-
-            <section id="colors" data-aos="fade-up">
-                <h2>Color Reference</h2>
-                <div class="copy-wrapper">
-                    <pre><code class="language-yaml">// 22 color scales built-in (Tailwind):
-slate, gray, zinc, neutral, stone
-red, orange, amber, yellow, lime
-green, emerald, teal, cyan, sky
-blue, indigo, violet, purple
-fuchsia, pink, rose
-
-// Usage:
-bg rose-500
-color slate-900
-border 1px solid blue-300</code></pre>
-                </div>
-            </section>
-
-            <section id="all-properties" data-aos="fade-up">
-                <h2>All Properties</h2>
                 <table>
                     <thead>
                         <tr>
-                            <th>Tomato</th>
-                            <th>CSS Output</th>
+                            <th style="width: 45%;">Command</th>
+                            <th>What it does</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><code>bg blue-500</code></td>
-                            <td>background: #3b82f6</td>
+                            <td><code>tomato app.tom</code></td>
+                            <td>Compile to <code>app.css</code></td>
                         </tr>
                         <tr>
-                            <td><code>color white</code></td>
-                            <td>color: #ffffff</td>
+                            <td><code>tomato app.tom -o styles.css</code></td>
+                            <td>Custom output file</td>
                         </tr>
                         <tr>
-                            <td><code>pad 2 4</code></td>
-                            <td>padding: 0.5rem 1rem</td>
+                            <td><code>tomato --watch app.tom</code></td>
+                            <td>Recompile on file change</td>
                         </tr>
                         <tr>
-                            <td><code>margin 4</code></td>
-                            <td>margin: 1rem</td>
+                            <td><code>tomato --version</code></td>
+                            <td>Print the version</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>The CLI exits with code 1 on a compile error, so it works as a build step in CI.</p>
+            </section>
+
+            <!-- § 04 Selectors -->
+            <section id="selectors">
+                <div class="section-label">§ 04</div>
+                <h2>Selectors</h2>
+                <p>Any selector you'd write in CSS works in Tomato. The compiler is permissive.</p>
+
+                <h3>HTML elements</h3>
+                <div class="code">
+                    <div class="head"><span class="dot"></span><span>styles.tom</span></div>
+                    <pre><code><span class="s">button</span>:
+  <span class="p">bg</span> <span class="v">blue-500</span>
+
+<span class="s">nav</span>:
+  <span class="p">row spread</span>
+
+<span class="s">input</span>:
+  <span class="p">pad</span> <span class="v">2 4</span></code></pre>
+                </div>
+
+                <h3>Classes</h3>
+                <div class="code">
+                    <div class="head"><span class="dot"></span><span>styles.tom</span></div>
+                    <pre><code><span class="s">.btn-primary</span>:
+  <span class="p">bg</span> <span class="v">blue-500</span>
+  <span class="p">color</span> <span class="v">white</span>
+
+<span class="s">.card</span>:
+  <span class="p">bg</span> <span class="v">white</span>
+  <span class="p">round</span> <span class="v">xl</span>
+  <span class="p">shadow</span> <span class="v">lg</span></code></pre>
+                </div>
+
+                <h3>IDs</h3>
+                <div class="code">
+                    <div class="head"><span class="dot"></span><span>styles.tom</span></div>
+                    <pre><code><span class="s">#header</span>:
+  <span class="p">bg</span> <span class="v">slate-900</span>
+  <span class="p">pad</span> <span class="v">4 6</span>
+
+<span class="s">#main-content</span>:
+  <span class="p">pad</span> <span class="v">8</span></code></pre>
+                </div>
+
+                <h3>Auto-class conversion</h3>
+                <p>Names that aren't HTML elements become classes automatically:</p>
+                <div class="code">
+                    <div class="head"><span class="dot"></span><span>styles.tom</span></div>
+                    <pre><code><span class="c"># these are equivalent</span>
+<span class="s">card</span>:          <span class="c"># → .card { }</span>
+<span class="s">.card</span>:         <span class="c"># → .card { }</span>
+
+<span class="c"># but these stay as elements</span>
+<span class="s">button</span>:       <span class="c"># → button { }</span>
+<span class="s">nav</span>:          <span class="c"># → nav { }</span></code></pre>
+                </div>
+                <div class="callout">
+                    <strong>Tip.</strong> HTML elements like <code>button</code>, <code>nav</code>, <code>div</code>, <code>header</code>, <code>footer</code> stay as element selectors. Everything else becomes a class. Use the dot prefix when you want to be explicit.
+                </div>
+            </section>
+
+            <!-- § 05 Components -->
+            <section id="components">
+                <div class="section-label">§ 05</div>
+                <h2>Components</h2>
+                <p>Define reusable style groups with <code>component name:</code> and pull them in with <code>use name</code>.</p>
+
+                <h3>Basic components</h3>
+                <div class="code">
+                    <div class="head"><span class="dot"></span><span>styles.tom</span></div>
+                    <pre><code><span class="k">component</span> <span class="s">btn</span>:
+  <span class="p">pad</span> <span class="v">2 4</span>
+  <span class="p">round</span> <span class="v">lg</span>
+  <span class="p">bold</span>
+  <span class="p">pointer</span>
+  <span class="p">smooth</span>
+  <span class="p">no border</span>
+
+<span class="s">button</span>:
+  <span class="k">use</span> <span class="v">btn</span>
+  <span class="p">bg</span> <span class="v">blue-500</span>
+  <span class="p">color</span> <span class="v">white</span>
+
+<span class="s">.btn-secondary</span>:
+  <span class="k">use</span> <span class="v">btn</span>
+  <span class="p">bg</span> <span class="v">violet-500</span></code></pre>
+                </div>
+
+                <h3>Nested components</h3>
+                <p>Components can <code>use</code> other components, including their nested pseudo states.</p>
+                <div class="code">
+                    <div class="head"><span class="dot"></span><span>styles.tom</span></div>
+                    <pre><code><span class="k">component</span> <span class="s">base-input</span>:
+  <span class="p">pad</span> <span class="v">3 4</span>
+  <span class="p">round</span> <span class="v">md</span>
+  <span class="p">border</span> <span class="v">1px solid slate-300</span>
+  <span class="p">smooth</span>
+
+<span class="k">component</span> <span class="s">focus-ring</span>:
+  <span class="k">use</span> <span class="v">base-input</span>
+
+  <span class="k">focus</span>:
+    <span class="p">ring</span> <span class="v">2px solid blue-400</span>
+    <span class="p">border-color</span> <span class="v">blue-500</span>
+
+<span class="s">input</span>:
+  <span class="k">use</span> <span class="v">focus-ring</span>
+  <span class="p">w-full</span></code></pre>
+                </div>
+                <div class="callout">
+                    <strong>Tip.</strong> When you <code>use</code> a component, all its properties are expanded inline. You can override them by adding your own after the <code>use</code> statement.
+                </div>
+
+                <h3>Form input components</h3>
+                <div class="code">
+                    <div class="head"><span class="dot"></span><span>styles.tom</span></div>
+                    <pre><code><span class="k">component</span> <span class="s">input-base</span>:
+  <span class="p">w-full</span>
+  <span class="p">pad</span> <span class="v">3 4</span>
+  <span class="p">round</span> <span class="v">lg</span>
+  <span class="p">border</span> <span class="v">1px solid slate-200</span>
+  <span class="p">bg</span> <span class="v">white</span>
+  <span class="p">smooth</span>
+
+  <span class="k">focus</span>:
+    <span class="p">border-color</span> <span class="v">blue-500</span>
+    <span class="p">no outline</span>
+
+<span class="s">textarea</span>:
+  <span class="k">use</span> <span class="v">input-base</span>
+  <span class="p">min-height</span> <span class="v">120px</span>
+  <span class="p">resize</span> <span class="v">vertical</span></code></pre>
+                </div>
+
+                <h3>Layout components</h3>
+                <div class="code">
+                    <div class="head"><span class="dot"></span><span>styles.tom</span></div>
+                    <pre><code><span class="k">component</span> <span class="s">container</span>:
+  <span class="p">max-width</span> <span class="v">1200px</span>
+  <span class="p">margin</span> <span class="v">0 auto</span>
+  <span class="p">pad</span> <span class="v">4 6</span>
+
+<span class="k">component</span> <span class="s">stack</span>:
+  <span class="p">column</span>
+  <span class="p">gap</span> <span class="v">4</span>
+
+<span class="s">.page</span>:
+  <span class="k">use</span> <span class="v">container</span>
+  <span class="k">use</span> <span class="v">stack</span>
+  <span class="p">gap</span> <span class="v">8</span></code></pre>
+                </div>
+                <div class="callout warn">
+                    <strong>Heads up.</strong> You can use multiple components with multiple <code>use</code> statements. Properties apply in order, so later ones override earlier ones.
+                </div>
+            </section>
+
+            <!-- § 06 Pseudo states -->
+            <section id="pseudo-states">
+                <div class="section-label">§ 06</div>
+                <h2>Pseudo states</h2>
+                <p>Indent one level. The supported pseudos are <code>hover</code>, <code>focus</code>, <code>active</code>, and <code>disabled</code>.</p>
+                <div class="code">
+                    <div class="head"><span class="dot"></span><span>styles.tom</span></div>
+                    <pre><code><span class="s">button</span>:
+  <span class="p">bg</span> <span class="v">blue-500</span>
+  <span class="p">color</span> <span class="v">white</span>
+  <span class="p">smooth</span>
+
+  <span class="k">hover</span>:
+    <span class="p">bg</span> <span class="v">blue-600</span>
+    <span class="p">shadow</span> <span class="v">lg</span>
+
+  <span class="k">focus</span>:
+    <span class="p">ring</span> <span class="v">2px solid blue-400</span>
+    <span class="p">no outline</span>
+
+  <span class="k">active</span>:
+    <span class="p">bg</span> <span class="v">blue-700</span>
+
+  <span class="k">disabled</span>:
+    <span class="p">opacity</span> <span class="v">0.5</span>
+    <span class="p">cursor</span> <span class="v">not-allowed</span></code></pre>
+                </div>
+            </section>
+
+            <!-- § 07 Responsive -->
+            <section id="responsive">
+                <div class="section-label">§ 07</div>
+                <h2>Responsive design</h2>
+                <p>Match the Tailwind widths by default. Indent one level inside the breakpoint block.</p>
+                <div class="code">
+                    <div class="head"><span class="dot"></span><span>styles.tom</span></div>
+                    <pre><code><span class="s">hero</span>:
+  <span class="p">pad</span> <span class="v">16</span>
+  <span class="p">grid</span> <span class="v">3</span>
+  <span class="p">gap</span> <span class="v">6</span>
+
+  <span class="k">@mobile</span>:
+    <span class="p">pad</span> <span class="v">4</span>
+    <span class="p">grid</span> <span class="v">1</span>
+
+  <span class="k">@tablet</span>:
+    <span class="p">grid</span> <span class="v">2</span></code></pre>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 40%;">Query</th>
+                            <th>Breakpoint</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>@mobile:</code></td>
+                            <td>max-width: 640px</td>
                         </tr>
                         <tr>
-                            <td><code>round lg</code></td>
-                            <td>border-radius: 0.5rem</td>
+                            <td><code>@tablet:</code></td>
+                            <td>max-width: 768px</td>
                         </tr>
                         <tr>
-                            <td><code>round full</code></td>
-                            <td>border-radius: 9999px</td>
+                            <td><code>@laptop:</code></td>
+                            <td>max-width: 1024px</td>
                         </tr>
                         <tr>
-                            <td><code>shadow md</code></td>
-                            <td>box-shadow: ...</td>
+                            <td><code>@desktop:</code></td>
+                            <td>max-width: 1280px</td>
                         </tr>
                         <tr>
-                            <td><code>bold</code></td>
-                            <td>font-weight: bold</td>
+                            <td><code>@wide:</code></td>
+                            <td>max-width: 1536px</td>
                         </tr>
                         <tr>
-                            <td><code>semibold</code></td>
-                            <td>font-weight: 600</td>
+                            <td><code>@dark:</code></td>
+                            <td><code>prefers-color-scheme: dark</code></td>
                         </tr>
                         <tr>
-                            <td><code>italic</code></td>
-                            <td>font-style: italic</td>
-                        </tr>
-                        <tr>
-                            <td><code>uppercase</code></td>
-                            <td>text-transform: uppercase</td>
-                        </tr>
-                        <tr>
-                            <td><code>underline</code></td>
-                            <td>text-decoration: underline</td>
-                        </tr>
-                        <tr>
-                            <td><code>pointer</code></td>
-                            <td>cursor: pointer</td>
-                        </tr>
-                        <tr>
-                            <td><code>smooth</code></td>
-                            <td>transition: all 0.2s ease</td>
-                        </tr>
-                        <tr>
-                            <td><code>no border</code></td>
-                            <td>border: none</td>
-                        </tr>
-                        <tr>
-                            <td><code>no outline</code></td>
-                            <td>outline: none</td>
-                        </tr>
-                        <tr>
-                            <td><code>row</code></td>
-                            <td>display: flex; flex-direction: row</td>
-                        </tr>
-                        <tr>
-                            <td><code>row spread</code></td>
-                            <td>...justify-content: space-between</td>
-                        </tr>
-                        <tr>
-                            <td><code>row center</code></td>
-                            <td>...justify-content: center</td>
-                        </tr>
-                        <tr>
-                            <td><code>column</code></td>
-                            <td>display: flex; flex-direction: column</td>
-                        </tr>
-                        <tr>
-                            <td><code>center all</code></td>
-                            <td>...justify-content: center; align-items: center</td>
-                        </tr>
-                        <tr>
-                            <td><code>grid 3</code></td>
-                            <td>display: grid; grid-template-columns: repeat(3, 1fr)</td>
-                        </tr>
-                        <tr>
-                            <td><code>gap 4</code></td>
-                            <td>gap: 1rem</td>
-                        </tr>
-                        <tr>
-                            <td><code>w-full</code></td>
-                            <td>width: 100%</td>
-                        </tr>
-                        <tr>
-                            <td><code>h-screen</code></td>
-                            <td>height: 100vh</td>
-                        </tr>
-                        <tr>
-                            <td><code>relative</code></td>
-                            <td>position: relative</td>
-                        </tr>
-                        <tr>
-                            <td><code>absolute</code></td>
-                            <td>position: absolute</td>
-                        </tr>
-                        <tr>
-                            <td><code>fixed</code></td>
-                            <td>position: fixed</td>
-                        </tr>
-                        <tr>
-                            <td><code>hidden</code></td>
-                            <td>display: none</td>
-                        </tr>
-                        <tr>
-                            <td><code>overflow hidden</code></td>
-                            <td>overflow: hidden</td>
+                            <td><code>@light:</code></td>
+                            <td><code>prefers-color-scheme: light</code></td>
                         </tr>
                     </tbody>
                 </table>
             </section>
+
+            <!-- § 08 Tokens -->
+            <section id="tokens">
+                <div class="section-label">§ 08</div>
+                <h2>Custom tokens</h2>
+                <p>Define a name once, use it everywhere. Tokens are local to the file. Share them across files with <code>@import</code>.</p>
+                <div class="code">
+                    <div class="head"><span class="dot"></span><span>styles.tom</span></div>
+                    <pre><code><span class="k">colors</span>:
+  <span class="p">primary</span> <span class="v">blue-500</span>
+  <span class="p">secondary</span> <span class="v">violet-500</span>
+  <span class="p">dark</span> <span class="v">slate-900</span>
+  <span class="p">light</span> <span class="v">slate-50</span>
+  <span class="p">muted</span> <span class="v">slate-400</span>
+  <span class="p">danger</span> <span class="v">red-500</span>
+  <span class="p">success</span> <span class="v">green-500</span>
+
+<span class="s">button</span>:
+  <span class="p">bg</span> <span class="v">primary</span>
+  <span class="p">color</span> <span class="v">light</span>
+
+<span class="s">.alert-danger</span>:
+  <span class="p">bg</span> <span class="v">danger</span>
+  <span class="p">color</span> <span class="v">white</span></code></pre>
+                </div>
+                <div class="code">
+                    <div class="head"><span class="dot"></span><span>bash</span></div>
+                    <pre><code>$ <span class="k">tomato</span> app.tom -o styles.css
+<span class="c"># Cannot import "tokens.tom": file not found</span>  <span class="c"># exits 1</span></code></pre>
+                </div>
+                <p>Or share tokens across files:</p>
+                <div class="code">
+                    <div class="head"><span class="dot"></span><span>app.tom</span></div>
+                    <pre><code><span class="k">@import</span> <span class="v">"./tokens.tom"</span>
+
+<span class="s">.button-primary</span>:
+  <span class="p">bg</span> <span class="v">primary</span></code></pre>
+                </div>
+            </section>
+
+            <!-- § 09 Colors -->
+            <section id="colors">
+                <div class="section-label">§ 09</div>
+                <h2>Color reference</h2>
+                <p>22 color scales built in (Tailwind's).</p>
+                <div class="code">
+                    <div class="head"><span class="dot"></span><span>styles.tom</span></div>
+                    <pre><code><span class="c"># 22 color scales built-in</span>
+<span class="s">slate</span>, <span class="s">gray</span>, <span class="s">zinc</span>, <span class="s">neutral</span>, <span class="s">stone</span>
+<span class="s">red</span>, <span class="s">orange</span>, <span class="s">amber</span>, <span class="s">yellow</span>, <span class="s">lime</span>
+<span class="s">green</span>, <span class="s">emerald</span>, <span class="s">teal</span>, <span class="s">cyan</span>, <span class="s">sky</span>
+<span class="s">blue</span>, <span class="s">indigo</span>, <span class="s">violet</span>, <span class="s">purple</span>
+<span class="s">fuchsia</span>, <span class="s">pink</span>, <span class="s">rose</span>
+
+<span class="c"># usage</span>
+<span class="p">bg</span> <span class="v">rose-500</span>
+<span class="p">color</span> <span class="v">slate-900</span>
+<span class="p">border</span> <span class="v">1px solid blue-300</span></code></pre>
+                </div>
+                <p>Each scale runs from 50 to 950. You can also pass raw CSS colors when you need something off the palette:</p>
+                <div class="code">
+                    <div class="head"><span class="dot"></span><span>styles.tom</span></div>
+                    <pre><code><span class="p">bg</span> <span class="v">#f43f5e</span>
+<span class="p">bg</span> <span class="v">rgb(244 63 94 / 0.5)</span>
+<span class="p">bg</span> <span class="v">transparent</span>
+<span class="p">bg</span> <span class="v">currentColor</span></code></pre>
+                </div>
+            </section>
+
+            <!-- § 10 All properties -->
+            <section id="all-properties">
+                <div class="section-label">§ 10</div>
+                <h2>All properties</h2>
+                <p>The complete shortcut list. Anything Tomato doesn't recognise is passed through unchanged.</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 40%;">Tomato</th>
+                            <th>CSS output</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><code>bg blue-500</code></td><td><code>background: #3b82f6</code></td></tr>
+                        <tr><td><code>color white</code></td><td><code>color: #ffffff</code></td></tr>
+                        <tr><td><code>pad 2 4</code></td><td><code>padding: 0.5rem 1rem</code></td></tr>
+                        <tr><td><code>margin 4</code></td><td><code>margin: 1rem</code></td></tr>
+                        <tr><td><code>round lg</code></td><td><code>border-radius: 0.5rem</code></td></tr>
+                        <tr><td><code>round full</code></td><td><code>border-radius: 9999px</code></td></tr>
+                        <tr><td><code>shadow md</code></td><td><code>box-shadow: ...</code></td></tr>
+                        <tr><td><code>bold</code></td><td><code>font-weight: bold</code></td></tr>
+                        <tr><td><code>semibold</code></td><td><code>font-weight: 600</code></td></tr>
+                        <tr><td><code>italic</code></td><td><code>font-style: italic</code></td></tr>
+                        <tr><td><code>uppercase</code></td><td><code>text-transform: uppercase</code></td></tr>
+                        <tr><td><code>underline</code></td><td><code>text-decoration: underline</code></td></tr>
+                        <tr><td><code>pointer</code></td><td><code>cursor: pointer</code></td></tr>
+                        <tr><td><code>smooth</code></td><td><code>transition: all 0.2s ease</code></td></tr>
+                        <tr><td><code>no border</code></td><td><code>border: none</code></td></tr>
+                        <tr><td><code>no outline</code></td><td><code>outline: none</code></td></tr>
+                        <tr><td><code>row</code></td><td><code>display: flex; flex-direction: row</code></td></tr>
+                        <tr><td><code>row spread</code></td><td><code>…; justify-content: space-between</code></td></tr>
+                        <tr><td><code>row center</code></td><td><code>…; justify-content: center</code></td></tr>
+                        <tr><td><code>column</code></td><td><code>display: flex; flex-direction: column</code></td></tr>
+                        <tr><td><code>center all</code></td><td><code>…; justify-content: center; align-items: center</code></td></tr>
+                        <tr><td><code>grid 3</code></td><td><code>display: grid; grid-template-columns: repeat(3, 1fr)</code></td></tr>
+                        <tr><td><code>gap 4</code></td><td><code>gap: 1rem</code></td></tr>
+                        <tr><td><code>w-full</code></td><td><code>width: 100%</code></td></tr>
+                        <tr><td><code>h-screen</code></td><td><code>height: 100vh</code></td></tr>
+                        <tr><td><code>relative</code></td><td><code>position: relative</code></td></tr>
+                        <tr><td><code>absolute</code></td><td><code>position: absolute</code></td></tr>
+                        <tr><td><code>fixed</code></td><td><code>position: fixed</code></td></tr>
+                        <tr><td><code>sticky</code></td><td><code>position: sticky</code></td></tr>
+                        <tr><td><code>hidden</code></td><td><code>display: none</code></td></tr>
+                        <tr><td><code>block</code></td><td><code>display: block</code></td></tr>
+                        <tr><td><code>flex</code></td><td><code>display: flex</code></td></tr>
+                        <tr><td><code>opacity 0.5</code></td><td><code>opacity: 0.5</code></td></tr>
+                        <tr><td><code>z 10</code></td><td><code>z-index: 10</code></td></tr>
+                        <tr><td><code>overflow hidden</code></td><td><code>overflow: hidden</code></td></tr>
+                    </tbody>
+                </table>
+            </section>
+
         </main>
     </div>
 
-    <!-- Scripts -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://unpkg.com/prismjs@1.29.0/prism.js"></script>
-    <script src="https://unpkg.com/prismjs@1.29.0/components/prism-bash.min.js"></script>
-    <script src="https://unpkg.com/prismjs@1.29.0/components/prism-yaml.min.js"></script>
-    <script src="https://unpkg.com/prismjs@1.29.0/components/prism-json.min.js"></script>
+    <!-- Footer (same as index) -->
+    <footer>
+        <div>MIT licensed · srivtx · 2026</div>
+        <nav>
+            <a href="https://github.com/srivtx/tomato-css">GitHub <span class="ext">↗</span></a>
+            <a href="https://www.npmjs.com/package/@srivtx/tomato-css">npm <span class="ext">↗</span></a>
+            <a href="https://github.com/srivtx/tomato-css/blob/main/CHANGELOG.md">Changelog <span class="ext">↗</span></a>
+        </nav>
+    </footer>
 
     <script>
-        // Initialize Animate On Scroll
-        AOS.init({
-            duration: 800,
-            once: true,
-            offset: 100
-        });
-        // Copy Button Logic (Updated)
-        document.querySelectorAll('.copy-wrapper').forEach(wrapper => {
-            const btn = document.createElement('button');
-            btn.className = 'copy-btn';
-            // SVG Icon (Clipboard)
-            btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
+        // Scroll progress bar
+        (function() {
+            const bar = document.querySelector('.scroll-progress');
+            if (!bar) return;
+            const onScroll = () => {
+                const h = document.documentElement;
+                const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+                bar.style.width = (isFinite(pct) ? pct : 0) + '%';
+            };
+            window.addEventListener('scroll', onScroll, { passive: true });
+            onScroll();
+        })();
 
-            btn.addEventListener('click', () => {
-                const code = wrapper.querySelector('code').innerText;
-                navigator.clipboard.writeText(code);
+        // ScrollSpy — highlight current section in sidebar
+        (function() {
+            const links = document.querySelectorAll('.sidebar nav a');
+            if (!links.length) return;
+            const sections = Array.from(links).map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        links.forEach((l) => l.classList.remove('active'));
+                        const id = entry.target.id;
+                        const match = Array.from(links).find((l) => l.getAttribute('href') === '#' + id);
+                        if (match) match.classList.add('active');
+                    }
+                });
+            }, { rootMargin: '-100px 0px -60% 0px', threshold: 0 });
+            sections.forEach((s) => observer.observe(s));
+        })();
 
-                // SVG Icon (Check)
-                btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
-                btn.style.borderColor = 'rgba(74, 222, 128, 0.3)';
+        // Particle canvas (same as index)
+        (function() {
+            const canvas = document.getElementById('topbar-particles');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return;
 
-                setTimeout(() => {
-                    btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
-                    btn.style.borderColor = '';
-                }, 2000);
-            });
+            let w = 0, h = 0, dpr = 1;
+            const PARTICLES = 140;
+            const particles = [];
+            const streaks = [];
+            const rings = [];
+            let hoveredBtn = null;
+            let attractStrength = 0;
+            let spawnAccum = 0;
+            let repulsePos = null;
+            let repulseFrames = 0;
+            const ATTRACT = 0.05;
+            const MAX_SPEED = 0.7;
+            const RANDOM_KICK = 0.022;
+            const GLOBAL_DAMP = 0.999;
+            const HOVER_OUT_DAMP = 0.96;
+            const REPULSE_FORCE = 0.1;
+            const REPULSE_DURATION = 22;
+            const REPULSE_RADIUS = 200;
+            const STREAK_SPEED_MIN = 3.5;
+            const STREAK_SPEED_MAX = 5.5;
+            const STREAK_TAIL = 55;
+            const STREAK_LIFE_MIN = 16;
+            const STREAK_LIFE_MAX = 30;
 
-            wrapper.appendChild(btn);
-        });
+            function resize() {
+                dpr = window.devicePixelRatio || 1;
+                w = window.innerWidth;
+                h = window.innerHeight;
+                canvas.width = w * dpr;
+                canvas.height = h * dpr;
+                canvas.style.width = w + 'px';
+                canvas.style.height = h + 'px';
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
+                ctx.scale(dpr, dpr);
+                ctx.imageSmoothingEnabled = false;
+            }
 
-        // ScrollSpy (Refined)
-        const observerOptions = {
-            root: null,
-            rootMargin: '-100px 0px -70% 0px', // Better active state triggering
-            threshold: 0
-        };
-
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const id = entry.target.getAttribute('id');
-                    document.querySelectorAll('.nav-link').forEach(link => {
-                        link.classList.remove('active');
-                        if (link.getAttribute('href') === `#${id}`) {
-                            link.classList.add('active');
-                        }
+            function seed() {
+                particles.length = 0;
+                for (let i = 0; i < PARTICLES; i++) {
+                    const r = Math.random();
+                    particles.push({
+                        x: Math.random() * w,
+                        y: Math.random() * h,
+                        vx: (Math.random() - 0.5) * 0.22,
+                        vy: (Math.random() - 0.5) * 0.18,
+                        size: r < 0.55 ? 1 : r < 0.9 ? 2 : 3,
+                        alpha: 0.35 + Math.random() * 0.35,
+                        flash: 0,
                     });
                 }
+            }
+
+            function attractPos() {
+                if (!hoveredBtn) return null;
+                const r = hoveredBtn.getBoundingClientRect();
+                return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+            }
+
+            function spawnStreak(target) {
+                const ang = Math.random() * Math.PI * 2;
+                const r = 240 + Math.random() * 180;
+                const x = target.x + Math.cos(ang) * r;
+                const y = target.y + Math.sin(ang) * r;
+                const dx = target.x - x;
+                const dy = target.y - y;
+                const len = Math.sqrt(dx * dx + dy * dy) || 1;
+                const speed = STREAK_SPEED_MIN + Math.random() * (STREAK_SPEED_MAX - STREAK_SPEED_MIN);
+                streaks.push({ x, y, vx: (dx / len) * speed, vy: (dy / len) * speed, life: STREAK_LIFE_MIN + Math.random() * (STREAK_LIFE_MAX - STREAK_LIFE_MIN), maxLife: 0, impacted: false });
+                streaks[streaks.length - 1].maxLife = streaks[streaks.length - 1].life;
+            }
+
+            function step() {
+                const target = attractPos();
+                if (target) {
+                    attractStrength += (1 - attractStrength) * 0.08;
+                } else {
+                    attractStrength = 0;
+                    spawnAccum = 0;
+                    streaks.length = 0;
+                    rings.length = 0;
+                }
+
+                if (target && attractStrength > 0.02) {
+                    spawnAccum += 0.55 * attractStrength;
+                    while (spawnAccum >= 1) { spawnStreak(target); spawnAccum -= 1; }
+                } else {
+                    spawnAccum = 0;
+                }
+
+                for (let i = streaks.length - 1; i >= 0; i--) {
+                    const s = streaks[i];
+                    s.x += s.vx; s.y += s.vy; s.life -= 1;
+                    if (target && !s.impacted) {
+                        const dx = target.x - s.x, dy = target.y - s.y;
+                        if (dx * dx + dy * dy < 22 * 22) {
+                            s.impacted = true;
+                            rings.push({ x: s.x, y: s.y, r: 0, maxR: 18 + Math.random() * 10, life: 22, maxLife: 22 });
+                        }
+                    }
+                    if (s.life <= 0) streaks.splice(i, 1);
+                }
+
+                for (let i = rings.length - 1; i >= 0; i--) {
+                    const r = rings[i];
+                    r.r += 0.9; r.life -= 1;
+                    if (r.life <= 0) rings.splice(i, 1);
+                }
+
+                ctx.clearRect(0, 0, w, h);
+                const damp = target ? GLOBAL_DAMP : HOVER_OUT_DAMP;
+                for (const p of particles) {
+                    p.vx += (Math.random() - 0.5) * RANDOM_KICK;
+                    p.vy += (Math.random() - 0.5) * RANDOM_KICK;
+                    if (target && attractStrength > 0.001) {
+                        const dx = target.x - p.x, dy = target.y - p.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy) + 0.5;
+                        p.vx += (dx / dist) * ATTRACT * attractStrength;
+                        p.vy += (dy / dist) * ATTRACT * attractStrength;
+                    }
+                    if (repulsePos && repulseFrames > 0) {
+                        const dx = p.x - repulsePos.x, dy = p.y - repulsePos.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy) + 0.5;
+                        const falloff = Math.max(0, 1 - dist / REPULSE_RADIUS);
+                        const strength = REPULSE_FORCE * (repulseFrames / REPULSE_DURATION) * falloff;
+                        p.vx += (dx / dist) * strength;
+                        p.vy += (dy / dist) * strength;
+                    }
+                    p.vx *= damp; p.vy *= damp;
+                    const sp = Math.hypot(p.vx, p.vy);
+                    if (sp > MAX_SPEED) { p.vx = (p.vx / sp) * MAX_SPEED; p.vy = (p.vy / sp) * MAX_SPEED; }
+                    p.x += p.vx; p.y += p.vy;
+                    if (p.x < 0) p.x += w; else if (p.x >= w) p.x -= w;
+                    if (p.y < 0) p.y += h; else if (p.y >= h) p.y -= h;
+                }
+                if (repulseFrames > 0) { repulseFrames--; if (repulseFrames === 0) repulsePos = null; }
+
+                const CONNECT_DIST = 70;
+                const FLASH_DIST = 30;
+                ctx.lineCap = 'butt';
+                for (const s of streaks) {
+                    const t = s.life / s.maxLife, fade = t * t;
+                    for (const p of particles) {
+                        const dx = s.x - p.x, dy = s.y - p.y;
+                        const d = Math.sqrt(dx * dx + dy * dy);
+                        if (d < CONNECT_DIST) {
+                            const op = (1 - d / CONNECT_DIST) * 0.75 * fade;
+                            ctx.globalAlpha = op; ctx.strokeStyle = '#f43f5e'; ctx.lineWidth = 0.8;
+                            ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(s.x, s.y); ctx.stroke();
+                        }
+                        if (d < FLASH_DIST) {
+                            const boost = (1 - d / FLASH_DIST) * 0.35 * fade;
+                            if (boost > p.flash) p.flash = Math.min(1, p.flash + boost);
+                        }
+                    }
+                }
+
+                for (const s of streaks) {
+                    const sp = Math.hypot(s.vx, s.vy) || 1;
+                    const tx = s.x - (s.vx / sp) * STREAK_TAIL;
+                    const ty = s.y - (s.vy / sp) * STREAK_TAIL;
+                    const t = s.life / s.maxLife, fade = t * t;
+                    const grad = ctx.createLinearGradient(s.x, s.y, tx, ty);
+                    grad.addColorStop(0,    'rgba(252,165,165,' + (0.95 * fade).toFixed(3) + ')');
+                    grad.addColorStop(0.25, 'rgba(244,63,94,'  + (0.85 * fade).toFixed(3) + ')');
+                    grad.addColorStop(0.7,  'rgba(244,63,94,'  + (0.35 * fade).toFixed(3) + ')');
+                    grad.addColorStop(1,    'rgba(244,63,94,0)');
+                    ctx.strokeStyle = grad; ctx.lineWidth = 1.4; ctx.globalAlpha = 1;
+                    ctx.beginPath(); ctx.moveTo(tx, ty); ctx.lineTo(s.x, s.y); ctx.stroke();
+                    ctx.globalAlpha = fade; ctx.fillStyle = '#fecaca';
+                    ctx.fillRect(Math.floor(s.x) - 1, Math.floor(s.y) - 1, 3, 3);
+                }
+
+                ctx.lineWidth = 1;
+                for (const r of rings) {
+                    const t = r.life / r.maxLife;
+                    ctx.globalAlpha = t * 0.55;
+                    ctx.strokeStyle = '#f43f5e';
+                    ctx.beginPath(); ctx.arc(r.x, r.y, r.r, 0, Math.PI * 2); ctx.stroke();
+                }
+
+                ctx.fillStyle = '#f43f5e';
+                for (const p of particles) {
+                    p.flash *= 0.86;
+                    if (p.flash < 0.005) p.flash = 0;
+                    const f = p.flash;
+                    const alpha = Math.min(1, p.alpha + f * 0.55);
+                    const grow = f * 1.5;
+                    const sz = p.size + grow;
+                    ctx.globalAlpha = alpha;
+                    ctx.fillRect(
+                        Math.floor(p.x - grow * 0.5),
+                        Math.floor(p.y - grow * 0.5),
+                        Math.max(1, Math.floor(sz)),
+                        Math.max(1, Math.floor(sz))
+                    );
+                }
+                ctx.globalAlpha = 1;
+
+                requestAnimationFrame(step);
+            }
+
+            resize(); seed(); step();
+            window.addEventListener('resize', () => { resize(); seed(); }, { passive: true });
+
+            document.querySelectorAll('.btn').forEach((btn) => {
+                btn.addEventListener('mouseenter', () => {
+                    hoveredBtn = btn;
+                    repulseFrames = 0; repulsePos = null;
+                });
+                btn.addEventListener('mouseleave', () => {
+                    const r = btn.getBoundingClientRect();
+                    repulsePos = { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+                    repulseFrames = REPULSE_DURATION;
+                    hoveredBtn = null;
+                });
             });
-        }, observerOptions);
-
-        document.querySelectorAll('section[id]').forEach(section => {
-            observer.observe(section);
-        });
-
-        // Reading Progress Bar
-        const progressBar = document.getElementById('progressBar');
-        window.addEventListener('scroll', () => {
-            const scrollTop = window.scrollY;
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const progress = (scrollTop / docHeight) * 100;
-            progressBar.style.width = progress + '%';
-        });
+        })();
     </script>
+
 </body>
 
 </html>
