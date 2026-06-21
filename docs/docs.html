@@ -44,7 +44,6 @@
             --text-2: #8a8a8a;
             --text-3: #5a5a5a;
             --accent: #f43f5e;
-            --accent-dim: #b23048;
 
             --serif: 'Bricolage Grotesque', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             --sans: 'Cabinet Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -103,7 +102,7 @@
             justify-content: space-between;
             padding: 28px 32px;
             border-bottom: 1px solid var(--line);
-            max-width: 1320px;
+            max-width: 1200px;
             margin: 0 auto;
             position: relative;
             z-index: 1;
@@ -148,103 +147,57 @@
         }
         .topbar nav a:hover { color: var(--text); }
         .topbar nav a:hover::after { transform: scaleX(1); }
+        .topbar nav a.active { color: var(--text); }
+        .topbar nav a.active::after { transform: scaleX(1); }
 
-        /* ---------- Layout (sidebar + main) ---------- */
-        .layout {
-            display: grid;
-            grid-template-columns: 240px 1fr;
-            gap: 80px;
-            max-width: 1320px;
+        /* ---------- Page wrapper ---------- */
+        .page-body {
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 64px 32px 120px;
+            padding: 0 32px;
         }
 
-        /* ---------- Sidebar ---------- */
-        .sidebar {
-            position: sticky;
-            top: 64px;
-            align-self: start;
-            max-height: calc(100vh - 64px);
-            overflow-y: auto;
-            font-size: 13.5px;
-        }
-        .sidebar h4 {
-            font-family: var(--mono);
-            font-size: 11px;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--text-3);
-            margin: 28px 0 8px;
-            font-weight: 400;
-        }
-        .sidebar h4:first-of-type { margin-top: 0; }
-        .sidebar nav {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            margin-bottom: 12px;
-        }
-        .sidebar nav a {
-            color: var(--text-2);
-            padding: 4px 0;
-            border-left: 1px solid var(--line);
-            padding-left: 12px;
-            transition: color 120ms linear, border-color 220ms ease;
-        }
-        .sidebar nav a:hover { color: var(--text); }
-        .sidebar nav a.active {
-            color: var(--accent);
-            border-left-color: var(--accent);
-        }
-
-        /* ---------- Main content ---------- */
-        .main { min-width: 0; }
-
-        .doc-hero {
-            padding: 0 0 64px;
+        /* ---------- Hero (matches index.html pattern) ---------- */
+        .hero {
+            padding: 96px 0 64px;
             border-bottom: 1px solid var(--line);
-            margin-bottom: 64px;
         }
-        .doc-hero .eyebrow {
-            font-family: var(--mono);
-            font-size: 11px;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--text-3);
-            margin-bottom: 16px;
-        }
-        .doc-hero h1 {
+        .hero h1 {
             font-family: var(--serif);
             font-weight: 700;
             font-variation-settings: "opsz" 96;
-            font-size: clamp(40px, 5vw, 60px);
+            font-size: clamp(40px, 5.5vw, 68px);
             line-height: 1.02;
             letter-spacing: -0.03em;
             color: var(--text);
-            margin-bottom: 18px;
+            max-width: 18ch;
         }
-        .doc-hero h1 em {
+        .hero h1 em {
             font-style: italic;
             color: var(--accent);
         }
-        .doc-hero p {
+        .lede {
+            margin-top: 24px;
             font-size: 17px;
             line-height: 1.55;
             color: var(--text-2);
             max-width: 60ch;
         }
+        .lede code {
+            font-family: var(--mono);
+            font-size: 13px;
+            color: var(--text);
+            background: var(--bg-2);
+            border: 1px solid var(--line);
+            padding: 1px 6px;
+        }
 
-        section[id] {
-            scroll-margin-top: 32px;
-            padding-top: 64px;
-            margin-top: -1px;
+        /* ---------- Section frame (matches index.html) ---------- */
+        section {
             border-top: 1px solid var(--line);
+            padding: 80px 0;
         }
-        section[id]:first-of-type {
-            border-top: 0;
-            padding-top: 0;
-            margin-top: 0;
-        }
+        section:first-of-type { border-top: 0; padding-top: 80px; }
 
         .section-label {
             font-family: var(--mono);
@@ -257,23 +210,25 @@
         h2 {
             font-family: var(--serif);
             font-weight: 700;
-            font-variation-settings: "opsz" 60;
-            font-size: clamp(28px, 3.4vw, 38px);
+            font-variation-settings: "opsz" 48;
+            font-size: clamp(28px, 3.4vw, 40px);
             line-height: 1.1;
             letter-spacing: -0.02em;
             color: var(--text);
-            margin-bottom: 24px;
+            max-width: 24ch;
+            margin-bottom: 40px;
         }
         h3 {
             font-family: var(--sans);
             font-weight: 600;
             font-size: 16px;
             color: var(--text);
-            margin: 32px 0 12px;
+            margin: 40px 0 12px;
         }
+        h3:first-of-type { margin-top: 0; }
         p {
             color: var(--text-2);
-            margin: 12px 0;
+            margin: 16px 0;
             max-width: 70ch;
         }
         p code, li code {
@@ -284,8 +239,9 @@
             border: 1px solid var(--line);
             padding: 1px 6px;
         }
+        section[id] { scroll-margin-top: 32px; }
 
-        /* ---------- Code blocks ---------- */
+        /* ---------- Code blocks (single pane, matches index.html style) ---------- */
         .code {
             border: 1px solid var(--line);
             background: var(--bg-2);
@@ -293,7 +249,7 @@
             font-size: 13px;
             line-height: 1.7;
             overflow: hidden;
-            margin: 16px 0 24px;
+            margin: 16px 0 32px;
         }
         .code .head {
             display: flex;
@@ -321,48 +277,138 @@
             overflow-x: auto;
         }
         .code pre .c { color: var(--text-3); font-style: italic; }
-        .code pre .k { color: var(--accent); }   /* keyword: component, use, hover */
-        .code pre .s { color: var(--text-2); }   /* selector */
-        .code pre .p { color: var(--text); }     /* property */
-        .code pre .v { color: var(--text-2); }   /* value */
+        .code pre .k { color: var(--accent); }
+        .code pre .s { color: var(--text-2); }
+        .code pre .p { color: var(--text); }
+        .code pre .v { color: var(--text-2); }
 
-        /* ---------- Callouts ---------- */
+        /* ---------- Callouts (left-border accent, mono label) ---------- */
         .callout {
             border: 1px solid var(--line);
             border-left: 2px solid var(--accent);
             background: var(--bg-2);
-            padding: 14px 16px;
-            margin: 16px 0 24px;
+            padding: 16px 18px;
+            margin: 16px 0 32px;
             font-size: 14px;
             color: var(--text-2);
             line-height: 1.6;
         }
-        .callout strong {
-            color: var(--text);
-            font-weight: 600;
+        .callout .label {
+            font-family: var(--mono);
+            font-size: 10.5px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent);
+            display: block;
+            margin-bottom: 6px;
         }
+        .callout.warn { border-left-color: #f59e0b; }
+        .callout.warn .label { color: #f59e0b; }
         .callout code {
             font-family: var(--mono);
             font-size: 12.5px;
             color: var(--text);
         }
-        .callout.warn { border-left-color: #f59e0b; }
 
-        /* ---------- Tables ---------- */
-        table {
+        /* ---------- Spec list (matches index.html for TOC + All Properties) ---------- */
+        .spec-list {
+            list-style: none;
+            counter-reset: spec;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            border-top: 1px solid var(--line);
+            margin: 16px 0 0;
+            padding: 0;
+        }
+        .spec-list li {
+            counter-increment: spec;
+            padding: 24px 0;
+            border-bottom: 1px solid var(--line);
+            display: grid;
+            grid-template-columns: 48px 1fr;
+            gap: 12px;
+            align-items: start;
+        }
+        .spec-list li::before {
+            content: counter(spec, decimal-leading-zero);
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--text-3);
+            padding-top: 2px;
+        }
+        .spec-list li a {
+            display: block;
+            color: var(--text);
+        }
+        .spec-list li a:hover { color: var(--text); }
+        .spec-list li a:hover .head { color: var(--accent); }
+        .spec-list .head {
+            font-family: var(--sans);
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--text);
+            margin-bottom: 6px;
+            transition: color 120ms linear;
+        }
+        .spec-list .desc {
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-2);
+        }
+        .spec-list .desc code {
+            font-family: var(--mono);
+            font-size: 12.5px;
+            color: var(--text);
+        }
+
+        /* ---------- Shortcut list (for All Properties) ---------- */
+        .shortcut-list {
+            list-style: none;
+            border-top: 1px solid var(--line);
+            margin: 16px 0 0;
+            padding: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+        .shortcut-list li {
+            padding: 14px 0;
+            border-bottom: 1px solid var(--line);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            align-items: baseline;
+        }
+        .shortcut-list .tom {
+            font-family: var(--mono);
+            font-size: 13px;
+            color: var(--text);
+        }
+        .shortcut-list .tom .k { color: var(--accent); }
+        .shortcut-list .tom .v { color: var(--text-2); }
+        .shortcut-list .css {
+            font-family: var(--mono);
+            font-size: 12.5px;
+            color: var(--text-2);
+        }
+        .shortcut-list .css .p { color: var(--accent); }
+        .shortcut-list .css .v { color: var(--text-2); }
+
+        /* ---------- Table (for CLI commands, breakpoints) ---------- */
+        .table {
             width: 100%;
             border-collapse: collapse;
             margin: 16px 0 32px;
-            font-size: 14px;
             font-family: var(--mono);
+            font-size: 13px;
         }
-        th, td {
+        .table th, .table td {
             text-align: left;
-            padding: 10px 14px;
+            padding: 12px 14px;
             border-bottom: 1px solid var(--line);
             vertical-align: top;
         }
-        th {
+        .table th {
             color: var(--text-3);
             font-size: 11px;
             font-weight: 400;
@@ -370,19 +416,23 @@
             letter-spacing: 0.08em;
             border-bottom-color: var(--line-2);
         }
-        td {
-            color: var(--text-2);
-        }
-        td code {
+        .table td { color: var(--text-2); }
+        .table td code {
             color: var(--text);
             font-family: var(--mono);
             background: none;
             border: 0;
             padding: 0;
         }
-        tbody tr:hover td { color: var(--text); }
+        .table tbody tr:hover td { color: var(--text); }
 
-        /* ---------- Footer (same as index) ---------- */
+        /* ---------- TOC (table of contents) ---------- */
+        .toc {
+            padding: 80px 0 64px;
+            border-top: 1px solid var(--line);
+        }
+
+        /* ---------- Footer (matches index.html) ---------- */
         footer {
             border-top: 1px solid var(--line);
             padding: 40px 0 56px;
@@ -392,7 +442,7 @@
             font-family: var(--mono);
             font-size: 12px;
             color: var(--text-3);
-            max-width: 1320px;
+            max-width: 1200px;
             margin: 0 auto;
             padding-left: 32px;
             padding-right: 32px;
@@ -413,19 +463,12 @@
         @media (max-width: 900px) {
             .topbar { padding: 20px 20px; }
             .topbar nav { gap: 18px; }
-            .layout {
-                grid-template-columns: 1fr;
-                gap: 32px;
-                padding: 40px 20px 80px;
-            }
-            .sidebar {
-                position: static;
-                max-height: none;
-                border-bottom: 1px solid var(--line);
-                padding-bottom: 24px;
-            }
-            .sidebar nav { display: none; }
-            .sidebar h4 { margin-top: 16px; }
+            .page-body { padding: 0 20px; }
+            .hero { padding: 56px 0 40px; }
+            .spec-list { grid-template-columns: 1fr; }
+            .shortcut-list { grid-template-columns: 1fr; }
+            section { padding: 56px 0; }
+            .toc { padding: 56px 0 40px; }
             footer { flex-direction: column; gap: 16px; align-items: flex-start; padding-left: 20px; padding-right: 20px; }
         }
     </style>
@@ -447,109 +490,154 @@
         </a>
         <nav>
             <a href="index.html">Home</a>
-            <a href="docs.html">Docs</a>
+            <a href="docs.html" class="active">Docs</a>
             <a href="https://github.com/srivtx/tomato-css">GitHub <span class="ext">↗</span></a>
             <a href="https://www.npmjs.com/package/@srivtx/tomato-css">npm <span class="ext">↗</span></a>
         </nav>
     </header>
 
-    <div class="layout">
+    <div class="page-body">
 
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <h4>Getting Started</h4>
-            <nav>
-                <a href="#installation">Installation</a>
-                <a href="#first-file">Your First .tom File</a>
-                <a href="#cli">CLI Usage</a>
-            </nav>
-            <h4>Syntax</h4>
-            <nav>
-                <a href="#selectors">Selectors</a>
-                <a href="#components">Components</a>
-                <a href="#pseudo-states">Pseudo States</a>
-                <a href="#responsive">Responsive Design</a>
-                <a href="#tokens">Custom Tokens</a>
-            </nav>
-            <h4>Reference</h4>
-            <nav>
-                <a href="#colors">Colors</a>
-                <a href="#all-properties">All Properties</a>
-            </nav>
-        </aside>
+        <!-- Hero -->
+        <header class="hero">
+            <h1>The <em>full</em> reference.</h1>
+            <p class="lede">
+                Every shortcut. Every keyword. The same language on the playground, the CLI, and your editor — what you see here is what the compiler accepts. <code>1.2.0</code>
+            </p>
+        </header>
 
-        <!-- Main content -->
-        <main class="main">
+        <!-- Table of contents -->
+        <section class="toc">
+            <div class="section-label">Contents</div>
+            <h2>Ten sections, in order.</h2>
 
-            <header class="doc-hero">
-                <div class="eyebrow">Tomato CSS · v1.2.0</div>
-                <h1>The <em>full</em> reference.</h1>
-                <p>
-                    Every shortcut, every component pattern, every keyword.
-                    One page. The same language on the playground and the CLI — what you see here is what the compiler accepts.
-                </p>
-            </header>
+            <ol class="spec-list">
+                <li>
+                    <a href="#installation">
+                        <div class="head">Installation</div>
+                        <div class="desc">Global CLI, project dev dependency, or <code>npx</code> with nothing installed.</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#first-file">
+                        <div class="head">Your first <code>.tom</code> file</div>
+                        <div class="desc">Write a stylesheet in Tomato, compile it to CSS, ship the CSS.</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#cli">
+                        <div class="head">CLI usage</div>
+                        <div class="desc">All the commands, the <code>--watch</code> flag, and exit codes.</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#selectors">
+                        <div class="head">Selectors</div>
+                        <div class="desc">Elements, classes, IDs, compound selectors, and the auto-class rule.</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#components">
+                        <div class="head">Components</div>
+                        <div class="desc"><code>component name:</code> + <code>use name</code>. Reusable blocks with overrides.</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#pseudo-states">
+                        <div class="head">Pseudo states</div>
+                        <div class="desc"><code>hover</code>, <code>focus</code>, <code>active</code>, <code>disabled</code> — one indent level.</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#responsive">
+                        <div class="head">Responsive design</div>
+                        <div class="desc">Match Tailwind widths. <code>@dark:</code> / <code>@light:</code> included.</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#tokens">
+                        <div class="head">Custom tokens</div>
+                        <div class="desc">Define a name once, share it across files with <code>@import</code>.</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#colors">
+                        <div class="head">Color reference</div>
+                        <div class="desc">22 Tailwind scales built in, plus raw CSS colors and opacity.</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#all-properties">
+                        <div class="head">All properties</div>
+                        <div class="desc">Every shortcut mapped to the CSS it produces.</div>
+                    </a>
+                </li>
+            </ol>
+        </section>
 
-            <!-- § 01 Installation -->
-            <section id="installation">
-                <div class="section-label">§ 01</div>
-                <h2>Installation</h2>
+        <!-- § 01 Installation -->
+        <section id="installation">
+            <div class="section-label">§ 01 — Installation</div>
+            <h2>Three ways to install.</h2>
 
-                <h3>Global install</h3>
-                <div class="code">
-                    <div class="head"><span class="dot"></span><span>bash</span></div>
-                    <pre><code>$ <span class="k">npm</span> install -g @srivtx/tomato-css
+            <h3>Global install</h3>
+            <p>Once per machine. The <code>tomato</code> command is then available everywhere.</p>
+            <div class="code">
+                <div class="head"><span class="dot"></span><span>bash</span></div>
+                <pre><code>$ <span class="k">npm</span> install -g @srivtx/tomato-css
 $ tomato app.tom -o styles.css</code></pre>
-                </div>
+            </div>
 
-                <h3>Project install</h3>
-                <div class="code">
-                    <div class="head"><span class="dot"></span><span>bash</span></div>
-                    <pre><code>$ <span class="k">npm</span> install --save-dev @srivtx/tomato-css
+            <h3>Project install</h3>
+            <p>Local to one repo. Add a build step to <code>package.json</code>.</p>
+            <div class="code">
+                <div class="head"><span class="dot"></span><span>bash</span></div>
+                <pre><code>$ <span class="k">npm</span> install --save-dev @srivtx/tomato-css
 $ npx tomato src/app.tom -o dist/styles.css</code></pre>
-                </div>
-                <p>Or add to <code>package.json</code>:</p>
-                <div class="code">
-                    <div class="head"><span class="dot"></span><span>package.json</span></div>
-                    <pre><code><span class="p">{</span>
+            </div>
+            <div class="code">
+                <div class="head"><span class="dot"></span><span>package.json</span></div>
+                <pre><code><span class="p">{</span>
   <span class="p">"scripts"</span>: <span class="p">{</span>
     <span class="p">"build"</span>: <span class="v">"tomato src/app.tom -o dist/styles.css"</span>,
     <span class="p">"watch"</span>: <span class="v">"tomato --watch src/app.tom -o dist/styles.css"</span>
   <span class="p">}</span>
 <span class="p">}</span></code></pre>
-                </div>
+            </div>
 
-                <h3>No install</h3>
-                <div class="code">
-                    <div class="head"><span class="dot"></span><span>bash</span></div>
-                    <pre><code>$ <span class="k">npx</span> @srivtx/tomato-css app.tom</code></pre>
-                </div>
-            </section>
+            <h3>No install</h3>
+            <p>Try it on a single file without touching <code>node_modules</code>.</p>
+            <div class="code">
+                <div class="head"><span class="dot"></span><span>bash</span></div>
+                <pre><code>$ <span class="k">npx</span> @srivtx/tomato-css app.tom</code></pre>
+            </div>
+        </section>
 
-            <!-- § 02 First file -->
-            <section id="first-file">
-                <div class="section-label">§ 02</div>
-                <h2>Your first <em style="font-style: italic; color: var(--accent);">.tom</em> file</h2>
-                <p>Create a file called <code>styles.tom</code>:</p>
-                <div class="code">
-                    <div class="head"><span class="dot"></span><span>styles.tom</span></div>
-                    <pre><code><span class="s">button</span>:
+        <!-- § 02 First file -->
+        <section id="first-file">
+            <div class="section-label">§ 02 — Your first .tom file</div>
+            <h2>Write, compile, ship.</h2>
+
+            <p>Create a file called <code>styles.tom</code>:</p>
+            <div class="code">
+                <div class="head"><span class="dot"></span><span>styles.tom</span></div>
+                <pre><code><span class="s">button</span>:
   <span class="p">bg</span> <span class="v">blue-500</span>
   <span class="p">color</span> <span class="v">white</span>
   <span class="p">pad</span> <span class="v">2 4</span>
   <span class="p">round</span> <span class="v">lg</span>
   <span class="p">pointer</span>
   <span class="p">smooth</span></code></pre>
-                </div>
-                <p>Compile it:</p>
-                <div class="code">
-                    <div class="head"><span class="dot"></span><span>bash</span></div>
-                    <pre><code>$ <span class="k">tomato</span> styles.tom -o styles.css</code></pre>
-                </div>
-                <p>Output is plain CSS you can ship:</p>
-                <div class="code">
-                    <div class="head"><span class="dot"></span><span>styles.css</span></div>
-                    <pre><code><span class="s">button</span> {
+            </div>
+
+            <p>Compile it. Output is plain CSS you can ship to a browser or a CDN.</p>
+            <div class="code">
+                <div class="head"><span class="dot"></span><span>bash</span></div>
+                <pre><code>$ <span class="k">tomato</span> styles.tom -o styles.css</code></pre>
+            </div>
+            <div class="code">
+                <div class="head"><span class="dot"></span><span>styles.css</span></div>
+                <pre><code><span class="s">button</span> {
   <span class="p">background</span>: <span class="v">#3b82f6</span>;
   <span class="p">color</span>: <span class="v">#ffffff</span>;
   <span class="p">padding</span>: <span class="v">0.5rem 1rem</span>;
@@ -557,57 +645,64 @@ $ npx tomato src/app.tom -o dist/styles.css</code></pre>
   <span class="p">cursor</span>: <span class="v">pointer</span>;
   <span class="p">transition</span>: <span class="v">all 0.2s ease</span>;
 }</code></pre>
-                </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- § 03 CLI -->
-            <section id="cli">
-                <div class="section-label">§ 03</div>
-                <h2>CLI usage</h2>
-                <div class="code">
-                    <div class="head"><span class="dot"></span><span>bash</span></div>
-                    <pre><code>$ <span class="k">tomato</span> &lt;input.tom&gt; [-o output.css]
+        <!-- § 03 CLI -->
+        <section id="cli">
+            <div class="section-label">§ 03 — CLI usage</div>
+            <h2>From the command line.</h2>
+
+            <div class="code">
+                <div class="head"><span class="dot"></span><span>bash</span></div>
+                <pre><code>$ <span class="k">tomato</span> &lt;input.tom&gt; [-o output.css]
 $ <span class="k">tomato</span> --watch &lt;input.tom&gt; [-o output.css]</code></pre>
-                </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th style="width: 45%;">Command</th>
-                            <th>What it does</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code>tomato app.tom</code></td>
-                            <td>Compile to <code>app.css</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>tomato app.tom -o styles.css</code></td>
-                            <td>Custom output file</td>
-                        </tr>
-                        <tr>
-                            <td><code>tomato --watch app.tom</code></td>
-                            <td>Recompile on file change</td>
-                        </tr>
-                        <tr>
-                            <td><code>tomato --version</code></td>
-                            <td>Print the version</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <p>The CLI exits with code 1 on a compile error, so it works as a build step in CI.</p>
-            </section>
+            </div>
 
-            <!-- § 04 Selectors -->
-            <section id="selectors">
-                <div class="section-label">§ 04</div>
-                <h2>Selectors</h2>
-                <p>Any selector you'd write in CSS works in Tomato. The compiler is permissive.</p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th style="width: 45%;">Command</th>
+                        <th>What it does</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>tomato app.tom</code></td>
+                        <td>Compile to <code>app.css</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>tomato app.tom -o styles.css</code></td>
+                        <td>Custom output path</td>
+                    </tr>
+                    <tr>
+                        <td><code>tomato --watch app.tom</code></td>
+                        <td>Recompile on file change (debounced)</td>
+                    </tr>
+                    <tr>
+                        <td><code>tomato --version</code></td>
+                        <td>Print the version</td>
+                    </tr>
+                </tbody>
+            </table>
 
-                <h3>HTML elements</h3>
-                <div class="code">
-                    <div class="head"><span class="dot"></span><span>styles.tom</span></div>
-                    <pre><code><span class="s">button</span>:
+            <div class="callout">
+                <span class="label">Note</span>
+                The CLI exits with code <code>1</code> on a compile error and <code>0</code> on success, so it works as a build step in CI. Unknown properties, missing imports, and bad gradient syntax all surface as errors with line numbers.
+            </div>
+        </section>
+
+        <!-- § 04 Selectors -->
+        <section id="selectors">
+            <div class="section-label">§ 04 — Selectors</div>
+            <h2>Any selector you'd write in CSS.</h2>
+
+            <p>The compiler is permissive. Elements, classes, IDs, and compound selectors all work.</p>
+
+            <h3>HTML elements</h3>
+            <div class="code">
+                <div class="head"><span class="dot"></span><span>styles.tom</span></div>
+                <pre><code><span class="s">button</span>:
   <span class="p">bg</span> <span class="v">blue-500</span>
 
 <span class="s">nav</span>:
@@ -615,12 +710,12 @@ $ <span class="k">tomato</span> --watch &lt;input.tom&gt; [-o output.css]</code>
 
 <span class="s">input</span>:
   <span class="p">pad</span> <span class="v">2 4</span></code></pre>
-                </div>
+            </div>
 
-                <h3>Classes</h3>
-                <div class="code">
-                    <div class="head"><span class="dot"></span><span>styles.tom</span></div>
-                    <pre><code><span class="s">.btn-primary</span>:
+            <h3>Classes</h3>
+            <div class="code">
+                <div class="head"><span class="dot"></span><span>styles.tom</span></div>
+                <pre><code><span class="s">.btn-primary</span>:
   <span class="p">bg</span> <span class="v">blue-500</span>
   <span class="p">color</span> <span class="v">white</span>
 
@@ -628,46 +723,48 @@ $ <span class="k">tomato</span> --watch &lt;input.tom&gt; [-o output.css]</code>
   <span class="p">bg</span> <span class="v">white</span>
   <span class="p">round</span> <span class="v">xl</span>
   <span class="p">shadow</span> <span class="v">lg</span></code></pre>
-                </div>
+            </div>
 
-                <h3>IDs</h3>
-                <div class="code">
-                    <div class="head"><span class="dot"></span><span>styles.tom</span></div>
-                    <pre><code><span class="s">#header</span>:
+            <h3>IDs</h3>
+            <div class="code">
+                <div class="head"><span class="dot"></span><span>styles.tom</span></div>
+                <pre><code><span class="s">#header</span>:
   <span class="p">bg</span> <span class="v">slate-900</span>
   <span class="p">pad</span> <span class="v">4 6</span>
 
 <span class="s">#main-content</span>:
   <span class="p">pad</span> <span class="v">8</span></code></pre>
-                </div>
+            </div>
 
-                <h3>Auto-class conversion</h3>
-                <p>Names that aren't HTML elements become classes automatically:</p>
-                <div class="code">
-                    <div class="head"><span class="dot"></span><span>styles.tom</span></div>
-                    <pre><code><span class="c"># these are equivalent</span>
-<span class="s">card</span>:          <span class="c"># → .card { }</span>
-<span class="s">.card</span>:         <span class="c"># → .card { }</span>
+            <h3>Auto-class conversion</h3>
+            <p>Names that aren't HTML elements become classes automatically. Use the dot prefix when you want to be explicit.</p>
+            <div class="code">
+                <div class="head"><span class="dot"></span><span>styles.tom</span></div>
+                <pre><code><span class="c"># these compile to the same rule</span>
+<span class="s">card</span>:            <span class="c"># → .card { }</span>
+<span class="s">.card</span>:           <span class="c"># → .card { }</span>
 
-<span class="c"># but these stay as elements</span>
-<span class="s">button</span>:       <span class="c"># → button { }</span>
-<span class="s">nav</span>:          <span class="c"># → nav { }</span></code></pre>
-                </div>
-                <div class="callout">
-                    <strong>Tip.</strong> HTML elements like <code>button</code>, <code>nav</code>, <code>div</code>, <code>header</code>, <code>footer</code> stay as element selectors. Everything else becomes a class. Use the dot prefix when you want to be explicit.
-                </div>
-            </section>
+<span class="c"># these stay as element selectors</span>
+<span class="s">button</span>:         <span class="c"># → button { }</span>
+<span class="s">nav</span>:            <span class="c"># → nav { }</span></code></pre>
+            </div>
+            <div class="callout">
+                <span class="label">Tip</span>
+                HTML elements like <code>button</code>, <code>nav</code>, <code>div</code>, <code>header</code>, <code>footer</code> stay as element selectors. Anything else becomes a class.
+            </div>
+        </section>
 
-            <!-- § 05 Components -->
-            <section id="components">
-                <div class="section-label">§ 05</div>
-                <h2>Components</h2>
-                <p>Define reusable style groups with <code>component name:</code> and pull them in with <code>use name</code>.</p>
+        <!-- § 05 Components -->
+        <section id="components">
+            <div class="section-label">§ 05 — Components</div>
+            <h2>Define once, use everywhere.</h2>
 
-                <h3>Basic components</h3>
-                <div class="code">
-                    <div class="head"><span class="dot"></span><span>styles.tom</span></div>
-                    <pre><code><span class="k">component</span> <span class="s">btn</span>:
+            <p>Define a reusable style block with <code>component name:</code> and pull it into any selector with <code>use name</code>. Properties are expanded inline, so you can override them by adding your own after the <code>use</code> statement.</p>
+
+            <h3>Basic components</h3>
+            <div class="code">
+                <div class="head"><span class="dot"></span><span>styles.tom</span></div>
+                <pre><code><span class="k">component</span> <span class="s">btn</span>:
   <span class="p">pad</span> <span class="v">2 4</span>
   <span class="p">round</span> <span class="v">lg</span>
   <span class="p">bold</span>
@@ -683,13 +780,13 @@ $ <span class="k">tomato</span> --watch &lt;input.tom&gt; [-o output.css]</code>
 <span class="s">.btn-secondary</span>:
   <span class="k">use</span> <span class="v">btn</span>
   <span class="p">bg</span> <span class="v">violet-500</span></code></pre>
-                </div>
+            </div>
 
-                <h3>Nested components</h3>
-                <p>Components can <code>use</code> other components, including their nested pseudo states.</p>
-                <div class="code">
-                    <div class="head"><span class="dot"></span><span>styles.tom</span></div>
-                    <pre><code><span class="k">component</span> <span class="s">base-input</span>:
+            <h3>Nested components</h3>
+            <p>Components can <code>use</code> other components, including their nested pseudo states.</p>
+            <div class="code">
+                <div class="head"><span class="dot"></span><span>styles.tom</span></div>
+                <pre><code><span class="k">component</span> <span class="s">base-input</span>:
   <span class="p">pad</span> <span class="v">3 4</span>
   <span class="p">round</span> <span class="v">md</span>
   <span class="p">border</span> <span class="v">1px solid slate-300</span>
@@ -705,15 +802,12 @@ $ <span class="k">tomato</span> --watch &lt;input.tom&gt; [-o output.css]</code>
 <span class="s">input</span>:
   <span class="k">use</span> <span class="v">focus-ring</span>
   <span class="p">w-full</span></code></pre>
-                </div>
-                <div class="callout">
-                    <strong>Tip.</strong> When you <code>use</code> a component, all its properties are expanded inline. You can override them by adding your own after the <code>use</code> statement.
-                </div>
+            </div>
 
-                <h3>Form input components</h3>
-                <div class="code">
-                    <div class="head"><span class="dot"></span><span>styles.tom</span></div>
-                    <pre><code><span class="k">component</span> <span class="s">input-base</span>:
+            <h3>Form input components</h3>
+            <div class="code">
+                <div class="head"><span class="dot"></span><span>styles.tom</span></div>
+                <pre><code><span class="k">component</span> <span class="s">input-base</span>:
   <span class="p">w-full</span>
   <span class="p">pad</span> <span class="v">3 4</span>
   <span class="p">round</span> <span class="v">lg</span>
@@ -729,12 +823,12 @@ $ <span class="k">tomato</span> --watch &lt;input.tom&gt; [-o output.css]</code>
   <span class="k">use</span> <span class="v">input-base</span>
   <span class="p">min-height</span> <span class="v">120px</span>
   <span class="p">resize</span> <span class="v">vertical</span></code></pre>
-                </div>
+            </div>
 
-                <h3>Layout components</h3>
-                <div class="code">
-                    <div class="head"><span class="dot"></span><span>styles.tom</span></div>
-                    <pre><code><span class="k">component</span> <span class="s">container</span>:
+            <h3>Layout components</h3>
+            <div class="code">
+                <div class="head"><span class="dot"></span><span>styles.tom</span></div>
+                <pre><code><span class="k">component</span> <span class="s">container</span>:
   <span class="p">max-width</span> <span class="v">1200px</span>
   <span class="p">margin</span> <span class="v">0 auto</span>
   <span class="p">pad</span> <span class="v">4 6</span>
@@ -747,20 +841,22 @@ $ <span class="k">tomato</span> --watch &lt;input.tom&gt; [-o output.css]</code>
   <span class="k">use</span> <span class="v">container</span>
   <span class="k">use</span> <span class="v">stack</span>
   <span class="p">gap</span> <span class="v">8</span></code></pre>
-                </div>
-                <div class="callout warn">
-                    <strong>Heads up.</strong> You can use multiple components with multiple <code>use</code> statements. Properties apply in order, so later ones override earlier ones.
-                </div>
-            </section>
+            </div>
+            <div class="callout warn">
+                <span class="label">Order matters</span>
+                You can use multiple components with multiple <code>use</code> statements. Properties apply in order, so later ones override earlier ones.
+            </div>
+        </section>
 
-            <!-- § 06 Pseudo states -->
-            <section id="pseudo-states">
-                <div class="section-label">§ 06</div>
-                <h2>Pseudo states</h2>
-                <p>Indent one level. The supported pseudos are <code>hover</code>, <code>focus</code>, <code>active</code>, and <code>disabled</code>.</p>
-                <div class="code">
-                    <div class="head"><span class="dot"></span><span>styles.tom</span></div>
-                    <pre><code><span class="s">button</span>:
+        <!-- § 06 Pseudo states -->
+        <section id="pseudo-states">
+            <div class="section-label">§ 06 — Pseudo states</div>
+            <h2>One indent level.</h2>
+
+            <p>Four supported pseudos: <code>hover</code>, <code>focus</code>, <code>active</code>, <code>disabled</code>. Indent one level inside the block.</p>
+            <div class="code">
+                <div class="head"><span class="dot"></span><span>styles.tom</span></div>
+                <pre><code><span class="s">button</span>:
   <span class="p">bg</span> <span class="v">blue-500</span>
   <span class="p">color</span> <span class="v">white</span>
   <span class="p">smooth</span>
@@ -779,17 +875,18 @@ $ <span class="k">tomato</span> --watch &lt;input.tom&gt; [-o output.css]</code>
   <span class="k">disabled</span>:
     <span class="p">opacity</span> <span class="v">0.5</span>
     <span class="p">cursor</span> <span class="v">not-allowed</span></code></pre>
-                </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- § 07 Responsive -->
-            <section id="responsive">
-                <div class="section-label">§ 07</div>
-                <h2>Responsive design</h2>
-                <p>Match the Tailwind widths by default. Indent one level inside the breakpoint block.</p>
-                <div class="code">
-                    <div class="head"><span class="dot"></span><span>styles.tom</span></div>
-                    <pre><code><span class="s">hero</span>:
+        <!-- § 07 Responsive -->
+        <section id="responsive">
+            <div class="section-label">§ 07 — Responsive design</div>
+            <h2>Match Tailwind's widths.</h2>
+
+            <p>Five breakpoints, plus dark/light mode. Indent one level inside the breakpoint block.</p>
+            <div class="code">
+                <div class="head"><span class="dot"></span><span>styles.tom</span></div>
+                <pre><code><span class="s">hero</span>:
   <span class="p">pad</span> <span class="v">16</span>
   <span class="p">grid</span> <span class="v">3</span>
   <span class="p">gap</span> <span class="v">6</span>
@@ -800,56 +897,57 @@ $ <span class="k">tomato</span> --watch &lt;input.tom&gt; [-o output.css]</code>
 
   <span class="k">@tablet</span>:
     <span class="p">grid</span> <span class="v">2</span></code></pre>
-                </div>
+            </div>
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th style="width: 40%;">Query</th>
-                            <th>Breakpoint</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code>@mobile:</code></td>
-                            <td>max-width: 640px</td>
-                        </tr>
-                        <tr>
-                            <td><code>@tablet:</code></td>
-                            <td>max-width: 768px</td>
-                        </tr>
-                        <tr>
-                            <td><code>@laptop:</code></td>
-                            <td>max-width: 1024px</td>
-                        </tr>
-                        <tr>
-                            <td><code>@desktop:</code></td>
-                            <td>max-width: 1280px</td>
-                        </tr>
-                        <tr>
-                            <td><code>@wide:</code></td>
-                            <td>max-width: 1536px</td>
-                        </tr>
-                        <tr>
-                            <td><code>@dark:</code></td>
-                            <td><code>prefers-color-scheme: dark</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>@light:</code></td>
-                            <td><code>prefers-color-scheme: light</code></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th style="width: 40%;">Query</th>
+                        <th>Breakpoint</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>@mobile:</code></td>
+                        <td>max-width: 640px</td>
+                    </tr>
+                    <tr>
+                        <td><code>@tablet:</code></td>
+                        <td>max-width: 768px</td>
+                    </tr>
+                    <tr>
+                        <td><code>@laptop:</code></td>
+                        <td>max-width: 1024px</td>
+                    </tr>
+                    <tr>
+                        <td><code>@desktop:</code></td>
+                        <td>max-width: 1280px</td>
+                    </tr>
+                    <tr>
+                        <td><code>@wide:</code></td>
+                        <td>max-width: 1536px</td>
+                    </tr>
+                    <tr>
+                        <td><code>@dark:</code></td>
+                        <td><code>prefers-color-scheme: dark</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>@light:</code></td>
+                        <td><code>prefers-color-scheme: light</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
 
-            <!-- § 08 Tokens -->
-            <section id="tokens">
-                <div class="section-label">§ 08</div>
-                <h2>Custom tokens</h2>
-                <p>Define a name once, use it everywhere. Tokens are local to the file. Share them across files with <code>@import</code>.</p>
-                <div class="code">
-                    <div class="head"><span class="dot"></span><span>styles.tom</span></div>
-                    <pre><code><span class="k">colors</span>:
+        <!-- § 08 Tokens -->
+        <section id="tokens">
+            <div class="section-label">§ 08 — Custom tokens</div>
+            <h2>Name it once, use it everywhere.</h2>
+
+            <p>Define a token once at the top of a file, use it as a value anywhere. Tokens are local to the file.</p>
+            <div class="code">
+                <div class="head"><span class="dot"></span><span>styles.tom</span></div>
+                <pre><code><span class="k">colors</span>:
   <span class="p">primary</span> <span class="v">blue-500</span>
   <span class="p">secondary</span> <span class="v">violet-500</span>
   <span class="p">dark</span> <span class="v">slate-900</span>
@@ -865,30 +963,28 @@ $ <span class="k">tomato</span> --watch &lt;input.tom&gt; [-o output.css]</code>
 <span class="s">.alert-danger</span>:
   <span class="p">bg</span> <span class="v">danger</span>
   <span class="p">color</span> <span class="v">white</span></code></pre>
-                </div>
-                <div class="code">
-                    <div class="head"><span class="dot"></span><span>bash</span></div>
-                    <pre><code>$ <span class="k">tomato</span> app.tom -o styles.css
-<span class="c"># Cannot import "tokens.tom": file not found</span>  <span class="c"># exits 1</span></code></pre>
-                </div>
-                <p>Or share tokens across files:</p>
-                <div class="code">
-                    <div class="head"><span class="dot"></span><span>app.tom</span></div>
-                    <pre><code><span class="k">@import</span> <span class="v">"./tokens.tom"</span>
+            </div>
+
+            <h3>Sharing tokens across files</h3>
+            <p>Use <code>@import</code> at the top of a file. The compiler exits <code>1</code> if the file is missing.</p>
+            <div class="code">
+                <div class="head"><span class="dot"></span><span>app.tom</span></div>
+                <pre><code><span class="k">@import</span> <span class="v">"./tokens.tom"</span>
 
 <span class="s">.button-primary</span>:
   <span class="p">bg</span> <span class="v">primary</span></code></pre>
-                </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- § 09 Colors -->
-            <section id="colors">
-                <div class="section-label">§ 09</div>
-                <h2>Color reference</h2>
-                <p>22 color scales built in (Tailwind's).</p>
-                <div class="code">
-                    <div class="head"><span class="dot"></span><span>styles.tom</span></div>
-                    <pre><code><span class="c"># 22 color scales built-in</span>
+        <!-- § 09 Colors -->
+        <section id="colors">
+            <div class="section-label">§ 09 — Color reference</div>
+            <h2>22 scales, plus raw CSS.</h2>
+
+            <p>Every Tailwind color scale, from 50 to 950. Or pass raw CSS colors when you need something off the palette.</p>
+            <div class="code">
+                <div class="head"><span class="dot"></span><span>styles.tom</span></div>
+                <pre><code><span class="c"># 22 color scales built in</span>
 <span class="s">slate</span>, <span class="s">gray</span>, <span class="s">zinc</span>, <span class="s">neutral</span>, <span class="s">stone</span>
 <span class="s">red</span>, <span class="s">orange</span>, <span class="s">amber</span>, <span class="s">yellow</span>, <span class="s">lime</span>
 <span class="s">green</span>, <span class="s">emerald</span>, <span class="s">teal</span>, <span class="s">cyan</span>, <span class="s">sky</span>
@@ -899,77 +995,70 @@ $ <span class="k">tomato</span> --watch &lt;input.tom&gt; [-o output.css]</code>
 <span class="p">bg</span> <span class="v">rose-500</span>
 <span class="p">color</span> <span class="v">slate-900</span>
 <span class="p">border</span> <span class="v">1px solid blue-300</span></code></pre>
-                </div>
-                <p>Each scale runs from 50 to 950. You can also pass raw CSS colors when you need something off the palette:</p>
-                <div class="code">
-                    <div class="head"><span class="dot"></span><span>styles.tom</span></div>
-                    <pre><code><span class="p">bg</span> <span class="v">#f43f5e</span>
+            </div>
+            <div class="code">
+                <div class="head"><span class="dot"></span><span>styles.tom</span></div>
+                <pre><code><span class="c"># raw CSS colors pass through unchanged</span>
+<span class="p">bg</span> <span class="v">#f43f5e</span>
 <span class="p">bg</span> <span class="v">rgb(244 63 94 / 0.5)</span>
 <span class="p">bg</span> <span class="v">transparent</span>
 <span class="p">bg</span> <span class="v">currentColor</span></code></pre>
-                </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- § 10 All properties -->
-            <section id="all-properties">
-                <div class="section-label">§ 10</div>
-                <h2>All properties</h2>
-                <p>The complete shortcut list. Anything Tomato doesn't recognise is passed through unchanged.</p>
+        <!-- § 10 All properties -->
+        <section id="all-properties">
+            <div class="section-label">§ 10 — All properties</div>
+            <h2>Every shortcut, every output.</h2>
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th style="width: 40%;">Tomato</th>
-                            <th>CSS output</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td><code>bg blue-500</code></td><td><code>background: #3b82f6</code></td></tr>
-                        <tr><td><code>color white</code></td><td><code>color: #ffffff</code></td></tr>
-                        <tr><td><code>pad 2 4</code></td><td><code>padding: 0.5rem 1rem</code></td></tr>
-                        <tr><td><code>margin 4</code></td><td><code>margin: 1rem</code></td></tr>
-                        <tr><td><code>round lg</code></td><td><code>border-radius: 0.5rem</code></td></tr>
-                        <tr><td><code>round full</code></td><td><code>border-radius: 9999px</code></td></tr>
-                        <tr><td><code>shadow md</code></td><td><code>box-shadow: ...</code></td></tr>
-                        <tr><td><code>bold</code></td><td><code>font-weight: bold</code></td></tr>
-                        <tr><td><code>semibold</code></td><td><code>font-weight: 600</code></td></tr>
-                        <tr><td><code>italic</code></td><td><code>font-style: italic</code></td></tr>
-                        <tr><td><code>uppercase</code></td><td><code>text-transform: uppercase</code></td></tr>
-                        <tr><td><code>underline</code></td><td><code>text-decoration: underline</code></td></tr>
-                        <tr><td><code>pointer</code></td><td><code>cursor: pointer</code></td></tr>
-                        <tr><td><code>smooth</code></td><td><code>transition: all 0.2s ease</code></td></tr>
-                        <tr><td><code>no border</code></td><td><code>border: none</code></td></tr>
-                        <tr><td><code>no outline</code></td><td><code>outline: none</code></td></tr>
-                        <tr><td><code>row</code></td><td><code>display: flex; flex-direction: row</code></td></tr>
-                        <tr><td><code>row spread</code></td><td><code>…; justify-content: space-between</code></td></tr>
-                        <tr><td><code>row center</code></td><td><code>…; justify-content: center</code></td></tr>
-                        <tr><td><code>column</code></td><td><code>display: flex; flex-direction: column</code></td></tr>
-                        <tr><td><code>center all</code></td><td><code>…; justify-content: center; align-items: center</code></td></tr>
-                        <tr><td><code>grid 3</code></td><td><code>display: grid; grid-template-columns: repeat(3, 1fr)</code></td></tr>
-                        <tr><td><code>gap 4</code></td><td><code>gap: 1rem</code></td></tr>
-                        <tr><td><code>w-full</code></td><td><code>width: 100%</code></td></tr>
-                        <tr><td><code>h-screen</code></td><td><code>height: 100vh</code></td></tr>
-                        <tr><td><code>relative</code></td><td><code>position: relative</code></td></tr>
-                        <tr><td><code>absolute</code></td><td><code>position: absolute</code></td></tr>
-                        <tr><td><code>fixed</code></td><td><code>position: fixed</code></td></tr>
-                        <tr><td><code>sticky</code></td><td><code>position: sticky</code></td></tr>
-                        <tr><td><code>hidden</code></td><td><code>display: none</code></td></tr>
-                        <tr><td><code>block</code></td><td><code>display: block</code></td></tr>
-                        <tr><td><code>flex</code></td><td><code>display: flex</code></td></tr>
-                        <tr><td><code>opacity 0.5</code></td><td><code>opacity: 0.5</code></td></tr>
-                        <tr><td><code>z 10</code></td><td><code>z-index: 10</code></td></tr>
-                        <tr><td><code>overflow hidden</code></td><td><code>overflow: hidden</code></td></tr>
-                    </tbody>
-                </table>
-            </section>
+            <p>The complete shortcut list. Anything Tomato doesn't recognise is passed through unchanged — <code>grid-template-areas</code>, CSS variables, the lot.</p>
 
-        </main>
+            <ul class="shortcut-list">
+                <li><div class="tom"><span class="k">bg</span> <span class="v">blue-500</span></div><div class="css"><span class="p">background</span>: <span class="v">#3b82f6</span>;</div></li>
+                <li><div class="tom"><span class="k">color</span> <span class="v">white</span></div><div class="css"><span class="p">color</span>: <span class="v">#ffffff</span>;</div></li>
+                <li><div class="tom"><span class="k">pad</span> <span class="v">2 4</span></div><div class="css"><span class="p">padding</span>: <span class="v">0.5rem 1rem</span>;</div></li>
+                <li><div class="tom"><span class="k">margin</span> <span class="v">4</span></div><div class="css"><span class="p">margin</span>: <span class="v">1rem</span>;</div></li>
+                <li><div class="tom"><span class="k">round</span> <span class="v">lg</span></div><div class="css"><span class="p">border-radius</span>: <span class="v">0.5rem</span>;</div></li>
+                <li><div class="tom"><span class="k">round</span> <span class="v">full</span></div><div class="css"><span class="p">border-radius</span>: <span class="v">9999px</span>;</div></li>
+                <li><div class="tom"><span class="k">shadow</span> <span class="v">md</span></div><div class="css"><span class="p">box-shadow</span>: <span class="v">…</span>;</div></li>
+                <li><div class="tom"><span class="k">bold</span></div><div class="css"><span class="p">font-weight</span>: <span class="v">bold</span>;</div></li>
+                <li><div class="tom"><span class="k">semibold</span></div><div class="css"><span class="p">font-weight</span>: <span class="v">600</span>;</div></li>
+                <li><div class="tom"><span class="k">italic</span></div><div class="css"><span class="p">font-style</span>: <span class="v">italic</span>;</div></li>
+                <li><div class="tom"><span class="k">uppercase</span></div><div class="css"><span class="p">text-transform</span>: <span class="v">uppercase</span>;</div></li>
+                <li><div class="tom"><span class="k">underline</span></div><div class="css"><span class="p">text-decoration</span>: <span class="v">underline</span>;</div></li>
+                <li><div class="tom"><span class="k">pointer</span></div><div class="css"><span class="p">cursor</span>: <span class="v">pointer</span>;</div></li>
+                <li><div class="tom"><span class="k">smooth</span></div><div class="css"><span class="p">transition</span>: <span class="v">all 0.2s ease</span>;</div></li>
+                <li><div class="tom"><span class="k">no border</span></div><div class="css"><span class="p">border</span>: <span class="v">none</span>;</div></li>
+                <li><div class="tom"><span class="k">no outline</span></div><div class="css"><span class="p">outline</span>: <span class="v">none</span>;</div></li>
+                <li><div class="tom"><span class="k">row</span></div><div class="css"><span class="p">display</span>: <span class="v">flex</span>; <span class="p">flex-direction</span>: <span class="v">row</span>;</div></li>
+                <li><div class="tom"><span class="k">row spread</span></div><div class="css"><span class="p">…; justify-content</span>: <span class="v">space-between</span>;</div></li>
+                <li><div class="tom"><span class="k">row center</span></div><div class="css"><span class="p">…; justify-content</span>: <span class="v">center</span>;</div></li>
+                <li><div class="tom"><span class="k">column</span></div><div class="css"><span class="p">display</span>: <span class="v">flex</span>; <span class="p">flex-direction</span>: <span class="v">column</span>;</div></li>
+                <li><div class="tom"><span class="k">center all</span></div><div class="css"><span class="p">…; justify-content</span>: <span class="v">center</span>; <span class="p">align-items</span>: <span class="v">center</span>;</div></li>
+                <li><div class="tom"><span class="k">grid</span> <span class="v">3</span></div><div class="css"><span class="p">display</span>: <span class="v">grid</span>; <span class="p">grid-template-columns</span>: <span class="v">repeat(3, 1fr)</span>;</div></li>
+                <li><div class="tom"><span class="k">gap</span> <span class="v">4</span></div><div class="css"><span class="p">gap</span>: <span class="v">1rem</span>;</div></li>
+                <li><div class="tom"><span class="k">w-full</span></div><div class="css"><span class="p">width</span>: <span class="v">100%</span>;</div></li>
+                <li><div class="tom"><span class="k">h-screen</span></div><div class="css"><span class="p">height</span>: <span class="v">100vh</span>;</div></li>
+                <li><div class="tom"><span class="k">relative</span></div><div class="css"><span class="p">position</span>: <span class="v">relative</span>;</div></li>
+                <li><div class="tom"><span class="k">absolute</span></div><div class="css"><span class="p">position</span>: <span class="v">absolute</span>;</div></li>
+                <li><div class="tom"><span class="k">fixed</span></div><div class="css"><span class="p">position</span>: <span class="v">fixed</span>;</div></li>
+                <li><div class="tom"><span class="k">sticky</span></div><div class="css"><span class="p">position</span>: <span class="v">sticky</span>;</div></li>
+                <li><div class="tom"><span class="k">hidden</span></div><div class="css"><span class="p">display</span>: <span class="v">none</span>;</div></li>
+                <li><div class="tom"><span class="k">block</span></div><div class="css"><span class="p">display</span>: <span class="v">block</span>;</div></li>
+                <li><div class="tom"><span class="k">flex</span></div><div class="css"><span class="p">display</span>: <span class="v">flex</span>;</div></li>
+                <li><div class="tom"><span class="k">opacity</span> <span class="v">0.5</span></div><div class="css"><span class="p">opacity</span>: <span class="v">0.5</span>;</div></li>
+                <li><div class="tom"><span class="k">z</span> <span class="v">10</span></div><div class="css"><span class="p">z-index</span>: <span class="v">10</span>;</div></li>
+                <li><div class="tom"><span class="k">overflow hidden</span></div><div class="css"><span class="p">overflow</span>: <span class="v">hidden</span>;</div></li>
+            </ul>
+        </section>
+
     </div>
 
-    <!-- Footer (same as index) -->
+    <!-- Footer (matches index.html) -->
     <footer>
         <div>MIT licensed · srivtx · 2026</div>
         <nav>
+            <a href="index.html">Home</a>
             <a href="https://github.com/srivtx/tomato-css">GitHub <span class="ext">↗</span></a>
             <a href="https://www.npmjs.com/package/@srivtx/tomato-css">npm <span class="ext">↗</span></a>
             <a href="https://github.com/srivtx/tomato-css/blob/main/CHANGELOG.md">Changelog <span class="ext">↗</span></a>
@@ -990,25 +1079,7 @@ $ <span class="k">tomato</span> --watch &lt;input.tom&gt; [-o output.css]</code>
             onScroll();
         })();
 
-        // ScrollSpy — highlight current section in sidebar
-        (function() {
-            const links = document.querySelectorAll('.sidebar nav a');
-            if (!links.length) return;
-            const sections = Array.from(links).map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        links.forEach((l) => l.classList.remove('active'));
-                        const id = entry.target.id;
-                        const match = Array.from(links).find((l) => l.getAttribute('href') === '#' + id);
-                        if (match) match.classList.add('active');
-                    }
-                });
-            }, { rootMargin: '-100px 0px -60% 0px', threshold: 0 });
-            sections.forEach((s) => observer.observe(s));
-        })();
-
-        // Particle canvas (same as index)
+        // Particle canvas (same as index.html)
         (function() {
             const canvas = document.getElementById('topbar-particles');
             if (!canvas) return;
